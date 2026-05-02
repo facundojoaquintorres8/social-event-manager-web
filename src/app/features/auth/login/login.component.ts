@@ -1,0 +1,47 @@
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AuthService } from '../../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-login',
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule],
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.scss'
+})
+export class LoginComponent {
+
+  private readonly fb = inject(FormBuilder);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
+
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
+
+  readonly form = this.fb.nonNullable.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required]
+  });
+
+  submit(): void {
+    if (this.form.invalid) return;
+
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.authService.login(this.form.getRawValue()).subscribe({
+      next: (res) => {
+        const token = res.data.token;
+        this.authService.saveToken(token);
+        this.router.navigate(['/events']);
+      },
+      error: () => {
+        this.error.set('Invalid credentials');
+        this.loading.set(false);
+      },
+      complete: () => this.loading.set(false)
+    });
+  }
+}
