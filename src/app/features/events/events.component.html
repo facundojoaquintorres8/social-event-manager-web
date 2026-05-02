@@ -1,4 +1,23 @@
-<h1>My Events</h1>
+<h1>
+    My Events
+    <button routerLink="/events/create">Create Event</button>
+</h1>
+
+<form [formGroup]="filterForm" class="filters">
+
+    <input type="text" placeholder="Search by title..." formControlName="title">
+
+    <input type="date" formControlName="fromDate">
+
+    <input type="date" formControlName="toDate">
+
+    <select formControlName="status">
+        <option value="">All</option>
+        <option value="ACTIVE">Active</option>
+        <option value="CANCELLED">Cancelled</option>
+    </select>
+
+</form>
 
 <div *ngIf="loading()">Loading...</div>
 
@@ -16,3 +35,13 @@
     </div>
 
 </div>
+
+<button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0">
+    Prev
+</button>
+
+<span>Page {{ currentPage() + 1 }} of {{ totalPages() }}</span>
+
+<button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages() - 1">
+    Next
+</button>

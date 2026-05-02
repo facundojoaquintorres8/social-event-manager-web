@@ -17,6 +17,12 @@ export const routes: Routes = [
                     import('./features/events/events.component')
                         .then(m => m.EventsComponent)
             },
+            {
+                path: 'events/create',
+                loadComponent: () =>
+                    import('./features/events/create-event/create-event.component')
+                        .then(m => m.CreateEventComponent)
+            },
             { path: '', redirectTo: 'events', pathMatch: 'full' }
         ]
     }

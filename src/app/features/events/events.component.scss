@@ -14,3 +14,15 @@
         margin: 0 0 8px;
     }
 }
+
+.filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+
+    input,
+    select,
+    button {
+        padding: 6px;
+    }
+}
