@@ -8,8 +8,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
 
@@ -33,8 +32,7 @@ export class LoginComponent {
 
     this.authService.login(this.form.getRawValue()).subscribe({
       next: (res) => {
-        const token = res.data.token;
-        this.authService.saveToken(token);
+        this.authService.saveToken(res.data.accessToken);
         this.router.navigate(['/events']);
       },
       error: () => {
