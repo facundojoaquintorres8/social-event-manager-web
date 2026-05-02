@@ -32,7 +32,8 @@ export class LoginComponent {
 
     this.authService.login(this.form.getRawValue()).subscribe({
       next: (res) => {
-        this.authService.saveToken(res.data.accessToken);
+        const { accessToken, refreshToken } = res.data;
+        this.authService.saveTokens(accessToken, refreshToken);
         this.router.navigate(['/events']);
       },
       error: () => {

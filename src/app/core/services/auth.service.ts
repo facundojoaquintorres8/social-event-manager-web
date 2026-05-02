@@ -13,7 +13,10 @@ export class AuthService {
 
   private readonly apiUrl = `${environment.apiUrl}auth`;
 
-  readonly token = signal<string | null>(localStorage.getItem('token'));
+  readonly accessToken = signal<string | null>(this.getStored('accessToken'));
+  readonly refreshToken = signal<string | null>(this.getStored('refreshToken'));
+
+  // ---------- AUTH ----------
 
   login(data: { email: string; password: string }) {
     return this.http.post<ApiResponseDTO<AuthResponseDTO>>(
@@ -22,17 +25,39 @@ export class AuthService {
     );
   }
 
-  saveToken(token: string): void {
-    localStorage.setItem('token', token);
-    this.token.set(token);
+  refresh() {
+    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(
+      `${this.apiUrl}/refresh`,
+      {
+        refreshToken: this.refreshToken()
+      }
+    );
   }
 
-  logout(): void {
-    localStorage.removeItem('token');
-    this.token.set(null);
+  // ---------- STORAGE ----------
+
+  saveTokens(access: string, refresh: string): void {
+    localStorage.setItem('accessToken', access);
+    localStorage.setItem('refreshToken', refresh);
+
+    this.accessToken.set(access);
+    this.refreshToken.set(refresh);
+  }
+
+  clearTokens(): void {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+
+    this.accessToken.set(null);
+    this.refreshToken.set(null);
   }
 
   isAuthenticated(): boolean {
-    return !!this.token();
+    return !!this.accessToken();
+  }
+
+  private getStored(key: string): string | null {
+    const value = localStorage.getItem(key);
+    return value && value !== 'null' ? value : null;
   }
 }
