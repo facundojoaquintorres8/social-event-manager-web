@@ -1,1 +1,26 @@
-<p>events works!</p>
+<h1>My Events</h1>
+
+<div *ngIf="loading()">Loading...</div>
+
+<div *ngIf="error()">
+    {{ error() }}
+</div>
+
+<ul *ngIf="!loading() && !error()">
+    <li *ngFor="let event of events()">
+        <strong>{{ event.title }}</strong><br>
+        {{ event.description }}
+    </li>
+</ul>
+
+<div *ngIf="totalPages() > 1">
+    <button (click)="loadEvents(currentPage() - 1)" [disabled]="currentPage() === 0">
+        Prev
+    </button>
+
+    <span>Page {{ currentPage() + 1 }} of {{ totalPages() }}</span>
+
+    <button (click)="loadEvents(currentPage() + 1)" [disabled]="currentPage() === totalPages() - 1">
+        Next
+    </button>
+</div>
