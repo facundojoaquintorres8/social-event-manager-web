@@ -7,7 +7,8 @@ import { EventDTO } from '../../core/models/event.model';
   selector: 'app-events',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './events.component.html'
+  templateUrl: './events.component.html',
+  styleUrl: './events.component.scss'
 })
 export class EventsComponent implements OnInit {
 
