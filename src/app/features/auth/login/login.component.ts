@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -30,17 +31,20 @@ export class LoginComponent {
     this.loading.set(true);
     this.error.set(null);
 
-    this.authService.login(this.form.getRawValue()).subscribe({
-      next: (res) => {
-        const { accessToken, refreshToken } = res.data;
-        this.authService.saveTokens(accessToken, refreshToken);
-        this.router.navigate(['/events']);
-      },
-      error: () => {
-        this.error.set('Invalid credentials');
-        this.loading.set(false);
-      },
-      complete: () => this.loading.set(false)
-    });
+    this.authService.login(this.form.getRawValue())
+      .pipe(
+        finalize(() => this.loading.set(false))
+      )
+      .subscribe({
+        next: (res) => {
+          const { accessToken, refreshToken } = res.data;
+          this.authService.saveTokens(accessToken, refreshToken);
+          this.router.navigate(['/events']);
+        },
+        error: () => {
+          this.error.set('Invalid credentials');
+          this.loading.set(false);
+        }
+      });
   }
 }

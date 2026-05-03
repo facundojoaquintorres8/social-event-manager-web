@@ -1,15 +1,15 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
-import { Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './create-event.component.html',
-  styleUrl: './create-event.component.scss'
+  imports: [ReactiveFormsModule, RouterLink],
+  templateUrl: './create-event.component.html'
 })
 export class CreateEventComponent {
 
@@ -17,29 +17,47 @@ export class CreateEventComponent {
   private readonly eventsService = inject(EventsService);
   private readonly router = inject(Router);
 
-  readonly loading = signal(false);
+  readonly loading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
 
   readonly form = this.fb.nonNullable.group({
-    title: ['', Validators.required],
+    title: ['', [Validators.required]],
     description: [''],
-    eventDate: ['', Validators.required],
-    location: ['', Validators.required]
+    location: ['', [Validators.required]],
+    eventDate: ['', [Validators.required]]
   });
 
   submit(): void {
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
 
     this.loading.set(true);
+    this.error.set(null);
 
-    this.eventsService.createEvent(this.form.getRawValue()).subscribe({
-      next: () => {
-        this.router.navigate(['/events']);
-      },
-      error: () => {
-        this.error.set('Error creating event');
-        this.loading.set(false);
-      }
-    });
+    const value = this.form.getRawValue();
+
+    const payload = {
+      ...value,
+      eventDate: value.eventDate.length === 16
+        ? `${value.eventDate}:00`
+        : value.eventDate
+    };
+
+    this.eventsService.createEvent(payload)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/events']);
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 400 && err.error?.message) {
+            this.error.set(err.error.message);
+            return;
+          }
+          this.error.set('Unexpected error occurred');
+        }
+      });
   }
 }

@@ -4,11 +4,17 @@ export interface EventDTO {
     description: string;
     eventDate: string;
     location: string;
+    status: EventStatus;
 }
 
 export interface CreateEventRequestDTO {
     title: string;
-    description: string;
+    description?: string;
     eventDate: string;
     location: string;
+}
+
+export enum EventStatus {
+    ACTIVE = 'ACTIVE',
+    CANCELLED = 'CANCELLED'
 }

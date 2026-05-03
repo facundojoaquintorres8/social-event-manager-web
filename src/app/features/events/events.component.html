@@ -1,47 +1,140 @@
-<h1>
-    My Events
-    <button routerLink="/events/create">Create Event</button>
-</h1>
+<div class="space-y-6">
 
-<form [formGroup]="filterForm" class="filters">
+    <!-- Top bar -->
+    <div class="flex items-center justify-between">
+        <h2 class="text-xl font-semibold text-gray-900">
+            My Events
+        </h2>
 
-    <input type="text" placeholder="Search by title..." formControlName="title">
+        <button routerLink="/events/create"
+            class="bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+            Create Event
+        </button>
+    </div>
 
-    <input type="date" formControlName="fromDate">
+    <!-- Filters -->
+    <form [formGroup]="filterForm">
 
-    <input type="date" formControlName="toDate">
+        <div class="bg-white p-4 rounded-xl border border-gray-200 flex gap-3 flex-wrap">
 
-    <select formControlName="status">
-        <option value="">All</option>
-        <option value="ACTIVE">Active</option>
-        <option value="CANCELLED">Cancelled</option>
-    </select>
+            <input type="text" placeholder="Search by title..." formControlName="title"
+                class="border border-gray-200 rounded-lg px-3 py-2 text-sm w-48 focus:outline-none focus:ring-2 focus:ring-blue-500" />
 
-</form>
+            <input type="date" formControlName="fromDate" class="border border-gray-200 rounded-lg px-3 py-2 text-sm" />
 
-<div *ngIf="loading()">Loading...</div>
+            <input type="date" formControlName="toDate" class="border border-gray-200 rounded-lg px-3 py-2 text-sm" />
 
-<div *ngIf="error()">
-    {{ error() }}
-</div>
+            <select formControlName="status" class="border border-gray-200 rounded-lg px-3 py-2 text-sm">
+                <option value="">All</option>
+                <option [value]="EventStatus.ACTIVE">Active</option>
+                <option [value]="EventStatus.CANCELLED">Cancelled</option>
+            </select>
 
-<div class="events-grid" *ngIf="!loading() && !error()">
+        </div>
 
-    <div class="event-card" *ngFor="let event of events()">
-        <h3>{{ event.title }}</h3>
-        <p>{{ event.description }}</p>
-        <small>{{ event.eventDate | date:'short' }}</small>
-        <p>{{ event.location }}</p>
+    </form>
+
+    <!-- Events list -->
+    @if (error()) {
+    <div class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm">
+        {{ error() }}
+    </div>
+    }
+    @else if (loading()) {
+    <div class="grid gap-4">
+    
+        @for (item of [1,2,3,4]; track item) {
+        <div class="bg-white border border-gray-200 rounded-xl p-4 animate-pulse">
+    
+            <div class="flex justify-between">
+    
+                <div class="space-y-2 w-full">
+                    <div class="h-4 bg-gray-200 rounded w-1/3"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/4"></div>
+                </div>
+    
+                <div class="h-5 w-16 bg-gray-200 rounded-full"></div>
+    
+            </div>
+    
+        </div>
+        }
+    
+    </div>
+    }
+    @else if (!loading() && events().length === 0) {
+    <div class="bg-white border border-gray-200 rounded-xl p-8 text-center">
+    
+        <h3 class="text-lg font-medium text-gray-900">
+            No events yet
+        </h3>
+    
+        <p class="text-sm text-gray-500 mt-2">
+            Create your first event to get started
+        </p>
+    
+        <button routerLink="/events/create"
+            class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+            Create Event
+        </button>
+    
+    </div>
+    }
+    @else {
+    <div class="grid gap-4">
+    
+        @for (event of events(); track event.id) {
+        <div class="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-sm transition">
+    
+            <div class="flex justify-between items-start">
+    
+                <div>
+                    <h3 class="text-lg font-medium text-gray-900">
+                        {{ event.title }}
+                    </h3>
+    
+                    <p class="text-sm text-gray-500">
+                        {{ event.description }}
+                    </p>
+    
+                    <p class="text-xs text-gray-400 mt-1">
+                        {{ event.eventDate | date:'medium' }}
+                    </p>
+                </div>
+    
+                <span class="text-xs px-2 py-1 rounded-full font-medium" [ngClass]="{
+                        'bg-green-100 text-green-700': event.status === EventStatus.ACTIVE,
+                        'bg-red-100 text-red-700': event.status === EventStatus.CANCELLED
+                      }">
+                    {{ event.status === EventStatus.ACTIVE ? 'Active' : 'Cancelled' }}
+                </span>
+    
+            </div>
+    
+        </div>
+        }
+    
+    </div>
+    }
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center pt-4">
+
+        <button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0"
+            class="px-3 py-1 text-sm border rounded disabled:opacity-50">
+            Prev
+        </button>
+
+        <span class="text-sm text-gray-600">
+            Page {{ currentPage() + 1 }} of {{ totalPages() }}
+        </span>
+
+        <button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages() - 1"
+            class="px-3 py-1 text-sm border rounded disabled:opacity-50">
+            Next
+        </button>
+
     </div>
 
 </div>
-
-<button (click)="goToPage(currentPage() - 1)" [disabled]="currentPage() === 0">
-    Prev
-</button>
-
-<span>Page {{ currentPage() + 1 }} of {{ totalPages() }}</span>
-
-<button (click)="goToPage(currentPage() + 1)" [disabled]="currentPage() === totalPages() - 1">
-    Next
-</button>

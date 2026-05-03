@@ -1,10 +1,10 @@
 import { Component, inject, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventsService } from '../../core/services/events.service';
-import { EventDTO } from '../../core/models/event.model';
+import { EventDTO, EventStatus } from '../../core/models/event.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-events',
@@ -23,16 +23,15 @@ export class EventsComponent implements OnInit {
   readonly events = signal<EventDTO[]>([]);
   readonly totalPages = signal(0);
   readonly currentPage = signal(0);
-
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
-
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],
     fromDate: [''],
     toDate: [''],
     status: ['']
   });
+  readonly EventStatus = EventStatus;
 
   ngOnInit(): void {
     this.initFromQueryParams();
@@ -102,21 +101,22 @@ export class EventsComponent implements OnInit {
       fromDate: this.formatDate(params['fromDate']),
       toDate: this.formatDate(params['toDate'], true),
       status: params['status']
-    }).subscribe({
-      next: (res) => {
-        const pageData = res.data;
+    })
+      .pipe(
+        finalize(() => this.loading.set(false))
+      )
+      .subscribe({
+        next: (res) => {
+          const pageData = res.data;
 
-        this.events.set(pageData.content);
-        this.totalPages.set(pageData.totalPages);
-        this.currentPage.set(pageData.number);
-      },
-      error: () => {
-        this.error.set('Error loading events');
-      },
-      complete: () => {
-        this.loading.set(false);
-      }
-    });
+          this.events.set(pageData.content);
+          this.totalPages.set(pageData.totalPages);
+          this.currentPage.set(pageData.number);
+        },
+        error: () => {
+          this.error.set('Error loading events');
+        }
+      });
   }
 
   private formatDate(date: string, endOfDay = false): string | undefined {
