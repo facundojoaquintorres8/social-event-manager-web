@@ -51,4 +51,13 @@ export class EventsService {
   cancelEvent(eventId: string) {
     return this.http.put(`${this.apiUrl}/${eventId}/cancel`, {});
   }
+
+  updateEvent(eventId: string, payload: CreateEventRequestDTO) {
+    return this.http.put(`${this.apiUrl}/${eventId}`, payload);
+  }
+
+  getEventById(eventId: string) {
+    return this.http.get(`${this.apiUrl}/${eventId}`);
+  }
+
 }

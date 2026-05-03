@@ -113,6 +113,11 @@
                         {{ event.status === EventStatus.ACTIVE ? 'Active' : 'Cancelled' }}
                     </span>
 
+                    <!-- Edit -->
+                    <button [routerLink]="['/events/edit', event.id]" class="text-xs text-gray-500 hover:text-gray-700">
+                        Edit
+                    </button>
+
                     <!-- Cancel -->
                     @if (event.status === EventStatus.ACTIVE) {
                     <button (click)="cancelEvent(event.id)" [disabled]="actionLoading() === event.id"

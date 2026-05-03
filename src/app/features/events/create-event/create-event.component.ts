@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -16,9 +16,12 @@ export class CreateEventComponent {
   private readonly fb = inject(FormBuilder);
   private readonly eventsService = inject(EventsService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   readonly loading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
+  readonly isEditMode = signal<boolean>(false);
+  readonly eventId = signal<string | null>(null);
 
   readonly form = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
@@ -26,6 +29,16 @@ export class CreateEventComponent {
     location: ['', [Validators.required]],
     eventDate: ['', [Validators.required]]
   });
+
+  ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.isEditMode.set(true);
+      this.eventId.set(id);
+      this.loadEvent(id);
+    }
+  }
 
   submit(): void {
     if (this.form.invalid) {
@@ -45,7 +58,11 @@ export class CreateEventComponent {
         : value.eventDate
     };
 
-    this.eventsService.createEvent(payload)
+    const request = this.isEditMode()
+      ? this.eventsService.updateEvent(this.eventId()!, payload)
+      : this.eventsService.createEvent(payload);
+
+    request
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
@@ -60,4 +77,35 @@ export class CreateEventComponent {
         }
       });
   }
+
+  private loadEvent(id: string): void {
+    this.loading.set(true);
+
+    this.eventsService.getEventById(id)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (res: any) => {
+          const event = res.data;
+
+          this.form.patchValue({
+            title: event.title,
+            description: event.description,
+            location: event.location,
+            eventDate: this.formatForInput(event.eventDate)
+          });
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 400 && err.error?.message) {
+            this.error.set(err.error.message);
+            return;
+          }
+          this.error.set('Unexpected error occurred');
+        }
+      });
+  }
+
+  private formatForInput(date: string): string {
+    return date?.slice(0, 16);
+  }
+
 }
