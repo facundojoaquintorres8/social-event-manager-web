@@ -47,4 +47,8 @@ export class EventsService {
   createEvent(data: CreateEventRequestDTO) {
     return this.http.post(`${this.apiUrl}`, data);
   }
+
+  cancelEvent(eventId: string) {
+    return this.http.put(`${this.apiUrl}/${eventId}/cancel`, {});
+  }
 }

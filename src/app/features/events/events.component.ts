@@ -5,6 +5,7 @@ import { EventDTO, EventStatus } from '../../core/models/event.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-events',
@@ -25,6 +26,8 @@ export class EventsComponent implements OnInit {
   readonly currentPage = signal(0);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
+  readonly actionLoading = signal<string | null>(null);
+
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],
     fromDate: [''],
@@ -41,6 +44,34 @@ export class EventsComponent implements OnInit {
 
   goToPage(page: number): void {
     this.updateQueryParams(page);
+  }
+
+  cancelEvent(eventId: string): void {
+
+    const confirmed = confirm('Are you sure you want to cancel this event?');
+
+    if (!confirmed) return;
+
+    this.actionLoading.set(eventId);
+
+    this.eventsService.cancelEvent(eventId)
+      .pipe(finalize(() => this.actionLoading.set(null)))
+      .subscribe({
+        next: () => {
+          this.events.update(events =>
+            events.map(e =>
+              e.id === eventId ? { ...e, status: EventStatus.CANCELLED } : e
+            )
+          );
+        },
+        error: (err: HttpErrorResponse) => {
+          if (err.status === 400 && err.error?.message) {
+            this.error.set(err.error.message);
+            return;
+          }
+          this.error.set('Unexpected error occurred');
+        }
+      });
   }
 
   private initFromQueryParams(): void {
