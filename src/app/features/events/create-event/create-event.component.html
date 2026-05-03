@@ -4,12 +4,6 @@
         {{ isEditMode() ? 'Edit Event' : 'Create Event' }}
     </h2>
 
-    @if (error()) {
-    <div class="bg-red-100 text-red-700 px-4 py-2 rounded-lg text-sm mb-4">
-        {{ error() }}
-    </div>
-    }
-
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
 
         <!-- Title -->

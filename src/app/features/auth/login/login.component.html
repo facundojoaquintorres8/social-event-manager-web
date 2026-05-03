@@ -5,6 +5,4 @@
     <button type="submit" [disabled]="loading()">
         {{ loading() ? 'Loading...' : 'Login' }}
     </button>
-
-    <p *ngIf="error()">{{ error() }}</p>
 </form>

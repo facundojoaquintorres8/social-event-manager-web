@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventsService } from '../../core/services/events.service';
 import { EventDTO, EventStatus } from '../../core/models/event.model';
@@ -7,13 +7,14 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
+import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule],
-  templateUrl: './events.component.html',
-  styleUrl: './events.component.scss'
+  imports: [CommonModule, RouterLink, ReactiveFormsModule, ConfirmModalComponent],
+  templateUrl: './events.component.html'
 })
 export class EventsComponent implements OnInit {
 
@@ -22,6 +23,7 @@ export class EventsComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly events = signal<EventDTO[]>([]);
   readonly totalPages = signal(0);
@@ -29,6 +31,8 @@ export class EventsComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly actionLoading = signal<string | null>(null);
+  readonly confirmModalOpen = signal<boolean>(false);
+  readonly selectedEventId = signal<string | null>(null);
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],
@@ -48,12 +52,29 @@ export class EventsComponent implements OnInit {
     this.updateQueryParams(page);
   }
 
+  openCancelModal(eventId: string): void {
+    if (this.actionLoading()) return;
+    this.selectedEventId.set(eventId);
+    this.confirmModalOpen.set(true);
+  }
+
+  confirmCancel(): void {
+    const eventId = this.selectedEventId();
+
+    if (!eventId) return;
+
+    this.confirmModalOpen.set(false);
+    this.selectedEventId.set(null);
+
+    this.cancelEvent(eventId);
+  }
+
+  closeModal(): void {
+    this.confirmModalOpen.set(false);
+    this.selectedEventId.set(null);
+  }
+
   cancelEvent(eventId: string): void {
-
-    const confirmed = confirm('Are you sure you want to cancel this event?');
-
-    if (!confirmed) return;
-
     this.actionLoading.set(eventId);
 
     this.eventsService.cancelEvent(eventId)
@@ -70,10 +91,9 @@ export class EventsComponent implements OnInit {
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {
             this.toastService.show(err.error.message, 'error');
-            this.error.set(err.error.message);
             return;
           }
-          this.error.set('Unexpected error occurred');
+          this.toastService.show('Unexpected error occurred', 'error');
         }
       });
   }
@@ -90,19 +110,20 @@ export class EventsComponent implements OnInit {
   }
 
   private listenToQueryParams(): void {
-    this.route.queryParams.subscribe(params => {
-
-      const page = Number(params['page'] || 0);
-
-      this.loadEvents(page);
-    });
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(params => {
+        const page = Number(params['page'] || 0);
+        this.loadEvents(page);
+      });
   }
 
   private listenToFilters(): void {
     this.filterForm.valueChanges
       .pipe(
         debounceTime(400),
-        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b))
+        distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
+        takeUntilDestroyed(this.destroyRef)
       )
       .subscribe(() => {
         this.updateQueryParams(0);
@@ -127,6 +148,7 @@ export class EventsComponent implements OnInit {
 
   private loadEvents(page = 0): void {
     this.loading.set(true);
+    this.error.set(null);
 
     const params = this.route.snapshot.queryParams;
 

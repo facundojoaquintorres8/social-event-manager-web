@@ -20,7 +20,6 @@ export class LoginComponent {
   private readonly toastService = inject(ToastService);
 
   readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
@@ -31,7 +30,6 @@ export class LoginComponent {
     if (this.form.invalid) return;
 
     this.loading.set(true);
-    this.error.set(null);
 
     this.authService.login(this.form.getRawValue())
       .pipe(
@@ -46,7 +44,6 @@ export class LoginComponent {
         error: () => {
 
           this.toastService.show('Invalid credentials', 'error');
-          this.error.set('Invalid credentials');
           this.loading.set(false);
         }
       });

@@ -21,7 +21,6 @@ export class CreateEventComponent {
   private readonly toastService = inject(ToastService);
 
   readonly loading = signal<boolean>(false);
-  readonly error = signal<string | null>(null);
   readonly isEditMode = signal<boolean>(false);
   readonly eventId = signal<string | null>(null);
 
@@ -49,7 +48,6 @@ export class CreateEventComponent {
     }
 
     this.loading.set(true);
-    this.error.set(null);
 
     const value = this.form.getRawValue();
 
@@ -76,10 +74,9 @@ export class CreateEventComponent {
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {
             this.toastService.show(err.error.message, 'error');
-            this.error.set(err.error.message);
             return;
           }
-          this.error.set('Unexpected error occurred');
+          this.toastService.show('Unexpected error occurred', 'error');
         }
       });
   }
@@ -103,10 +100,9 @@ export class CreateEventComponent {
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {
             this.toastService.show(err.error.message, 'error');
-            this.error.set(err.error.message);
             return;
           }
-          this.error.set('Unexpected error occurred');
+          this.toastService.show('Unexpected error occurred', 'error');
         }
       });
   }
