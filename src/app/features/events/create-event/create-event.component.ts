@@ -4,6 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-create-event',
@@ -17,6 +18,7 @@ export class CreateEventComponent {
   private readonly eventsService = inject(EventsService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
 
   readonly loading = signal<boolean>(false);
   readonly error = signal<string | null>(null);
@@ -66,10 +68,14 @@ export class CreateEventComponent {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: () => {
+          this.toastService.show(
+            this.isEditMode() ? 'Event updated' : 'Event created'
+          );
           this.router.navigate(['/events']);
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {
+            this.toastService.show(err.error.message, 'error');
             this.error.set(err.error.message);
             return;
           }
@@ -96,6 +102,7 @@ export class CreateEventComponent {
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {
+            this.toastService.show(err.error.message, 'error');
             this.error.set(err.error.message);
             return;
           }

@@ -1,1 +1,11 @@
+@if (toastService.toast()) {
+<div class="fixed top-4 right-4 px-4 py-2 rounded-lg text-sm shadow-lg" [ngClass]="{
+        'bg-green-100 text-green-700': toastService.toast()?.type === 'success',
+        'bg-red-100 text-red-700': toastService.toast()?.type === 'error'
+      }">
+
+    {{ toastService.toast()?.message }}
+
+</div>
+}
 <router-outlet></router-outlet>

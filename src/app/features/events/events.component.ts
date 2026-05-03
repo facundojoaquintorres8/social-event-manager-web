@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
+import { ToastService } from '../../core/services/toast.service';
 
 @Component({
   selector: 'app-events',
@@ -20,6 +21,7 @@ export class EventsComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly toastService = inject(ToastService);
 
   readonly events = signal<EventDTO[]>([]);
   readonly totalPages = signal(0);
@@ -58,6 +60,7 @@ export class EventsComponent implements OnInit {
       .pipe(finalize(() => this.actionLoading.set(null)))
       .subscribe({
         next: () => {
+          this.toastService.show('Event cancelled');
           this.events.update(events =>
             events.map(e =>
               e.id === eventId ? { ...e, status: EventStatus.CANCELLED } : e
@@ -66,6 +69,7 @@ export class EventsComponent implements OnInit {
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {
+            this.toastService.show(err.error.message, 'error');
             this.error.set(err.error.message);
             return;
           }
@@ -145,6 +149,7 @@ export class EventsComponent implements OnInit {
           this.currentPage.set(pageData.number);
         },
         error: () => {
+          this.toastService.show('Error loading events', 'error');
           this.error.set('Error loading events');
         }
       });
