@@ -8,7 +8,7 @@ import { ThemeService } from './core/services/theme.service';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, CommonModule],
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
   readonly toastService = inject(ToastService);

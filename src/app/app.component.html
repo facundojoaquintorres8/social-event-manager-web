@@ -1,27 +1,26 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950 transition-colors duration-300">
-
+<div class="min-h-screen bg-gray-50 transition-colors duration-300 dark:bg-gray-950">
   @if (toastService.toast()) {
-  <div class="fixed top-4 right-4 px-4 py-2 rounded-lg text-sm shadow-lg z-50" [ngClass]="{
-      'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300': toastService.toast()?.type === 'success',
-      'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300': toastService.toast()?.type === 'error'
-    }">
-    {{ toastService.toast()?.message }}
-  </div>
+    <div
+      class="fixed top-4 right-4 z-50 rounded-lg px-4 py-2 text-sm shadow-lg"
+      [ngClass]="{
+        'bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300':
+          toastService.toast()?.type === 'success',
+        'bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300':
+          toastService.toast()?.type === 'error',
+      }"
+    >
+      {{ toastService.toast()?.message }}
+    </div>
   }
 
   <div class="fixed top-4 left-4 z-50">
-
-    <button (click)="themeService.toggleTheme()" class="bg-white dark:bg-gray-900
-             border border-gray-200 dark:border-gray-800
-             text-gray-700 dark:text-gray-200
-             shadow-sm rounded-lg px-3 py-2 text-sm
-             hover:bg-gray-100 dark:hover:bg-gray-800
-             transition-colors">
+    <button
+      (click)="themeService.toggleTheme()"
+      class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+    >
       {{ themeService.darkMode() ? '☀️ Light' : '🌙 Dark' }}
     </button>
-
   </div>
 
   <router-outlet></router-outlet>
-
 </div>

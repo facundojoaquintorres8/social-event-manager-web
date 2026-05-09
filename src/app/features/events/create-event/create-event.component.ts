@@ -10,10 +10,9 @@ import { ToastService } from '../../../core/services/toast.service';
   selector: 'app-create-event',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink],
-  templateUrl: './create-event.component.html'
+  templateUrl: './create-event.component.html',
 })
 export class CreateEventComponent {
-
   private readonly fb = inject(FormBuilder);
   private readonly eventsService = inject(EventsService);
   private readonly router = inject(Router);
@@ -28,7 +27,7 @@ export class CreateEventComponent {
     title: ['', [Validators.required]],
     description: [''],
     location: ['', [Validators.required]],
-    eventDate: ['', [Validators.required]]
+    eventDate: ['', [Validators.required]],
   });
 
   ngOnInit(): void {
@@ -53,38 +52,33 @@ export class CreateEventComponent {
 
     const payload = {
       ...value,
-      eventDate: value.eventDate.length === 16
-        ? `${value.eventDate}:00`
-        : value.eventDate
+      eventDate: value.eventDate.length === 16 ? `${value.eventDate}:00` : value.eventDate,
     };
 
     const request = this.isEditMode()
       ? this.eventsService.updateEvent(this.eventId()!, payload)
       : this.eventsService.createEvent(payload);
 
-    request
-      .pipe(finalize(() => this.loading.set(false)))
-      .subscribe({
-        next: () => {
-          this.toastService.show(
-            this.isEditMode() ? 'Event updated' : 'Event created'
-          );
-          this.router.navigate(['/events']);
-        },
-        error: (err: HttpErrorResponse) => {
-          if (err.status === 400 && err.error?.message) {
-            this.toastService.show(err.error.message, 'error');
-            return;
-          }
-          this.toastService.show('Unexpected error occurred', 'error');
+    request.pipe(finalize(() => this.loading.set(false))).subscribe({
+      next: () => {
+        this.toastService.show(this.isEditMode() ? 'Event updated' : 'Event created');
+        this.router.navigate(['/events']);
+      },
+      error: (err: HttpErrorResponse) => {
+        if (err.status === 400 && err.error?.message) {
+          this.toastService.show(err.error.message, 'error');
+          return;
         }
-      });
+        this.toastService.show('Unexpected error occurred', 'error');
+      },
+    });
   }
 
   private loadEvent(id: string): void {
     this.loading.set(true);
 
-    this.eventsService.getEventById(id)
+    this.eventsService
+      .getEventById(id)
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (res: any) => {
@@ -94,7 +88,7 @@ export class CreateEventComponent {
             title: event.title,
             description: event.description,
             location: event.location,
-            eventDate: this.formatForInput(event.eventDate)
+            eventDate: this.formatForInput(event.eventDate),
           });
         },
         error: (err: HttpErrorResponse) => {
@@ -103,12 +97,11 @@ export class CreateEventComponent {
             return;
           }
           this.toastService.show('Unexpected error occurred', 'error');
-        }
+        },
       });
   }
 
   private formatForInput(date: string): string {
     return date?.slice(0, 16);
   }
-
 }

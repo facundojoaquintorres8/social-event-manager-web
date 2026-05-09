@@ -5,10 +5,9 @@ import { ApiResponseDTO } from '../models/api-response.model';
 import { AuthResponseDTO } from '../models/auth-response.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-
   private readonly http = inject(HttpClient);
 
   private readonly apiUrl = `${environment.apiUrl}auth`;
@@ -19,19 +18,13 @@ export class AuthService {
   // ---------- AUTH ----------
 
   login(data: { email: string; password: string }) {
-    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(
-      `${this.apiUrl}/login`,
-      data
-    );
+    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(`${this.apiUrl}/login`, data);
   }
 
   refresh() {
-    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(
-      `${this.apiUrl}/refresh`,
-      {
-        refreshToken: this.refreshToken()
-      }
-    );
+    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(`${this.apiUrl}/refresh`, {
+      refreshToken: this.refreshToken(),
+    });
   }
 
   // ---------- STORAGE ----------

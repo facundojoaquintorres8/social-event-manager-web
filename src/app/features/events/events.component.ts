@@ -14,10 +14,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   selector: 'app-events',
   standalone: true,
   imports: [CommonModule, RouterLink, ReactiveFormsModule, ConfirmModalComponent],
-  templateUrl: './events.component.html'
+  templateUrl: './events.component.html',
 })
 export class EventsComponent implements OnInit {
-
   private readonly eventsService = inject(EventsService);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -38,7 +37,7 @@ export class EventsComponent implements OnInit {
     title: [''],
     fromDate: [''],
     toDate: [''],
-    status: ['']
+    status: [''],
   });
   readonly EventStatus = EventStatus;
 
@@ -77,15 +76,14 @@ export class EventsComponent implements OnInit {
   cancelEvent(eventId: string): void {
     this.actionLoading.set(eventId);
 
-    this.eventsService.cancelEvent(eventId)
+    this.eventsService
+      .cancelEvent(eventId)
       .pipe(finalize(() => this.actionLoading.set(null)))
       .subscribe({
         next: () => {
           this.toastService.show('Event cancelled');
-          this.events.update(events =>
-            events.map(e =>
-              e.id === eventId ? { ...e, status: EventStatus.CANCELLED } : e
-            )
+          this.events.update((events) =>
+            events.map((e) => (e.id === eventId ? { ...e, status: EventStatus.CANCELLED } : e)),
           );
         },
         error: (err: HttpErrorResponse) => {
@@ -94,28 +92,29 @@ export class EventsComponent implements OnInit {
             return;
           }
           this.toastService.show('Unexpected error occurred', 'error');
-        }
+        },
       });
   }
 
   private initFromQueryParams(): void {
     const params = this.route.snapshot.queryParams;
 
-    this.filterForm.patchValue({
-      title: params['title'] || '',
-      fromDate: params['fromDate'] || '',
-      toDate: params['toDate'] || '',
-      status: params['status'] || ''
-    }, { emitEvent: false });
+    this.filterForm.patchValue(
+      {
+        title: params['title'] || '',
+        fromDate: params['fromDate'] || '',
+        toDate: params['toDate'] || '',
+        status: params['status'] || '',
+      },
+      { emitEvent: false },
+    );
   }
 
   private listenToQueryParams(): void {
-    this.route.queryParams
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(params => {
-        const page = Number(params['page'] || 0);
-        this.loadEvents(page);
-      });
+    this.route.queryParams.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+      const page = Number(params['page'] || 0);
+      this.loadEvents(page);
+    });
   }
 
   private listenToFilters(): void {
@@ -123,7 +122,7 @@ export class EventsComponent implements OnInit {
       .pipe(
         debounceTime(400),
         distinctUntilChanged((a, b) => JSON.stringify(a) === JSON.stringify(b)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => {
         this.updateQueryParams(0);
@@ -140,9 +139,9 @@ export class EventsComponent implements OnInit {
         title: filters.title || null,
         fromDate: filters.fromDate || null,
         toDate: filters.toDate || null,
-        status: filters.status || null
+        status: filters.status || null,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 
@@ -152,16 +151,15 @@ export class EventsComponent implements OnInit {
 
     const params = this.route.snapshot.queryParams;
 
-    this.eventsService.getMyEvents({
-      page,
-      title: params['title'],
-      fromDate: this.formatDate(params['fromDate']),
-      toDate: this.formatDate(params['toDate'], true),
-      status: params['status']
-    })
-      .pipe(
-        finalize(() => this.loading.set(false))
-      )
+    this.eventsService
+      .getMyEvents({
+        page,
+        title: params['title'],
+        fromDate: this.formatDate(params['fromDate']),
+        toDate: this.formatDate(params['toDate'], true),
+        status: params['status'],
+      })
+      .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (res) => {
           const pageData = res.data;
@@ -173,16 +171,13 @@ export class EventsComponent implements OnInit {
         error: () => {
           this.toastService.show('Error loading events', 'error');
           this.error.set('Error loading events');
-        }
+        },
       });
   }
 
   private formatDate(date: string, endOfDay = false): string | undefined {
     if (!date) return undefined;
 
-    return endOfDay
-      ? `${date}T23:59:59`
-      : `${date}T00:00:00`;
+    return endOfDay ? `${date}T23:59:59` : `${date}T00:00:00`;
   }
-
 }

@@ -4,32 +4,33 @@ import { MainLayoutComponent } from './shared/layout/main-layout/main-layout.com
 import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
-    { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent },
 
-    {
-        path: '',
-        component: MainLayoutComponent,
-        canActivate: [authGuard],
-        children: [
-            {
-                path: 'events',
-                loadComponent: () =>
-                    import('./features/events/events.component')
-                        .then(m => m.EventsComponent)
-            },
-            {
-                path: 'events/create',
-                loadComponent: () =>
-                    import('./features/events/create-event/create-event.component')
-                        .then(m => m.CreateEventComponent)
-            },
-            {
-                path: 'events/edit/:id',
-                loadComponent: () =>
-                    import('./features/events/create-event/create-event.component')
-                        .then(m => m.CreateEventComponent)
-            },
-            { path: '', redirectTo: 'events', pathMatch: 'full' }
-        ]
-    }
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivate: [authGuard],
+    children: [
+      {
+        path: 'events',
+        loadComponent: () =>
+          import('./features/events/events.component').then((m) => m.EventsComponent),
+      },
+      {
+        path: 'events/create',
+        loadComponent: () =>
+          import('./features/events/create-event/create-event.component').then(
+            (m) => m.CreateEventComponent,
+          ),
+      },
+      {
+        path: 'events/edit/:id',
+        loadComponent: () =>
+          import('./features/events/create-event/create-event.component').then(
+            (m) => m.CreateEventComponent,
+          ),
+      },
+      { path: '', redirectTo: 'events', pathMatch: 'full' },
+    ],
+  },
 ];

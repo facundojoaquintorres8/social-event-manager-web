@@ -7,10 +7,9 @@ import { Router, RouterLink } from '@angular/router';
   selector: 'app-header',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
 

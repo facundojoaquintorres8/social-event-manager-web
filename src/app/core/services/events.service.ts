@@ -6,10 +6,9 @@ import { CreateEventRequestDTO, EventDTO } from '../models/event.model';
 import { PageDTO } from '../models/page.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventsService {
-
   private readonly http = inject(HttpClient);
   private readonly apiUrl = `${environment.apiUrl}events`;
 
@@ -31,7 +30,7 @@ export class EventsService {
       title,
       fromDate,
       toDate,
-      status
+      status,
     } = params;
 
     let url = `${this.apiUrl}/me?page=${page}&size=${size}&sortBy=${sortBy}&direction=${direction}`;
@@ -59,5 +58,4 @@ export class EventsService {
   getEventById(eventId: string) {
     return this.http.get(`${this.apiUrl}/${eventId}`);
   }
-
 }
