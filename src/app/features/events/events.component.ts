@@ -9,11 +9,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { LucideAngularModule, Plus, Pencil, X } from 'lucide-angular';
 
 @Component({
   selector: 'app-events',
   standalone: true,
-  imports: [CommonModule, RouterLink, ReactiveFormsModule, ConfirmModalComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ReactiveFormsModule,
+    LucideAngularModule,
+    ConfirmModalComponent,
+  ],
   templateUrl: './events.component.html',
 })
 export class EventsComponent implements OnInit {
@@ -32,6 +39,10 @@ export class EventsComponent implements OnInit {
   readonly actionLoading = signal<string | null>(null);
   readonly confirmModalOpen = signal<boolean>(false);
   readonly selectedEventId = signal<string | null>(null);
+
+  readonly Plus = Plus;
+  readonly Pencil = Pencil;
+  readonly X = X;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],

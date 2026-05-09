@@ -5,11 +5,12 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
 import { ToastService } from '../../../core/services/toast.service';
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -21,6 +22,9 @@ export class LoginComponent {
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly showPassword = signal(false);
+
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

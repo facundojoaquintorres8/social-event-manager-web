@@ -93,7 +93,7 @@
                 (click)="showPassword.set(!showPassword())"
                 class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
               >
-                {{ showPassword() ? '🙈' : '👁️' }}
+                <lucide-icon [img]="showPassword() ? EyeOff : Eye" class="h-5 w-5"> </lucide-icon>
               </button>
             </div>
           </div>
@@ -117,7 +117,8 @@
                 (click)="showConfirmPassword.set(!showConfirmPassword())"
                 class="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 transition-colors hover:text-gray-600 dark:hover:text-gray-300"
               >
-                {{ showConfirmPassword() ? '🙈' : '👁️' }}
+                <lucide-icon [img]="showConfirmPassword() ? EyeOff : Eye" class="h-5 w-5">
+                </lucide-icon>
               </button>
             </div>
           </div>

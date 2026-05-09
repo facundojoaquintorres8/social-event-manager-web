@@ -7,11 +7,12 @@ import { finalize } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
+import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
@@ -24,6 +25,9 @@ export class RegisterComponent {
   readonly error = signal<string | null>(null);
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
+
+  readonly Eye = Eye;
+  readonly EyeOff = EyeOff;
 
   readonly form = this.fb.nonNullable.group({
     firstName: ['', [Validators.required]],

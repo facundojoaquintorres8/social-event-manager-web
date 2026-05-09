@@ -18,7 +18,11 @@
       (click)="themeService.toggleTheme()"
       class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 shadow-sm transition-colors hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
     >
-      {{ themeService.darkMode() ? '☀️ Light' : '🌙 Dark' }}
+      <lucide-icon
+        [img]="themeService.darkMode() ? Sun : Moon"
+        [color]="themeService.darkMode() ? 'yellow' : 'darkblue'"
+        class="h-5 w-5"
+      ></lucide-icon>
     </button>
   </div>
 
