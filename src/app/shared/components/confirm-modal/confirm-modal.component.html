@@ -14,14 +14,14 @@
       <div class="flex justify-end gap-2 pt-2">
         <button
           (click)="cancel.emit()"
-          class="rounded-md px-3 py-1 text-sm text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+          class="rounded-md px-3 py-1 text-sm text-gray-600 transition-all transition-colors duration-200 hover:bg-gray-100 active:scale-95 dark:text-gray-300 dark:hover:bg-gray-800"
         >
           Cancel
         </button>
 
         <button
           (click)="confirm.emit()"
-          class="rounded-md bg-red-600 px-3 py-1 text-sm text-white transition-colors hover:bg-red-700"
+          class="rounded-md bg-red-600 px-3 py-1 text-sm text-white transition-all transition-colors duration-200 hover:bg-red-700 active:scale-95"
         >
           Confirm
         </button>
