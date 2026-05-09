@@ -2,7 +2,8 @@ import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponseDTO } from '../models/api-response.model';
-import { AuthResponseDTO } from '../models/auth-response.model';
+import { AuthRequestDTO, AuthResponseDTO } from '../models/auth.model';
+import { RegisterRequestDTO, RegisterResponseDTO } from '../models/register.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +17,12 @@ export class AuthService {
   readonly refreshToken = signal<string | null>(this.getStored('refreshToken'));
 
   // ---------- AUTH ----------
+  register(payload: RegisterRequestDTO) {
+    return this.http.post<ApiResponseDTO<RegisterResponseDTO>>(`${this.apiUrl}/register`, payload);
+  }
 
-  login(data: { email: string; password: string }) {
-    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(`${this.apiUrl}/login`, data);
+  login(payload: AuthRequestDTO) {
+    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(`${this.apiUrl}/login`, payload);
   }
 
   refresh() {
