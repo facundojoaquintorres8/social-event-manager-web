@@ -48,6 +48,9 @@ export class EventsComponent implements OnInit {
   }
 
   goToPage(page: number): void {
+    if (page < 0 || page >= this.totalPages()) {
+      return;
+    }
     this.updateQueryParams(page);
   }
 
