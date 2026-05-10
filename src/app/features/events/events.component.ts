@@ -1,4 +1,4 @@
-import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventsService } from '../../core/services/events.service';
 import { EventDTO, EventStatus } from '../../core/models/event.model';
@@ -9,7 +9,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideAngularModule, Plus, Pencil, X } from 'lucide-angular';
+import { LucideAngularModule, Plus, Pencil, X, ArrowRight, EllipsisVertical } from 'lucide-angular';
 
 @Component({
   selector: 'app-events',
@@ -39,10 +39,13 @@ export class EventsComponent implements OnInit {
   readonly actionLoading = signal<string | null>(null);
   readonly confirmModalOpen = signal<boolean>(false);
   readonly selectedEventId = signal<string | null>(null);
+  readonly openedMenuId = signal<string | null>(null);
 
   readonly Plus = Plus;
   readonly Pencil = Pencil;
   readonly X = X;
+  readonly ArrowRight = ArrowRight;
+  readonly EllipsisVertical = EllipsisVertical;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],
@@ -118,6 +121,20 @@ export class EventsComponent implements OnInit {
           this.toastService.show('Unexpected error occurred', 'error');
         },
       });
+  }
+
+  toggleMenu(eventId: string, event: MouseEvent): void {
+    event.stopPropagation();
+    this.openedMenuId.update((current) => (current === eventId ? null : eventId));
+  }
+
+  closeMenu(): void {
+    this.openedMenuId.set(null);
+  }
+
+  @HostListener('document:click')
+  onDocumentClick(): void {
+    this.closeMenu();
   }
 
   private initFromQueryParams(): void {
