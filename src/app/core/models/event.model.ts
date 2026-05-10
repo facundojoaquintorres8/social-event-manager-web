@@ -4,6 +4,7 @@ export interface EventDTO {
   description: string;
   eventDate: string;
   location: string;
+  createdBy: string;
   status: EventStatus;
 }
 

@@ -56,7 +56,7 @@ export class EventsService {
   }
 
   getEventById(eventId: string) {
-    return this.http.get(`${this.apiUrl}/${eventId}`);
+    return this.http.get<ApiResponseDTO<EventDTO>>(`${this.apiUrl}/${eventId}`);
   }
 
   getDashboard() {

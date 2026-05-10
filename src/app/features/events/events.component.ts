@@ -65,6 +65,16 @@ export class EventsComponent implements OnInit {
     this.updateQueryParams(page);
   }
 
+  goToDetails(eventId: string): void {
+    this.router.navigate(['/events', eventId]);
+  }
+
+  editEvent(eventId: string, event: MouseEvent): void {
+    event.stopPropagation();
+
+    this.router.navigate(['/events/edit', eventId]);
+  }
+
   openCancelModal(eventId: string): void {
     if (this.actionLoading()) return;
     this.selectedEventId.set(eventId);

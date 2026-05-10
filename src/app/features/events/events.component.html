@@ -90,7 +90,8 @@
     <div class="grid gap-4">
       @for (event of events(); track event.id) {
         <div
-          class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900"
+          (click)="goToDetails(event.id)"
+          class="cursor-pointer rounded-xl border border-gray-200 bg-white p-4 transition-all duration-200 hover:border-blue-300 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-700"
         >
           <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
             <div>
@@ -120,7 +121,7 @@
 
               <div class="flex items-center gap-2">
                 <button
-                  [routerLink]="['/events/edit', event.id]"
+                  (click)="editEvent(event.id, $event)"
                   class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-700 active:scale-95 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                 >
                   <lucide-icon title="Edit" [img]="Pencil" class="h-5 w-5"></lucide-icon>
@@ -128,7 +129,7 @@
 
                 @if (event.status === EventStatus.ACTIVE) {
                   <button
-                    (click)="openCancelModal(event.id)"
+                    (click)="openCancelModal(event.id); $event.stopPropagation()"
                     [disabled]="actionLoading() === event.id"
                     class="flex h-9 w-9 items-center justify-center rounded-lg text-red-500 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:scale-95 dark:hover:bg-red-900/20"
                   >

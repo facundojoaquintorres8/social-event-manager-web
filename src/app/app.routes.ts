@@ -45,6 +45,13 @@ export const routes: Routes = [
             (m) => m.CreateEventComponent,
           ),
       },
+      {
+        path: 'events/:id',
+        loadComponent: () =>
+          import('./features/events/event-details/event-details.component').then(
+            (m) => m.EventDetailsComponent,
+          ),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
