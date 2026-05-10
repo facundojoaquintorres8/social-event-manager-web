@@ -17,7 +17,7 @@ export class HeaderComponent {
   readonly LogOut = LogOut;
 
   logout(): void {
-    this.authService.clearTokens();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

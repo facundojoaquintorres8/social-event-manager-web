@@ -1,0 +1,182 @@
+<div class="space-y-8">
+  <!-- Welcome -->
+  <div>
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+      Welcome back, {{ authService.currentUser()?.firstName }} 👋
+    </h1>
+
+    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+      Here's a quick overview of your events.
+    </p>
+  </div>
+
+  <!-- Stats -->
+  <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+    <!-- Total -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Total Events</p>
+
+          <h3 class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ dashboard()?.totalEvents }}
+          </h3>
+        </div>
+
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-100 text-blue-600 dark:bg-blue-900/20"
+        >
+          <lucide-icon [img]="Calendar" class="h-6 w-6"> </lucide-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Active</p>
+
+          <h3 class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ dashboard()?.activeEvents }}
+          </h3>
+        </div>
+
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-xl bg-green-100 text-green-600 dark:bg-green-900/20"
+        >
+          <lucide-icon [img]="CircleCheckBig" class="h-6 w-6"> </lucide-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cancelled -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Cancelled</p>
+
+          <h3 class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ dashboard()?.cancelledEvents }}
+          </h3>
+        </div>
+
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-xl bg-red-100 text-red-600 dark:bg-red-900/20"
+        >
+          <lucide-icon [img]="CircleX" class="h-6 w-6"> </lucide-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Upcoming -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg dark:border-gray-800 dark:bg-gray-900"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Upcoming</p>
+
+          <h3 class="mt-2 text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ dashboard()?.upcomingEvents }}
+          </h3>
+        </div>
+
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-100 text-yellow-600 dark:bg-yellow-900/20"
+        >
+          <lucide-icon [img]="Clock" class="h-6 w-6"> </lucide-icon>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick actions -->
+  <div
+    class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+  >
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Quick Actions</h2>
+
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage your events faster.</p>
+      </div>
+
+      <div class="flex gap-3">
+        <button
+          routerLink="/events/create"
+          class="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
+        >
+          <lucide-icon [img]="Plus" class="h-4 w-4"> </lucide-icon>
+
+          Create Event
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+  >
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Recent Events</h2>
+
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Your latest activity.</p>
+      </div>
+
+      <a routerLink="/events" class="text-sm font-medium text-blue-600 hover:text-blue-700">
+        View all
+      </a>
+    </div>
+
+    @if (dashboard()?.recentEvents?.length === 0) {
+      <div
+        class="rounded-xl border border-dashed border-gray-300 p-8 text-center dark:border-gray-700"
+      >
+        <p class="text-sm text-gray-500 dark:text-gray-400">No recent events</p>
+      </div>
+    } @else {
+      <div class="space-y-3">
+        @for (event of dashboard()?.recentEvents; track event.id) {
+          <div
+            class="flex items-center justify-between rounded-xl border border-gray-200 p-4 transition-all duration-200 hover:bg-gray-50 dark:border-gray-800 dark:hover:bg-gray-800/50"
+          >
+            <div>
+              <h3 class="font-medium text-gray-900 dark:text-gray-100">
+                {{ event.title }}
+              </h3>
+
+              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                {{ event.location }}
+              </p>
+            </div>
+
+            <div class="text-right">
+              <p class="text-sm text-gray-500 dark:text-gray-400">
+                {{ event.eventDate | date: 'mediumDate' }}
+              </p>
+
+              <span
+                class="mt-1 inline-flex rounded-full px-2 py-1 text-xs font-medium"
+                [ngClass]="{
+                  'bg-green-100 text-green-700': event.status === 'ACTIVE',
+
+                  'bg-red-100 text-red-700': event.status === 'CANCELLED',
+                }"
+              >
+                {{ event.status }}
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

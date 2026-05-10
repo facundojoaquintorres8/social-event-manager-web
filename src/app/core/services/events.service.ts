@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponseDTO } from '../models/api-response.model';
-import { CreateEventRequestDTO, EventDTO } from '../models/event.model';
+import { CreateEventRequestDTO, DashboardDTO, EventDTO } from '../models/event.model';
 import { PageDTO } from '../models/page.model';
 
 @Injectable({
@@ -57,5 +57,9 @@ export class EventsService {
 
   getEventById(eventId: string) {
     return this.http.get(`${this.apiUrl}/${eventId}`);
+  }
+
+  getDashboard() {
+    return this.http.get<ApiResponseDTO<DashboardDTO>>(`${this.apiUrl}/dashboard`);
   }
 }

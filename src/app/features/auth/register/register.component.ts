@@ -58,10 +58,9 @@ export class RegisterComponent {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (res) => {
-          const { accessToken, refreshToken } = res.data;
-          this.authService.saveTokens(accessToken, refreshToken);
+          this.authService.storeUserAndTokens(res.data);
           this.toastService.show('Account created successfully');
-          this.router.navigate(['/events']);
+          this.router.navigate(['/dashboard']);
         },
         error: (err: HttpErrorResponse) => {
           if (err.status === 400 && err.error?.message) {

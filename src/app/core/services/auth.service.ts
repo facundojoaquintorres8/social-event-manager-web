@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { ApiResponseDTO } from '../models/api-response.model';
 import { AuthRequestDTO, AuthResponseDTO } from '../models/auth.model';
 import { RegisterRequestDTO, RegisterResponseDTO } from '../models/register.model';
+import { UserDTO } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class AuthService {
 
   readonly accessToken = signal<string | null>(this.getStored('accessToken'));
   readonly refreshToken = signal<string | null>(this.getStored('refreshToken'));
+  readonly currentUser = signal<UserDTO | null>(this.getStoredUser());
 
   // ---------- AUTH ----------
   register(payload: RegisterRequestDTO) {
@@ -33,20 +35,30 @@ export class AuthService {
 
   // ---------- STORAGE ----------
 
-  saveTokens(access: string, refresh: string): void {
-    localStorage.setItem('accessToken', access);
-    localStorage.setItem('refreshToken', refresh);
+  storeUserAndTokens(response: RegisterResponseDTO): void {
+    const user = {
+      email: response.email,
+      firstName: response.firstName,
+      lastName: response.lastName,
+    } as UserDTO;
 
-    this.accessToken.set(access);
-    this.refreshToken.set(refresh);
+    localStorage.setItem('accessToken', response.accessToken);
+    localStorage.setItem('refreshToken', response.refreshToken);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+    this.accessToken.set(response.accessToken);
+    this.refreshToken.set(response.refreshToken);
+    this.currentUser.set(user);
   }
 
-  clearTokens(): void {
+  logout(): void {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
+    localStorage.removeItem('currentUser');
 
     this.accessToken.set(null);
     this.refreshToken.set(null);
+    this.currentUser.set(null);
   }
 
   isAuthenticated(): boolean {
@@ -56,5 +68,10 @@ export class AuthService {
   private getStored(key: string): string | null {
     const value = localStorage.getItem(key);
     return value && value !== 'null' ? value : null;
+  }
+
+  private getStoredUser(): UserDTO | null {
+    const user = localStorage.getItem('currentUser');
+    return user ? (JSON.parse(user) as UserDTO) : null;
   }
 }

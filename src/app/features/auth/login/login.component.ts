@@ -41,9 +41,8 @@ export class LoginComponent {
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (res) => {
-          const { accessToken, refreshToken } = res.data;
-          this.authService.saveTokens(accessToken, refreshToken);
-          this.router.navigate(['/events']);
+          this.authService.storeUserAndTokens(res.data);
+          this.router.navigate(['/dashboard']);
         },
         error: () => {
           this.toastService.show('Invalid credentials', 'error');

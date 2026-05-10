@@ -1,23 +1,24 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../core/services/toast.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule],
   templateUrl: './create-event.component.html',
 })
 export class CreateEventComponent {
   private readonly fb = inject(FormBuilder);
   private readonly eventsService = inject(EventsService);
-  private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
+  private readonly location = inject(Location);
 
   readonly loading = signal<boolean>(false);
   readonly isEditMode = signal<boolean>(false);
@@ -38,6 +39,10 @@ export class CreateEventComponent {
       this.eventId.set(id);
       this.loadEvent(id);
     }
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   submit(): void {
@@ -62,7 +67,7 @@ export class CreateEventComponent {
     request.pipe(finalize(() => this.loading.set(false))).subscribe({
       next: () => {
         this.toastService.show(this.isEditMode() ? 'Event updated' : 'Event created');
-        this.router.navigate(['/events']);
+        this.goBack();
       },
       error: (err: HttpErrorResponse) => {
         if (err.status === 400 && err.error?.message) {

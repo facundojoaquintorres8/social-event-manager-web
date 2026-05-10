@@ -27,20 +27,18 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
       return authService.refresh().pipe(
         switchMap((res) => {
-          const { accessToken, refreshToken } = res.data;
-
-          authService.saveTokens(accessToken, refreshToken);
+          authService.storeUserAndTokens(res.data);
 
           const retryReq = req.clone({
             setHeaders: {
-              Authorization: `Bearer ${accessToken}`,
+              Authorization: `Bearer ${res.data.accessToken}`,
             },
           });
 
           return next(retryReq);
         }),
         catchError(() => {
-          authService.clearTokens();
+          authService.logout();
           return throwError(() => error);
         }),
       );

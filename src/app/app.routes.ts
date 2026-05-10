@@ -22,6 +22,11 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
+      },
+      {
         path: 'events',
         loadComponent: () =>
           import('./features/events/events.component').then((m) => m.EventsComponent),
@@ -40,7 +45,7 @@ export const routes: Routes = [
             (m) => m.CreateEventComponent,
           ),
       },
-      { path: '', redirectTo: 'events', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
 ];

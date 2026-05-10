@@ -18,3 +18,11 @@ export enum EventStatus {
   ACTIVE = 'ACTIVE',
   CANCELLED = 'CANCELLED',
 }
+
+export interface DashboardDTO {
+  totalEvents: number;
+  activeEvents: number;
+  cancelledEvents: number;
+  upcomingEvents: number;
+  recentEvents: EventDTO[];
+}
