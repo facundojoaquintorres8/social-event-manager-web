@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { LucideAngularModule, LogOut, Moon, Sun } from 'lucide-angular';
+import { LucideAngularModule, LogOut, Moon, Sun, Menu } from 'lucide-angular';
 import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
@@ -15,10 +15,12 @@ export class HeaderComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   readonly themeService = inject(ThemeService);
+  readonly mobileMenuOpen = signal(false);
 
   readonly Moon = Moon;
   readonly Sun = Sun;
   readonly LogOut = LogOut;
+  readonly Menu = Menu;
 
   logout(): void {
     this.authService.logout();

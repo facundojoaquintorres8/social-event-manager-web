@@ -4,12 +4,13 @@
   <div class="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
     <a
       routerLink="/dashboard"
+      (click)="mobileMenuOpen.set(false)"
       class="text-lg font-semibold text-gray-900 transition-colors hover:text-blue-600 dark:text-gray-100"
     >
       Social Event Manager
     </a>
 
-    <nav class="flex items-center gap-6">
+    <nav class="hidden items-center gap-6 md:flex">
       <div class="flex items-center gap-4">
         <a
           routerLink="/events"
@@ -43,5 +44,45 @@
         </button>
       </div>
     </nav>
+
+    <button
+      (click)="mobileMenuOpen.set(!mobileMenuOpen())"
+      class="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:bg-gray-100 md:hidden dark:border-gray-800 dark:bg-gray-900 dark:hover:bg-gray-800"
+    >
+      <lucide-icon [img]="Menu" class="h-5 w-5 text-gray-700 dark:text-gray-200"> </lucide-icon>
+    </button>
   </div>
+
+  @if (mobileMenuOpen()) {
+    <div
+      class="border-t border-gray-200 bg-white px-4 py-4 transition-all duration-200 md:hidden dark:border-gray-800 dark:bg-gray-900"
+    >
+      <div class="flex flex-col gap-2">
+        <a
+          routerLink="/events"
+          (click)="mobileMenuOpen.set(false)"
+          routerLinkActive="bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-400"
+          class="rounded-xl px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+        >
+          Events
+        </a>
+
+        <button
+          (click)="themeService.toggleTheme()"
+          class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+        >
+          <lucide-icon [img]="themeService.darkMode() ? Sun : Moon" class="h-4 w-4"> </lucide-icon>
+          Toggle theme
+        </button>
+
+        <button
+          (click)="mobileMenuOpen.set(false); logout()"
+          class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+        >
+          <lucide-icon [img]="LogOut" class="h-4 w-4"> </lucide-icon>
+          Logout
+        </button>
+      </div>
+    </div>
+  }
 </header>
