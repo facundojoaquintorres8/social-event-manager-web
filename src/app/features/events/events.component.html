@@ -1,5 +1,4 @@
 <div class="space-y-6 text-gray-900 transition-colors duration-300 dark:text-gray-100">
-  <!-- Top bar -->
   <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">My Events</h2>
 
@@ -12,7 +11,6 @@
     </button>
   </div>
 
-  <!-- Filters -->
   <form [formGroup]="filterForm">
     <div
       class="flex flex-col gap-3 rounded-xl border border-gray-200 bg-white p-4 sm:flex-row sm:flex-wrap dark:border-gray-800 dark:bg-gray-900"
@@ -47,7 +45,6 @@
     </div>
   </form>
 
-  <!-- Events list -->
   @if (error()) {
     <div
       class="rounded-lg bg-red-100 px-4 py-2 text-sm text-red-700 dark:bg-red-900/40 dark:text-red-300"
@@ -111,7 +108,6 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-2 sm:gap-3">
-              <!-- Status -->
               <span
                 class="rounded-full px-2 py-1 text-xs font-medium whitespace-nowrap"
                 [ngClass]="{
@@ -123,7 +119,6 @@
               </span>
 
               <div class="flex items-center gap-2">
-                <!-- Edit -->
                 <button
                   [routerLink]="['/events/edit', event.id]"
                   class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-700 active:scale-95 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
@@ -131,7 +126,6 @@
                   <lucide-icon title="Edit" [img]="Pencil" class="h-5 w-5"></lucide-icon>
                 </button>
 
-                <!-- Cancel -->
                 @if (event.status === EventStatus.ACTIVE) {
                   <button
                     (click)="openCancelModal(event.id)"
@@ -155,7 +149,6 @@
     </div>
   }
 
-  <!-- Pagination -->
   @if (totalPages() > 0) {
     <div class="flex flex-col items-center gap-3 pt-4 sm:flex-row sm:justify-between">
       <button
