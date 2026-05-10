@@ -9,6 +9,8 @@ import {
   CircleX,
   Clock,
   Plus,
+  ArrowRight,
+  CalendarDays,
 } from 'lucide-angular';
 import { EventsService } from '../../core/services/events.service';
 import { DashboardDTO } from '../../core/models/event.model';
@@ -32,6 +34,8 @@ export class DashboardComponent {
   readonly CircleX = CircleX;
   readonly Clock = Clock;
   readonly Plus = Plus;
+  readonly ArrowRight = ArrowRight;
+  readonly CalendarDays = CalendarDays;
 
   constructor() {
     this.loadDashboard();

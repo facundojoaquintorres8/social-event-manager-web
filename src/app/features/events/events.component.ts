@@ -9,7 +9,15 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideAngularModule, Plus, Pencil, X, ArrowRight, EllipsisVertical } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Plus,
+  Pencil,
+  X,
+  ArrowRight,
+  EllipsisVertical,
+  CalendarX2,
+} from 'lucide-angular';
 
 @Component({
   selector: 'app-events',
@@ -46,6 +54,7 @@ export class EventsComponent implements OnInit {
   readonly X = X;
   readonly ArrowRight = ArrowRight;
   readonly EllipsisVertical = EllipsisVertical;
+  readonly CalendarX2 = CalendarX2;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],

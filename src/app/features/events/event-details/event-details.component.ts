@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
@@ -15,6 +15,7 @@ import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
 export class EventDetailsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly eventsService = inject(EventsService);
+  private readonly location = inject(Location);
 
   readonly event = signal<EventDTO | null>(null);
   readonly loading = signal(true);
@@ -33,6 +34,10 @@ export class EventDetailsComponent implements OnInit {
     }
 
     this.loadEvent(eventId);
+  }
+
+  goBack(): void {
+    this.location.back();
   }
 
   private loadEvent(eventId: string): void {

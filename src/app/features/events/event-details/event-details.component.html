@@ -86,10 +86,10 @@
   }
 
   <a
-    routerLink="/events"
+    (click)="goBack()"
     class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 shadow-sm transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100"
   >
     <lucide-icon [img]="ArrowLeft" class="h-4 w-4"> </lucide-icon>
-    Back to events
+    Back
   </a>
 </div>
