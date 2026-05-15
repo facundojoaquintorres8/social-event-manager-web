@@ -1,11 +1,11 @@
-export interface RegisterRequestDTO {
+export interface RegisterRequest {
   firstName: string;
   lastName: string;
   email: string;
   password: string;
 }
 
-export interface RegisterResponseDTO {
+export interface RegisterResponse {
   accessToken: string;
   refreshToken: string;
   email: string;

@@ -1,9 +1,9 @@
-export interface AuthRequestDTO {
+export interface AuthRequest {
   email: string;
   password: string;
 }
 
-export interface AuthResponseDTO {
+export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   email: string;

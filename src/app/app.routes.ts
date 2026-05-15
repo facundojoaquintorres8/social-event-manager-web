@@ -52,6 +52,13 @@ export const routes: Routes = [
             (m) => m.EventDetailsComponent,
           ),
       },
+      {
+        path: 'invitations',
+        loadComponent: () =>
+          import('./features/events/invitations/invitations.component').then(
+            (m) => m.InvitationsComponent,
+          ),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

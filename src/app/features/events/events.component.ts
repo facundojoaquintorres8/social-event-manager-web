@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit, DestroyRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventsService } from '../../core/services/events.service';
-import { EventDTO, EventStatus } from '../../core/models/event.model';
+import { Event, EventStatus } from '../../core/models/event.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
@@ -39,7 +39,7 @@ export class EventsComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
 
-  readonly events = signal<EventDTO[]>([]);
+  readonly events = signal<Event[]>([]);
   readonly totalPages = signal(0);
   readonly currentPage = signal(0);
   readonly loading = signal(true);

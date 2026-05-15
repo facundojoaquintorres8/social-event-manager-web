@@ -3,7 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
-import { EventDTO, EventStatus } from '../../../core/models/event.model';
+import { Event, EventStatus } from '../../../core/models/event.model';
 import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
 
 @Component({
@@ -17,7 +17,7 @@ export class EventDetailsComponent implements OnInit {
   private readonly eventsService = inject(EventsService);
   private readonly location = inject(Location);
 
-  readonly event = signal<EventDTO | null>(null);
+  readonly event = signal<Event | null>(null);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
 

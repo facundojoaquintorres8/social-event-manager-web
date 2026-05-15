@@ -1,10 +1,10 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ApiResponseDTO } from '../models/api-response.model';
-import { AuthRequestDTO, AuthResponseDTO } from '../models/auth.model';
-import { RegisterRequestDTO, RegisterResponseDTO } from '../models/register.model';
-import { UserDTO } from '../models/user.model';
+import { ApiResponse } from '../models/api-response.model';
+import { AuthRequest, AuthResponse } from '../models/auth.model';
+import { RegisterRequest, RegisterResponse } from '../models/register.model';
+import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,31 +16,31 @@ export class AuthService {
 
   readonly accessToken = signal<string | null>(this.getStored('accessToken'));
   readonly refreshToken = signal<string | null>(this.getStored('refreshToken'));
-  readonly currentUser = signal<UserDTO | null>(this.getStoredUser());
+  readonly currentUser = signal<User | null>(this.getStoredUser());
 
   // ---------- AUTH ----------
-  register(payload: RegisterRequestDTO) {
-    return this.http.post<ApiResponseDTO<RegisterResponseDTO>>(`${this.apiUrl}/register`, payload);
+  register(payload: RegisterRequest) {
+    return this.http.post<ApiResponse<RegisterResponse>>(`${this.apiUrl}/register`, payload);
   }
 
-  login(payload: AuthRequestDTO) {
-    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(`${this.apiUrl}/login`, payload);
+  login(payload: AuthRequest) {
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/login`, payload);
   }
 
   refresh() {
-    return this.http.post<ApiResponseDTO<AuthResponseDTO>>(`${this.apiUrl}/refresh`, {
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/refresh`, {
       refreshToken: this.refreshToken(),
     });
   }
 
   // ---------- STORAGE ----------
 
-  storeUserAndTokens(response: RegisterResponseDTO): void {
+  storeUserAndTokens(response: RegisterResponse): void {
     const user = {
       email: response.email,
       firstName: response.firstName,
       lastName: response.lastName,
-    } as UserDTO;
+    } as User;
 
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
@@ -70,8 +70,8 @@ export class AuthService {
     return value && value !== 'null' ? value : null;
   }
 
-  private getStoredUser(): UserDTO | null {
+  private getStoredUser(): User | null {
     const user = localStorage.getItem('currentUser');
-    return user ? (JSON.parse(user) as UserDTO) : null;
+    return user ? (JSON.parse(user) as User) : null;
   }
 }

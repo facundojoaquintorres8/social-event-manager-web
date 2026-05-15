@@ -1,9 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { ApiResponseDTO } from '../models/api-response.model';
-import { CreateEventRequestDTO, DashboardDTO, EventDTO } from '../models/event.model';
-import { PageDTO } from '../models/page.model';
+import { ApiResponse } from '../models/api-response.model';
+import {
+  CreateEventRequest,
+  Dashboard,
+  Event,
+  Invitation,
+  InvitationStatus,
+} from '../models/event.model';
+import { Page } from '../models/page.model';
 
 @Injectable({
   providedIn: 'root',
@@ -40,10 +46,10 @@ export class EventsService {
     if (toDate) url += `&toDate=${toDate}`;
     if (status) url += `&status=${status}`;
 
-    return this.http.get<ApiResponseDTO<PageDTO<EventDTO>>>(url);
+    return this.http.get<ApiResponse<Page<Event>>>(url);
   }
 
-  createEvent(data: CreateEventRequestDTO) {
+  createEvent(data: CreateEventRequest) {
     return this.http.post(`${this.apiUrl}`, data);
   }
 
@@ -51,15 +57,30 @@ export class EventsService {
     return this.http.put(`${this.apiUrl}/${eventId}/cancel`, {});
   }
 
-  updateEvent(eventId: string, payload: CreateEventRequestDTO) {
+  updateEvent(eventId: string, payload: CreateEventRequest) {
     return this.http.put(`${this.apiUrl}/${eventId}`, payload);
   }
 
   getEventById(eventId: string) {
-    return this.http.get<ApiResponseDTO<EventDTO>>(`${this.apiUrl}/${eventId}`);
+    return this.http.get<ApiResponse<Event>>(`${this.apiUrl}/${eventId}`);
   }
 
   getDashboard() {
-    return this.http.get<ApiResponseDTO<DashboardDTO>>(`${this.apiUrl}/dashboard`);
+    return this.http.get<ApiResponse<Dashboard>>(`${this.apiUrl}/dashboard`);
+  }
+
+  getMyInvitations(page = 0) {
+    return this.http.get<ApiResponse<Page<Invitation>>>(`${this.apiUrl}/invitations`, {
+      params: {
+        page,
+        size: 10,
+      },
+    });
+  }
+
+  updateInvitationStatus(invitationId: string, status: InvitationStatus) {
+    return this.http.put<ApiResponse<void>>(`${this.apiUrl}/invitations/${invitationId}`, {
+      status,
+    });
   }
 }

@@ -13,7 +13,7 @@ import {
   CalendarDays,
 } from 'lucide-angular';
 import { EventsService } from '../../core/services/events.service';
-import { DashboardDTO } from '../../core/models/event.model';
+import { Dashboard } from '../../core/models/event.model';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({
@@ -27,7 +27,7 @@ export class DashboardComponent {
   readonly authService = inject(AuthService);
 
   readonly loading = signal(true);
-  readonly dashboard = signal<DashboardDTO | null>(null);
+  readonly dashboard = signal<Dashboard | null>(null);
 
   readonly Calendar = Calendar;
   readonly CircleCheckBig = CircleCheckBig;
