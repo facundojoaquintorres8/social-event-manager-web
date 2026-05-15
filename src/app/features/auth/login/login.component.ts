@@ -4,7 +4,6 @@ import { AuthService } from '../../../core/services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
-import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 
 @Component({
@@ -17,7 +16,6 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
-  private readonly toastService = inject(ToastService);
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -45,7 +43,6 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         },
         error: () => {
-          this.toastService.show('Invalid credentials', 'error');
           this.loading.set(false);
         },
       });

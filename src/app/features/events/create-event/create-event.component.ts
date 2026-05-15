@@ -1,9 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../../core/services/toast.service';
 import { Location } from '@angular/common';
 
@@ -13,7 +12,7 @@ import { Location } from '@angular/common';
   imports: [ReactiveFormsModule],
   templateUrl: './create-event.component.html',
 })
-export class CreateEventComponent {
+export class CreateEventComponent implements OnInit {
   private readonly fb = inject(FormBuilder);
   private readonly eventsService = inject(EventsService);
   private readonly route = inject(ActivatedRoute);
@@ -69,13 +68,6 @@ export class CreateEventComponent {
         this.toastService.show(this.isEditMode() ? 'Event updated' : 'Event created');
         this.goBack();
       },
-      error: (err: HttpErrorResponse) => {
-        if (err.status === 400 && err.error?.message) {
-          this.toastService.show(err.error.message, 'error');
-          return;
-        }
-        this.toastService.show('Unexpected error occurred', 'error');
-      },
     });
   }
 
@@ -95,13 +87,6 @@ export class CreateEventComponent {
             location: event.location,
             eventDate: this.formatForInput(event.eventDate),
           });
-        },
-        error: (err: HttpErrorResponse) => {
-          if (err.status === 400 && err.error?.message) {
-            this.toastService.show(err.error.message, 'error');
-            return;
-          }
-          this.toastService.show('Unexpected error occurred', 'error');
         },
       });
   }

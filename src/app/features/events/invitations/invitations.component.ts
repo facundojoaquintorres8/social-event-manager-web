@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { EventsService } from '../../../core/services/events.service';
 import { Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
-import { HttpErrorResponse } from '@angular/common/http';
 import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
 
 @Component({
@@ -40,12 +39,8 @@ export class InvitationsComponent implements OnInit {
         this.invitations.set(response.data.content);
         this.loading.set(false);
       },
-      error: (err: HttpErrorResponse) => {
-        if (err.status === 400 && err.error?.message) {
-          this.toastService.show(err.error.message, 'error');
-          return;
-        }
-        this.toastService.show('Unexpected error occurred', 'error');
+      error: () => {
+        this.loading.set(false);
       },
     });
   }
@@ -70,13 +65,7 @@ export class InvitationsComponent implements OnInit {
 
         this.actionLoading.set(null);
       },
-      error: (err: HttpErrorResponse) => {
-        if (err.status === 400 && err.error?.message) {
-          this.toastService.show(err.error.message, 'error');
-        } else {
-          this.toastService.show('Unexpected error occurred', 'error');
-        }
-
+      error: () => {
         this.actionLoading.set(null);
       },
     });

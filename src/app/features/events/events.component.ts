@@ -5,7 +5,6 @@ import { Event, EventStatus } from '../../core/models/event.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
-import { HttpErrorResponse } from '@angular/common/http';
 import { ToastService } from '../../core/services/toast.service';
 import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -122,13 +121,6 @@ export class EventsComponent implements OnInit {
             events.map((e) => (e.id === eventId ? { ...e, status: EventStatus.CANCELLED } : e)),
           );
         },
-        error: (err: HttpErrorResponse) => {
-          if (err.status === 400 && err.error?.message) {
-            this.toastService.show(err.error.message, 'error');
-            return;
-          }
-          this.toastService.show('Unexpected error occurred', 'error');
-        },
       });
   }
 
@@ -219,7 +211,6 @@ export class EventsComponent implements OnInit {
           this.currentPage.set(pageData.number);
         },
         error: () => {
-          this.toastService.show('Error loading events', 'error');
           this.error.set('Error loading events');
         },
       });

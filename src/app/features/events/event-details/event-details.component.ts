@@ -12,7 +12,6 @@ import {
 import { LucideAngularModule, Trash2, ArrowLeft } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-event-details',
@@ -62,8 +61,7 @@ export class EventDetailsComponent implements OnInit {
         this.inviteModal?.resetLoading();
         this.loadParticipants();
       },
-      error: (err) => {
-        this.toastService.show(err.error?.message ?? 'Failed to invite user', 'error');
+      error: () => {
         this.inviteModal?.resetLoading();
       },
     });
@@ -85,8 +83,7 @@ export class EventDetailsComponent implements OnInit {
 
         this.removingParticipant.set(null);
       },
-      error: (err: HttpErrorResponse) => {
-        this.toastService.show(err.error?.message ?? 'Failed to remove participant', 'error');
+      error: () => {
         this.removingParticipant.set(null);
       },
     });

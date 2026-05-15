@@ -3,8 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
-
-import { HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
@@ -61,13 +59,6 @@ export class RegisterComponent {
           this.authService.storeUserAndTokens(res.data);
           this.toastService.show('Account created successfully');
           this.router.navigate(['/dashboard']);
-        },
-        error: (err: HttpErrorResponse) => {
-          if (err.status === 400 && err.error?.message) {
-            this.error.set(err.error.message);
-            return;
-          }
-          this.error.set('Unexpected error occurred');
         },
       });
   }
