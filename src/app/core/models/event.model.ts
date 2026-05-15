@@ -44,3 +44,10 @@ export enum InvitationStatus {
   REJECTED = 'REJECTED',
   CANCELLED = 'CANCELLED',
 }
+
+export interface EventParticipant {
+  firstName: string;
+  lastName: string;
+  email: string;
+  status: InvitationStatus;
+}

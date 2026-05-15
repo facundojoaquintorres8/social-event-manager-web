@@ -3,10 +3,16 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
-import { Event, EventStatus } from '../../../core/models/event.model';
-import { ArrowLeft, LucideAngularModule } from 'lucide-angular';
+import {
+  Event,
+  EventParticipant,
+  EventStatus,
+  InvitationStatus,
+} from '../../../core/models/event.model';
+import { LucideAngularModule, Trash2, ArrowLeft } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-event-details',
@@ -27,8 +33,13 @@ export class EventDetailsComponent implements OnInit {
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly inviteModalOpen = signal(false);
+  readonly participants = signal<EventParticipant[]>([]);
+  readonly participantsLoading = signal(false);
+  readonly removingParticipant = signal<string | null>(null);
 
   readonly EventStatus = EventStatus;
+  readonly InvitationStatus = InvitationStatus;
+  readonly Trash2 = Trash2;
   readonly ArrowLeft = ArrowLeft;
 
   ngOnInit(): void {
@@ -49,10 +60,34 @@ export class EventDetailsComponent implements OnInit {
         this.toastService.show('Invitation sent successfully', 'success');
         this.inviteModalOpen.set(false);
         this.inviteModal?.resetLoading();
+        this.loadParticipants();
       },
       error: (err) => {
         this.toastService.show(err.error?.message ?? 'Failed to invite user', 'error');
         this.inviteModal?.resetLoading();
+      },
+    });
+  }
+
+  removeParticipant(email: string) {
+    const currentEvent = this.event();
+    if (!currentEvent) return;
+
+    this.removingParticipant.set(email);
+
+    this.eventsService.removeInvitation(currentEvent.id, email).subscribe({
+      next: () => {
+        this.toastService.show('Participant removed successfully', 'success');
+
+        this.participants.update((participants) =>
+          participants.filter((participant) => participant.email !== email),
+        );
+
+        this.removingParticipant.set(null);
+      },
+      error: (err: HttpErrorResponse) => {
+        this.toastService.show(err.error?.message ?? 'Failed to remove participant', 'error');
+        this.removingParticipant.set(null);
       },
     });
   }
@@ -70,10 +105,30 @@ export class EventDetailsComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.event.set(res.data);
+          this.loadParticipants();
         },
         error: () => {
           this.error.set('Error loading event');
         },
       });
+  }
+
+  private loadParticipants(): void {
+    const currentEvent = this.event();
+
+    if (!currentEvent) return;
+
+    this.participantsLoading.set(true);
+
+    this.eventsService.getParticipants(currentEvent.id).subscribe({
+      next: (response) => {
+        this.participants.set(response.data.content);
+        this.participantsLoading.set(false);
+      },
+      error: () => {
+        this.participantsLoading.set(false);
+        this.toastService.show('Failed to load participants', 'error');
+      },
+    });
   }
 }
