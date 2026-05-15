@@ -27,9 +27,9 @@ export const routes: Routes = [
           import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
       },
       {
-        path: 'events',
+        path: 'workspace',
         loadComponent: () =>
-          import('./features/events/events.component').then((m) => m.EventsComponent),
+          import('./features/workspace/workspace.component').then((m) => m.WorkspaceComponent),
       },
       {
         path: 'events/create',
@@ -50,13 +50,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/events/event-details/event-details.component').then(
             (m) => m.EventDetailsComponent,
-          ),
-      },
-      {
-        path: 'invitations',
-        loadComponent: () =>
-          import('./features/events/invitations/invitations.component').then(
-            (m) => m.InvitationsComponent,
           ),
       },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
