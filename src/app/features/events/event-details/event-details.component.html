@@ -43,12 +43,21 @@
           </p>
         </div>
 
-        <button
-          [routerLink]="['/events/edit', event.id]"
-          class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700"
-        >
-          Edit Event
-        </button>
+        <div class="flex flex-wrap items-center gap-3">
+          <button
+            [routerLink]="['/events/edit', event.id]"
+            class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
+          >
+            Edit Event
+          </button>
+
+          <button
+            (click)="inviteModalOpen.set(true)"
+            class="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+          >
+            Invite User
+          </button>
+        </div>
       </div>
     </div>
 
@@ -85,11 +94,17 @@
     </div>
   }
 
-  <a
+  <button
     (click)="goBack()"
     class="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 shadow-sm transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100"
   >
     <lucide-icon [img]="ArrowLeft" class="h-4 w-4"> </lucide-icon>
     Back
-  </a>
+  </button>
 </div>
+<app-invite-user-modal
+  [open]="inviteModalOpen()"
+  (close)="inviteModalOpen.set(false)"
+  (invite)="inviteUser($event)"
+>
+</app-invite-user-modal>

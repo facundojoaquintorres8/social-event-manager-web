@@ -78,6 +78,12 @@ export class EventsService {
     });
   }
 
+  inviteUser(eventId: string, email: string) {
+    return this.http.post<ApiResponse<void>>(`${this.apiUrl}/${eventId}/invite`, {
+      email,
+    });
+  }
+
   updateInvitationStatus(invitationId: string, status: InvitationStatus) {
     return this.http.put<ApiResponse<void>>(`${this.apiUrl}/invitations/${invitationId}`, {
       status,
