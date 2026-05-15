@@ -102,4 +102,13 @@ export class EventsService {
       status,
     });
   }
+
+  getAttendingEvents(page = 0, size = 10) {
+    return this.http.get<ApiResponse<Page<Event>>>(`${this.apiUrl}/attending`, {
+      params: {
+        page,
+        size,
+      },
+    });
+  }
 }
