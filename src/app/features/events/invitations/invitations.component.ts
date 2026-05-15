@@ -4,11 +4,12 @@ import { EventsService } from '../../../core/services/events.service';
 import { Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
 
 @Component({
   selector: 'app-invitations',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LucideAngularModule],
   templateUrl: './invitations.component.html',
 })
 export class InvitationsComponent implements OnInit {
@@ -17,8 +18,15 @@ export class InvitationsComponent implements OnInit {
 
   invitations = signal<Invitation[]>([]);
   loading = signal(true);
+  actionLoading = signal<string | null>(null);
 
   readonly InvitationStatus = InvitationStatus;
+  readonly Calendar = Calendar;
+  readonly MapPin = MapPin;
+  readonly User = User;
+  readonly Check = Check;
+  readonly X = X;
+  readonly Inbox = Inbox;
 
   ngOnInit(): void {
     this.loadInvitations();
@@ -43,6 +51,8 @@ export class InvitationsComponent implements OnInit {
   }
 
   updateStatus(invitationId: string, status: InvitationStatus) {
+    this.actionLoading.set(invitationId);
+
     this.eventService.updateInvitationStatus(invitationId, status).subscribe({
       next: () => {
         this.invitations.update((invitations) =>
@@ -57,13 +67,17 @@ export class InvitationsComponent implements OnInit {
         );
 
         this.toastService.show(`Invitation ${status.toLowerCase()} successfully`, 'success');
+
+        this.actionLoading.set(null);
       },
       error: (err: HttpErrorResponse) => {
         if (err.status === 400 && err.error?.message) {
           this.toastService.show(err.error.message, 'error');
-          return;
+        } else {
+          this.toastService.show('Unexpected error occurred', 'error');
         }
-        this.toastService.show('Unexpected error occurred', 'error');
+
+        this.actionLoading.set(null);
       },
     });
   }
