@@ -40,12 +40,10 @@
           Location
         </label>
 
-        <input
-          type="text"
-          formControlName="location"
-          placeholder="e.g. Buenos Aires"
-          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm transition-colors focus:border-blue-500 focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
-        />
+        <app-location-autocomplete
+          [initialValue]="form.get('location')?.value ?? ''"
+          (locationSelected)="form.patchValue({ location: $event })"
+        ></app-location-autocomplete>
 
         @if (form.controls.location.touched && form.controls.location.invalid) {
           <p class="mt-1 text-xs text-red-500 dark:text-red-400">Location is required</p>

@@ -5,11 +5,12 @@ import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { Location } from '@angular/common';
+import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, LocationAutocompleteComponent],
   templateUrl: './create-event.component.html',
 })
 export class CreateEventComponent implements OnInit {
