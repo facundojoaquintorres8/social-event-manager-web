@@ -4,6 +4,10 @@ export interface Event {
   description: string;
   eventDate: string;
   location: string;
+  locationAddress: string;
+  placeId: string;
+  latitude: number;
+  longitude: number;
   createdBy: string;
   status: EventStatus;
 }
@@ -13,6 +17,10 @@ export interface CreateEventRequest {
   description?: string;
   eventDate: string;
   location: string;
+  locationAddress: string;
+  placeId: string;
+  latitude: number;
+  longitude: number;
 }
 
 export enum EventStatus {
@@ -34,6 +42,10 @@ export interface Invitation {
   title: string;
   eventDate: string;
   location: string;
+  locationAddress: string;
+  placeId: string;
+  latitude: number;
+  longitude: number;
   invitedBy: string;
   status: InvitationStatus;
 }

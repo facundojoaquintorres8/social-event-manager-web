@@ -4,6 +4,7 @@ import { EventsService } from '../../../core/services/events.service';
 import { Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
+import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 
 @Component({
   selector: 'app-invitations',
@@ -26,6 +27,8 @@ export class InvitationsComponent implements OnInit {
   readonly Check = Check;
   readonly X = X;
   readonly Inbox = Inbox;
+
+  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   ngOnInit(): void {
     this.loadInvitations();

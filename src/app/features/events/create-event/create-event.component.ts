@@ -6,6 +6,7 @@ import { EventsService } from '../../../core/services/events.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { Location } from '@angular/common';
 import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
+import { SelectedLocation } from '../../../core/models/location.model';
 
 @Component({
   selector: 'app-create-event',
@@ -28,6 +29,10 @@ export class CreateEventComponent implements OnInit {
     title: ['', [Validators.required]],
     description: [''],
     location: ['', [Validators.required]],
+    locationAddress: ['', Validators.required],
+    placeId: ['', Validators.required],
+    latitude: [0, Validators.required],
+    longitude: [0, Validators.required],
     eventDate: ['', [Validators.required]],
   });
 
@@ -39,6 +44,16 @@ export class CreateEventComponent implements OnInit {
       this.eventId.set(id);
       this.loadEvent(id);
     }
+  }
+
+  onLocationSelected(location: SelectedLocation) {
+    this.form.patchValue({
+      location: location.location,
+      locationAddress: location.locationAddress,
+      placeId: location.placeId,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    });
   }
 
   goBack(): void {
@@ -86,6 +101,10 @@ export class CreateEventComponent implements OnInit {
             title: event.title,
             description: event.description,
             location: event.location,
+            locationAddress: event.locationAddress,
+            placeId: event.placeId,
+            latitude: event.latitude,
+            longitude: event.longitude,
             eventDate: this.formatForInput(event.eventDate),
           });
         },

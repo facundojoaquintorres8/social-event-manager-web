@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EventsService } from '../../../core/services/events.service';
 import { Event } from '../../../core/models/event.model';
+import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 
 @Component({
   selector: 'app-attending-events',
@@ -15,6 +16,8 @@ export class AttendingEventsComponent implements OnInit {
 
   events = signal<Event[]>([]);
   loading = signal(true);
+
+  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   ngOnInit(): void {
     this.loadEvents();

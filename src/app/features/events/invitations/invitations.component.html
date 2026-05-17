@@ -91,9 +91,15 @@
                     <div class="flex items-center gap-2">
                       <lucide-icon [img]="MapPin" class="h-4 w-4"></lucide-icon>
 
-                      <span>
+                      <a
+                        [href]="buildGoogleMapsUrl(invitation.latitude, invitation.longitude)"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        (click)="$event.stopPropagation()"
+                        class="text-blue-600 transition-colors hover:underline dark:text-blue-400"
+                      >
                         {{ invitation.location }}
-                      </span>
+                      </a>
                     </div>
 
                     <div class="flex items-center gap-2">

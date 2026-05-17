@@ -41,8 +41,8 @@
         </label>
 
         <app-location-autocomplete
-          [initialValue]="form.get('location')?.value ?? ''"
-          (locationSelected)="form.patchValue({ location: $event })"
+          [initialValue]="form.get('locationAddress')?.value ?? ''"
+          (locationSelected)="onLocationSelected($event)"
         ></app-location-autocomplete>
 
         @if (form.controls.location.touched && form.controls.location.invalid) {

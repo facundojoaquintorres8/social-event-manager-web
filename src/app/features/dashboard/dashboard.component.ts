@@ -15,6 +15,7 @@ import {
 import { EventsService } from '../../core/services/events.service';
 import { Dashboard } from '../../core/models/event.model';
 import { AuthService } from '../../core/services/auth.service';
+import { buildGoogleMapsUrl } from '../../shared/utils/maps.utils';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,6 +37,8 @@ export class DashboardComponent {
   readonly Plus = Plus;
   readonly ArrowRight = ArrowRight;
   readonly CalendarDays = CalendarDays;
+
+  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   constructor() {
     this.loadDashboard();

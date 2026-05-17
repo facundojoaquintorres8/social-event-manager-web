@@ -12,6 +12,7 @@ import {
 import { LucideAngularModule, Trash2, ArrowLeft } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
+import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 
 @Component({
   selector: 'app-event-details',
@@ -40,6 +41,8 @@ export class EventDetailsComponent implements OnInit {
   readonly InvitationStatus = InvitationStatus;
   readonly Trash2 = Trash2;
   readonly ArrowLeft = ArrowLeft;
+
+  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   ngOnInit(): void {
     const eventId = this.route.snapshot.paramMap.get('id');
