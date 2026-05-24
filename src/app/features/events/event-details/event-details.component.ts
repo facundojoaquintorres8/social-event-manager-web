@@ -1,13 +1,19 @@
-import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
-import { EventFull, EventStatus, InvitationStatus } from '../../../core/models/event.model';
+import {
+  EventFull,
+  EventParticipant,
+  EventStatus,
+  InvitationStatus,
+} from '../../../core/models/event.model';
 import { LucideAngularModule, Trash2, ArrowLeft } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-event-details',
@@ -23,12 +29,14 @@ export class EventDetailsComponent implements OnInit {
   private readonly eventsService = inject(EventsService);
   private readonly toastService = inject(ToastService);
   private readonly location = inject(Location);
+  private readonly authService = inject(AuthService);
 
   readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly inviteModalOpen = signal(false);
   readonly removingParticipant = signal<string | null>(null);
+  readonly updatingInvitationStatus = signal<InvitationStatus | null>(null);
 
   readonly EventStatus = EventStatus;
   readonly InvitationStatus = InvitationStatus;
@@ -36,6 +44,22 @@ export class EventDetailsComponent implements OnInit {
   readonly ArrowLeft = ArrowLeft;
 
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
+
+  currentUserParticipant = computed<EventParticipant | null>(() => {
+    const currentEvent = this.event();
+
+    const currentUser = this.authService.currentUser();
+
+    if (!currentEvent || !currentUser || currentEvent.owner) {
+      return null;
+    }
+
+    return (
+      currentEvent.participants.find(
+        (participant) => participant.email.toLowerCase() === currentUser.email.toLowerCase(),
+      ) ?? null
+    );
+  });
 
   ngOnInit(): void {
     const eventId = this.route.snapshot.paramMap.get('id');
@@ -96,6 +120,48 @@ export class EventDetailsComponent implements OnInit {
       });
   }
 
+  acceptInvitation() {
+    const currentEvent = this.event();
+
+    if (!currentEvent) return;
+
+    this.updatingInvitationStatus.set(InvitationStatus.ACCEPTED);
+
+    this.eventsService
+      .updateInvitationStatus(currentEvent.id, InvitationStatus.ACCEPTED)
+      .subscribe({
+        next: () => {
+          this.refreshEvent(currentEvent.id);
+
+          this.toastService.show('Invitation accepted successfully', 'success');
+        },
+        error: () => {
+          this.updatingInvitationStatus.set(null);
+        },
+      });
+  }
+
+  rejectInvitation() {
+    const currentEvent = this.event();
+
+    if (!currentEvent) return;
+
+    this.updatingInvitationStatus.set(InvitationStatus.REJECTED);
+
+    this.eventsService
+      .updateInvitationStatus(currentEvent.id, InvitationStatus.REJECTED)
+      .subscribe({
+        next: () => {
+          this.refreshEvent(currentEvent.id);
+
+          this.toastService.show('Invitation rejected successfully', 'success');
+        },
+        error: () => {
+          this.updatingInvitationStatus.set(null);
+        },
+      });
+  }
+
   goBack(): void {
     this.location.back();
   }
@@ -117,13 +183,16 @@ export class EventDetailsComponent implements OnInit {
   }
 
   private refreshEvent(eventId: string): void {
-    this.eventsService.getFullEventById(eventId).subscribe({
-      next: (res) => {
-        this.event.set(res.data);
-      },
-      error: () => {
-        this.toastService.show('Error refreshing event', 'error');
-      },
-    });
+    this.eventsService
+      .getFullEventById(eventId)
+      .pipe(finalize(() => this.updatingInvitationStatus.set(null)))
+      .subscribe({
+        next: (res) => {
+          this.event.set(res.data);
+        },
+        error: () => {
+          this.toastService.show('Error refreshing event', 'error');
+        },
+      });
   }
 }

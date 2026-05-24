@@ -112,17 +112,20 @@
               </div>
             </div>
 
-            @if (
-              invitation.status === InvitationStatus.PENDING &&
-              invitation.eventStatus !== EventStatus.CANCELLED
-            ) {
+            @if (invitation.eventStatus !== EventStatus.CANCELLED) {
               <div class="flex flex-col gap-2 sm:flex-row">
                 <button
-                  (click)="updateStatus(invitation.invitationId, InvitationStatus.ACCEPTED)"
-                  [disabled]="actionLoading() === invitation.invitationId"
-                  class="flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-green-700 active:scale-95 disabled:opacity-50"
+                  (click)="updateStatus(invitation, InvitationStatus.ACCEPTED)"
+                  [disabled]="
+                    actionLoading()?.invitationId === invitation.invitationId ||
+                    invitation.status === InvitationStatus.ACCEPTED
+                  "
+                  class="flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-green-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-green-600"
                 >
-                  @if (actionLoading() === invitation.invitationId) {
+                  @if (
+                    actionLoading()?.invitationId === invitation.invitationId &&
+                    actionLoading()?.status === InvitationStatus.ACCEPTED
+                  ) {
                     <span
                       class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
                     ></span>
@@ -134,11 +137,23 @@
                 </button>
 
                 <button
-                  (click)="updateStatus(invitation.invitationId, InvitationStatus.REJECTED)"
-                  [disabled]="actionLoading() === invitation.invitationId"
-                  class="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+                  (click)="updateStatus(invitation, InvitationStatus.REJECTED)"
+                  [disabled]="
+                    actionLoading()?.invitationId === invitation.invitationId ||
+                    invitation.status === InvitationStatus.REJECTED
+                  "
+                  class="flex items-center justify-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-white dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700 dark:disabled:hover:bg-gray-800"
                 >
-                  <lucide-icon [img]="X" class="h-4 w-4"></lucide-icon>
+                  @if (
+                    actionLoading()?.invitationId === invitation.invitationId &&
+                    actionLoading()?.status === InvitationStatus.REJECTED
+                  ) {
+                    <span
+                      class="h-4 w-4 animate-spin rounded-full border-2 border-gray-500 border-t-transparent"
+                    ></span>
+                  } @else {
+                    <lucide-icon [img]="X" class="h-4 w-4"></lucide-icon>
+                  }
 
                   Reject
                 </button>

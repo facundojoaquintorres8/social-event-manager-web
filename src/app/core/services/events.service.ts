@@ -110,8 +110,8 @@ export class EventsService {
     });
   }
 
-  updateInvitationStatus(invitationId: string, status: InvitationStatus) {
-    return this.http.put<ApiResponse<void>>(`${this.apiUrl}/invitations/${invitationId}`, {
+  updateInvitationStatus(eventId: string, status: InvitationStatus) {
+    return this.http.put<ApiResponse<void>>(`${this.apiUrl}/${eventId}/invitations`, {
       status,
     });
   }

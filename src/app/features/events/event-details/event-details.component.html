@@ -59,6 +59,44 @@
               Invite User
             </button>
           }
+
+          @if (!event.owner && event.status !== EventStatus.CANCELLED) {
+            <div class="flex flex-wrap items-center gap-3">
+              <button
+                (click)="acceptInvitation()"
+                [disabled]="
+                  currentUserParticipant()?.status === InvitationStatus.ACCEPTED ||
+                  updatingInvitationStatus() !== null
+                "
+                class="flex items-center justify-center gap-2 rounded-xl bg-green-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-green-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-green-600"
+              >
+                @if (updatingInvitationStatus() === InvitationStatus.ACCEPTED) {
+                  <span
+                    class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                  ></span>
+                } @else {
+                  Accept
+                }
+              </button>
+
+              <button
+                (click)="rejectInvitation()"
+                [disabled]="
+                  currentUserParticipant()?.status === InvitationStatus.REJECTED ||
+                  updatingInvitationStatus() !== null
+                "
+                class="flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-red-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-red-600"
+              >
+                @if (updatingInvitationStatus() === InvitationStatus.REJECTED) {
+                  <span
+                    class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+                  ></span>
+                } @else {
+                  Reject
+                }
+              </button>
+            </div>
+          }
         </div>
       </div>
     </div>

@@ -18,7 +18,7 @@ export class InvitationsComponent implements OnInit {
 
   invitations = signal<Invitation[]>([]);
   loading = signal(true);
-  actionLoading = signal<string | null>(null);
+  actionLoading = signal<{ invitationId: string; status: InvitationStatus } | null>(null);
 
   readonly InvitationStatus = InvitationStatus;
   readonly EventStatus = EventStatus;
@@ -49,19 +49,22 @@ export class InvitationsComponent implements OnInit {
     });
   }
 
-  updateStatus(invitationId: string, status: InvitationStatus) {
-    this.actionLoading.set(invitationId);
+  updateStatus(invitation: Invitation, status: InvitationStatus) {
+    this.actionLoading.set({
+      invitationId: invitation.invitationId,
+      status,
+    });
 
-    this.eventService.updateInvitationStatus(invitationId, status).subscribe({
+    this.eventService.updateInvitationStatus(invitation.eventId, status).subscribe({
       next: () => {
         this.invitations.update((invitations) =>
-          invitations.map((invitation) =>
-            invitation.invitationId === invitationId
+          invitations.map((inv) =>
+            inv.invitationId === invitation.invitationId
               ? {
-                  ...invitation,
+                  ...inv,
                   status,
                 }
-              : invitation,
+              : inv,
           ),
         );
 
