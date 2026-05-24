@@ -1,10 +1,10 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventsService } from '../../../core/services/events.service';
 import { EventStatus, Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import { InvitationsService } from '../../../core/services/invitations.service';
 
 @Component({
   selector: 'app-invitations',
@@ -13,7 +13,7 @@ import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
   templateUrl: './invitations.component.html',
 })
 export class InvitationsComponent implements OnInit {
-  private readonly eventService = inject(EventsService);
+  private readonly invitationService = inject(InvitationsService);
   private readonly toastService = inject(ToastService);
 
   invitations = signal<Invitation[]>([]);
@@ -38,7 +38,7 @@ export class InvitationsComponent implements OnInit {
   loadInvitations() {
     this.loading.set(true);
 
-    this.eventService.getMyInvitations().subscribe({
+    this.invitationService.getMyInvitations().subscribe({
       next: (response) => {
         this.invitations.set(response.data.content);
         this.loading.set(false);
@@ -55,7 +55,7 @@ export class InvitationsComponent implements OnInit {
       status,
     });
 
-    this.eventService.updateInvitationStatus(invitation.eventId, status).subscribe({
+    this.invitationService.updateInvitationStatus(invitation.eventId, status).subscribe({
       next: () => {
         this.invitations.update((invitations) =>
           invitations.map((inv) =>

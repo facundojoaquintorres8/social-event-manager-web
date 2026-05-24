@@ -67,7 +67,8 @@ export interface EventParticipant {
   firstName: string;
   lastName: string;
   email: string;
-  status: InvitationStatus;
+  status: string;
+  external: boolean;
 }
 
 export interface CalendarEvent {

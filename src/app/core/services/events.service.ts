@@ -8,8 +8,6 @@ import {
   Dashboard,
   Event,
   EventFull,
-  Invitation,
-  InvitationStatus,
 } from '../models/event.model';
 import { Page } from '../models/page.model';
 
@@ -89,30 +87,9 @@ export class EventsService {
     return this.http.get<ApiResponse<Dashboard>>(`${this.apiUrl}/dashboard`);
   }
 
-  getMyInvitations(page = 0) {
-    return this.http.get<ApiResponse<Page<Invitation>>>(`${this.apiUrl}/invitations`, {
-      params: {
-        page,
-        size: 10,
-      },
-    });
-  }
-
   inviteUser(eventId: string, email: string) {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/${eventId}/invite`, {
       email,
-    });
-  }
-
-  removeInvitation(eventId: string, email: string) {
-    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${eventId}/invite`, {
-      body: { email },
-    });
-  }
-
-  updateInvitationStatus(eventId: string, status: InvitationStatus) {
-    return this.http.put<ApiResponse<void>>(`${this.apiUrl}/${eventId}/invitations`, {
-      status,
     });
   }
 

@@ -14,6 +14,8 @@ import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 import { AuthService } from '../../../core/services/auth.service';
+import { InvitationsService } from '../../../core/services/invitations.service';
+import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
 
 @Component({
   selector: 'app-event-details',
@@ -30,6 +32,8 @@ export class EventDetailsComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly location = inject(Location);
   private readonly authService = inject(AuthService);
+  private readonly invitationService = inject(InvitationsService);
+  private readonly externalInvitationService = inject(ExternalInvitationsService);
 
   readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
@@ -94,30 +98,50 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
-  removeParticipant(email: string) {
+  removeParticipant(participant: EventParticipant) {
     const currentEvent = this.event();
 
     if (!currentEvent) return;
 
-    this.removingParticipant.set(email);
+    this.removingParticipant.set(participant.email);
 
-    this.eventsService
-      .removeInvitation(currentEvent.id, email)
-      .pipe(finalize(() => this.removingParticipant.set(null)))
-      .subscribe({
-        next: () => {
-          this.toastService.show('Participant removed successfully', 'success');
+    if (participant.external) {
+      this.externalInvitationService
+        .removeInvitation(currentEvent.id, participant.email)
+        .pipe(finalize(() => this.removingParticipant.set(null)))
+        .subscribe({
+          next: () => {
+            this.toastService.show('Participant removed successfully', 'success');
 
-          this.event.update((event) => {
-            if (!event) return event;
+            this.event.update((event) => {
+              if (!event) return event;
 
-            return {
-              ...event,
-              participants: event.participants.filter((participant) => participant.email !== email),
-            };
-          });
-        },
-      });
+              return {
+                ...event,
+                participants: event.participants.filter((p) => p.email !== participant.email),
+              };
+            });
+          },
+        });
+    } else {
+      this.invitationService
+        .removeInvitation(currentEvent.id, participant.email)
+        .pipe(finalize(() => this.removingParticipant.set(null)))
+        .subscribe({
+          next: () => {
+            this.toastService.show('Participant removed successfully', 'success');
+
+            this.event.update((event) => {
+              if (!event) return event;
+
+              return {
+                ...event,
+                participants: event.participants.filter((p) => p.email !== participant.email),
+              };
+            });
+          },
+        });
+    }
   }
 
   acceptInvitation() {
@@ -127,7 +151,7 @@ export class EventDetailsComponent implements OnInit {
 
     this.updatingInvitationStatus.set(InvitationStatus.ACCEPTED);
 
-    this.eventsService
+    this.invitationService
       .updateInvitationStatus(currentEvent.id, InvitationStatus.ACCEPTED)
       .subscribe({
         next: () => {
@@ -148,7 +172,7 @@ export class EventDetailsComponent implements OnInit {
 
     this.updatingInvitationStatus.set(InvitationStatus.REJECTED);
 
-    this.eventsService
+    this.invitationService
       .updateInvitationStatus(currentEvent.id, InvitationStatus.REJECTED)
       .subscribe({
         next: () => {
