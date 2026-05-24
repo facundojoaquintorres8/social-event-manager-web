@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import {
+  CalendarEvent,
   CreateEventRequest,
   Dashboard,
   Event,
@@ -48,6 +49,20 @@ export class EventsService {
     if (status) url += `&status=${status}`;
 
     return this.http.get<ApiResponse<Page<Event>>>(url);
+  }
+
+  getCalendarEvents(from?: string, to?: string) {
+    let params = new HttpParams();
+
+    if (from) {
+      params = params.set('from', from);
+    }
+
+    if (to) {
+      params = params.set('to', to);
+    }
+
+    return this.http.get<ApiResponse<CalendarEvent[]>>(`${this.apiUrl}/calendar`, { params });
   }
 
   createEvent(data: CreateEventRequest) {

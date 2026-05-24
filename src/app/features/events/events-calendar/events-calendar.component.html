@@ -49,7 +49,8 @@
           @for (event of day.events; track event.id) {
             <a
               [routerLink]="['/events', event.id]"
-              class="block truncate rounded-md bg-blue-100 px-2 py-1 text-xs text-blue-700 transition hover:bg-blue-200 dark:bg-blue-900/30 dark:text-blue-300"
+              class="block truncate rounded-md px-2 py-1 text-xs transition"
+              [ngClass]="getEventClasses(event)"
             >
               {{ event.title }}
             </a>

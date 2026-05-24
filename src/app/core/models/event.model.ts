@@ -69,3 +69,13 @@ export interface EventParticipant {
   email: string;
   status: InvitationStatus;
 }
+
+export interface CalendarEvent {
+  id: string;
+  title: string;
+  eventDate: string;
+  location: string;
+  eventStatus: EventStatus;
+  invitationStatus?: InvitationStatus;
+  owner: boolean;
+}
