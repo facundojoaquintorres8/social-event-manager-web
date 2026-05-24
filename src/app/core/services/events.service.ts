@@ -6,7 +6,7 @@ import {
   CreateEventRequest,
   Dashboard,
   Event,
-  EventParticipant,
+  EventFull,
   Invitation,
   InvitationStatus,
 } from '../models/event.model';
@@ -66,6 +66,10 @@ export class EventsService {
     return this.http.get<ApiResponse<Event>>(`${this.apiUrl}/${eventId}`);
   }
 
+  getFullEventById(eventId: string) {
+    return this.http.get<ApiResponse<EventFull>>(`${this.apiUrl}/${eventId}/full`);
+  }
+
   getDashboard() {
     return this.http.get<ApiResponse<Dashboard>>(`${this.apiUrl}/dashboard`);
   }
@@ -77,12 +81,6 @@ export class EventsService {
         size: 10,
       },
     });
-  }
-
-  getParticipants(eventId: string) {
-    return this.http.get<ApiResponse<Page<EventParticipant>>>(
-      `${this.apiUrl}/${eventId}/participants`,
-    );
   }
 
   inviteUser(eventId: string, email: string) {

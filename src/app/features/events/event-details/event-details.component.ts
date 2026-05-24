@@ -3,12 +3,7 @@ import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
-import {
-  Event,
-  EventParticipant,
-  EventStatus,
-  InvitationStatus,
-} from '../../../core/models/event.model';
+import { EventFull, EventStatus, InvitationStatus } from '../../../core/models/event.model';
 import { LucideAngularModule, Trash2, ArrowLeft } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
@@ -29,12 +24,10 @@ export class EventDetailsComponent implements OnInit {
   private readonly toastService = inject(ToastService);
   private readonly location = inject(Location);
 
-  readonly event = signal<Event | null>(null);
+  readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly inviteModalOpen = signal(false);
-  readonly participants = signal<EventParticipant[]>([]);
-  readonly participantsLoading = signal(false);
   readonly removingParticipant = signal<string | null>(null);
 
   readonly EventStatus = EventStatus;
@@ -57,12 +50,19 @@ export class EventDetailsComponent implements OnInit {
   }
 
   inviteUser(email: string) {
-    this.eventsService.inviteUser(this.event()!.id, email).subscribe({
+    const currentEvent = this.event();
+
+    if (!currentEvent) return;
+
+    this.eventsService.inviteUser(currentEvent.id, email).subscribe({
       next: () => {
         this.toastService.show('Invitation sent successfully', 'success');
+
         this.inviteModalOpen.set(false);
+
         this.inviteModal?.resetLoading();
-        this.loadParticipants();
+
+        this.refreshEvent(currentEvent.id);
       },
       error: () => {
         this.inviteModal?.resetLoading();
@@ -72,24 +72,28 @@ export class EventDetailsComponent implements OnInit {
 
   removeParticipant(email: string) {
     const currentEvent = this.event();
+
     if (!currentEvent) return;
 
     this.removingParticipant.set(email);
 
-    this.eventsService.removeInvitation(currentEvent.id, email).subscribe({
-      next: () => {
-        this.toastService.show('Participant removed successfully', 'success');
+    this.eventsService
+      .removeInvitation(currentEvent.id, email)
+      .pipe(finalize(() => this.removingParticipant.set(null)))
+      .subscribe({
+        next: () => {
+          this.toastService.show('Participant removed successfully', 'success');
 
-        this.participants.update((participants) =>
-          participants.filter((participant) => participant.email !== email),
-        );
+          this.event.update((event) => {
+            if (!event) return event;
 
-        this.removingParticipant.set(null);
-      },
-      error: () => {
-        this.removingParticipant.set(null);
-      },
-    });
+            return {
+              ...event,
+              participants: event.participants.filter((participant) => participant.email !== email),
+            };
+          });
+        },
+      });
   }
 
   goBack(): void {
@@ -100,12 +104,11 @@ export class EventDetailsComponent implements OnInit {
     this.loading.set(true);
 
     this.eventsService
-      .getEventById(eventId)
+      .getFullEventById(eventId)
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (res) => {
           this.event.set(res.data);
-          this.loadParticipants();
         },
         error: () => {
           this.error.set('Error loading event');
@@ -113,21 +116,13 @@ export class EventDetailsComponent implements OnInit {
       });
   }
 
-  private loadParticipants(): void {
-    const currentEvent = this.event();
-
-    if (!currentEvent) return;
-
-    this.participantsLoading.set(true);
-
-    this.eventsService.getParticipants(currentEvent.id).subscribe({
-      next: (response) => {
-        this.participants.set(response.data.content);
-        this.participantsLoading.set(false);
+  private refreshEvent(eventId: string): void {
+    this.eventsService.getFullEventById(eventId).subscribe({
+      next: (res) => {
+        this.event.set(res.data);
       },
       error: () => {
-        this.participantsLoading.set(false);
-        this.toastService.show('Failed to load participants', 'error');
+        this.toastService.show('Error refreshing event', 'error');
       },
     });
   }

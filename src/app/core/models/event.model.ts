@@ -12,6 +12,11 @@ export interface Event {
   status: EventStatus;
 }
 
+export interface EventFull extends Event {
+  participants: EventParticipant[];
+  owner: boolean;
+}
+
 export interface CreateEventRequest {
   title: string;
   description?: string;
