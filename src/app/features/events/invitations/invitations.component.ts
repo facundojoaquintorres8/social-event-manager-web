@@ -1,7 +1,7 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventsService } from '../../../core/services/events.service';
-import { Invitation, InvitationStatus } from '../../../core/models/event.model';
+import { EventStatus, Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
@@ -21,6 +21,7 @@ export class InvitationsComponent implements OnInit {
   actionLoading = signal<string | null>(null);
 
   readonly InvitationStatus = InvitationStatus;
+  readonly EventStatus = EventStatus;
   readonly Calendar = Calendar;
   readonly MapPin = MapPin;
   readonly User = User;

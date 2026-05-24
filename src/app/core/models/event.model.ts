@@ -53,6 +53,7 @@ export interface Invitation {
   longitude: number;
   invitedBy: string;
   status: InvitationStatus;
+  eventStatus: EventStatus;
 }
 
 export enum InvitationStatus {

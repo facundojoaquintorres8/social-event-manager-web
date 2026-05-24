@@ -112,7 +112,10 @@
               </div>
             </div>
 
-            @if (invitation.status === InvitationStatus.PENDING) {
+            @if (
+              invitation.status === InvitationStatus.PENDING &&
+              invitation.eventStatus !== EventStatus.CANCELLED
+            ) {
               <div class="flex flex-col gap-2 sm:flex-row">
                 <button
                   (click)="updateStatus(invitation.invitationId, InvitationStatus.ACCEPTED)"

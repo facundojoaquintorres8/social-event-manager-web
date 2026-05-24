@@ -44,7 +44,7 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-          @if (event.owner) {
+          @if (event.owner && event.status !== EventStatus.CANCELLED) {
             <button
               [routerLink]="['/events/edit', event.id]"
               class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
@@ -164,7 +164,7 @@
                   {{ participant.status }}
                 </span>
 
-                @if (event.owner) {
+                @if (event.owner && event.status !== EventStatus.CANCELLED) {
                   <button
                     (click)="removeParticipant(participant.email)"
                     [disabled]="removingParticipant() === participant.email"
