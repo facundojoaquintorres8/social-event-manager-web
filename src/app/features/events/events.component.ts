@@ -17,6 +17,7 @@ import {
   EllipsisVertical,
   CalendarX2,
 } from 'lucide-angular';
+import { canInteractWithEvent, isEventExpired } from '../../shared/utils/event.utils';
 
 @Component({
   selector: 'app-events',
@@ -54,6 +55,9 @@ export class EventsComponent implements OnInit {
   readonly ArrowRight = ArrowRight;
   readonly EllipsisVertical = EllipsisVertical;
   readonly CalendarX2 = CalendarX2;
+  readonly EventStatus = EventStatus;
+  readonly canInteractWithEvent = canInteractWithEvent;
+  readonly isEventExpired = isEventExpired;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],
@@ -61,7 +65,6 @@ export class EventsComponent implements OnInit {
     toDate: [''],
     status: [''],
   });
-  readonly EventStatus = EventStatus;
 
   ngOnInit(): void {
     this.initFromQueryParams();

@@ -128,40 +128,49 @@
               >
                 {{ event.status === EventStatus.ACTIVE ? 'Active' : 'Cancelled' }}
               </span>
-
-              <div class="relative">
-                <button
-                  (click)="toggleMenu(event.id, $event)"
-                  class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-700 active:scale-95 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
+              @if (isEventExpired(event.eventDate)) {
+                <span
+                  class="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300"
                 >
-                  <lucide-icon [img]="EllipsisVertical" class="h-5 w-5"> </lucide-icon>
-                </button>
+                  Expired
+                </span>
+              }
 
-                @if (openedMenuId() === event.id) {
-                  <div
-                    (click)="$event.stopPropagation()"
-                    class="absolute left-0 z-20 mt-2 w-36 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg transition-all duration-200 dark:border-gray-800 dark:bg-gray-900"
+              @if (canInteractWithEvent(event.eventDate, event.status)) {
+                <div class="relative">
+                  <button
+                    (click)="toggleMenu(event.id, $event)"
+                    class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition-all duration-200 hover:bg-gray-100 hover:text-gray-700 active:scale-95 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-200"
                   >
-                    <button
-                      (click)="editEvent(event.id, $event); closeMenu()"
-                      class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-                    >
-                      <lucide-icon [img]="Pencil" class="h-4 w-4"> </lucide-icon>
-                      Edit
-                    </button>
+                    <lucide-icon [img]="EllipsisVertical" class="h-5 w-5"> </lucide-icon>
+                  </button>
 
-                    @if (event.status === EventStatus.ACTIVE) {
+                  @if (openedMenuId() === event.id) {
+                    <div
+                      (click)="$event.stopPropagation()"
+                      class="absolute left-0 z-20 mt-2 w-36 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg transition-all duration-200 dark:border-gray-800 dark:bg-gray-900"
+                    >
                       <button
-                        (click)="openCancelModal(event.id); closeMenu(); $event.stopPropagation()"
-                        class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+                        (click)="editEvent(event.id, $event); closeMenu()"
+                        class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                       >
-                        <lucide-icon [img]="X" class="h-4 w-4"> </lucide-icon>
-                        Cancel
+                        <lucide-icon [img]="Pencil" class="h-4 w-4"> </lucide-icon>
+                        Edit
                       </button>
-                    }
-                  </div>
-                }
-              </div>
+
+                      @if (event.status === EventStatus.ACTIVE) {
+                        <button
+                          (click)="openCancelModal(event.id); closeMenu(); $event.stopPropagation()"
+                          class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+                        >
+                          <lucide-icon [img]="X" class="h-4 w-4"> </lucide-icon>
+                          Cancel
+                        </button>
+                      }
+                    </div>
+                  }
+                </div>
+              }
               <lucide-icon
                 [img]="ArrowRight"
                 class="h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:translate-x-1"

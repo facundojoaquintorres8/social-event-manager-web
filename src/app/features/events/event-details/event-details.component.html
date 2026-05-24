@@ -36,6 +36,13 @@
             >
               {{ event.status }}
             </span>
+            @if (isEventExpired(event.eventDate)) {
+              <span
+                class="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+              >
+                Expired
+              </span>
+            }
           </div>
 
           <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
@@ -44,7 +51,7 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
-          @if (event.owner && event.status !== EventStatus.CANCELLED) {
+          @if (event.owner && canInteractWithEvent(event.eventDate, event.status)) {
             <button
               [routerLink]="['/events/edit', event.id]"
               class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
@@ -60,7 +67,7 @@
             </button>
           }
 
-          @if (!event.owner && event.status !== EventStatus.CANCELLED) {
+          @if (!event.owner && canInteractWithEvent(event.eventDate, event.status)) {
             <div class="flex flex-wrap items-center gap-3">
               <button
                 (click)="acceptInvitation()"
@@ -225,7 +232,7 @@
                   {{ participant.status }}
                 </span>
 
-                @if (event.owner && event.status !== EventStatus.CANCELLED) {
+                @if (event.owner && canInteractWithEvent(event.eventDate, event.status)) {
                   <button
                     (click)="removeParticipant(participant)"
                     [disabled]="removingParticipant() === participant.email"

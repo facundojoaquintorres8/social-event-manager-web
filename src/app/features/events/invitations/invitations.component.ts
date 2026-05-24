@@ -5,6 +5,7 @@ import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 import { InvitationsService } from '../../../core/services/invitations.service';
+import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
 
 @Component({
   selector: 'app-invitations',
@@ -28,8 +29,9 @@ export class InvitationsComponent implements OnInit {
   readonly Check = Check;
   readonly X = X;
   readonly Inbox = Inbox;
-
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
+  readonly canInteractWithEvent = canInteractWithEvent;
+  readonly isEventExpired = isEventExpired;
 
   ngOnInit(): void {
     this.loadInvitations();

@@ -16,6 +16,7 @@ import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 import { AuthService } from '../../../core/services/auth.service';
 import { InvitationsService } from '../../../core/services/invitations.service';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
+import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
 
 @Component({
   selector: 'app-event-details',
@@ -46,8 +47,9 @@ export class EventDetailsComponent implements OnInit {
   readonly InvitationStatus = InvitationStatus;
   readonly Trash2 = Trash2;
   readonly ArrowLeft = ArrowLeft;
-
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
+  readonly canInteractWithEvent = canInteractWithEvent;
+  readonly isEventExpired = isEventExpired;
 
   currentUserParticipant = computed<EventParticipant | null>(() => {
     const currentEvent = this.event();
