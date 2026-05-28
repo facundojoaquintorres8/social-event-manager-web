@@ -80,3 +80,22 @@ export interface CalendarEvent {
   invitationStatus?: InvitationStatus;
   owner: boolean;
 }
+
+export interface ExternalInvitationPreview {
+  eventId: string;
+  title: string;
+  description: string;
+  eventDate: string;
+  location: string;
+  createdBy: string;
+  status: ExternalInvitationStatus;
+  expiresAt: string;
+  alreadyClaimed: boolean;
+  invitedEmail: string;
+}
+
+export enum ExternalInvitationStatus {
+  PENDING = 'PENDING',
+  CLAIMED = 'CLAIMED',
+  CANCELLED = 'CANCELLED',
+}

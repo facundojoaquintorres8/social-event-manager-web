@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
@@ -18,6 +18,7 @@ export class RegisterComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
+  private readonly route = inject(ActivatedRoute);
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -58,7 +59,8 @@ export class RegisterComponent {
         next: (res) => {
           this.authService.storeUserAndTokens(res.data);
           this.toastService.show('Account created successfully');
-          this.router.navigate(['/dashboard']);
+          const redirect = this.route.snapshot.queryParamMap.get('redirect');
+          this.router.navigateByUrl(redirect || '/dashboard');
         },
       });
   }

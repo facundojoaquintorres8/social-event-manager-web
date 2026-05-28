@@ -22,9 +22,7 @@ export class InvitationsService {
   }
 
   updateInvitationStatus(eventId: string, status: InvitationStatus) {
-    return this.http.put<ApiResponse<void>>(`${this.apiUrl}`, {
-      body: { eventId, status },
-    });
+    return this.http.put<ApiResponse<void>>(`${this.apiUrl}`, { eventId, status });
   }
 
   removeInvitation(eventId: string, email: string) {

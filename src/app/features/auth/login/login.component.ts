@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
@@ -16,6 +16,7 @@ export class LoginComponent {
   private readonly fb = inject(FormBuilder);
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -40,7 +41,8 @@ export class LoginComponent {
       .subscribe({
         next: (res) => {
           this.authService.storeUserAndTokens(res.data);
-          this.router.navigate(['/dashboard']);
+          const redirect = this.route.snapshot.queryParamMap.get('redirect');
+          this.router.navigateByUrl(redirect || '/dashboard');
         },
         error: () => {
           this.loading.set(false);

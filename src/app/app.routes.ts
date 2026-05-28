@@ -17,6 +17,13 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
+    path: 'invite/:token',
+    loadComponent: () =>
+      import('./features/events/external-invitation/external-invitation.component').then(
+        (m) => m.ExternalInvitationComponent,
+      ),
+  },
+  {
     path: '',
     component: MainLayoutComponent,
     canActivate: [authGuard],

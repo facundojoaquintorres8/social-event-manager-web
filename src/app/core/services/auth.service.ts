@@ -40,7 +40,7 @@ export class AuthService {
       email: response.email,
       firstName: response.firstName,
       lastName: response.lastName,
-    } as User;
+    };
 
     localStorage.setItem('accessToken', response.accessToken);
     localStorage.setItem('refreshToken', response.refreshToken);
