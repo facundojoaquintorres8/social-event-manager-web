@@ -14,6 +14,7 @@ export interface Event {
 
 export interface EventFull extends Event {
   participants: EventParticipant[];
+  contributions: Contribution[];
   owner: boolean;
 }
 
@@ -98,4 +99,23 @@ export enum ExternalInvitationStatus {
   PENDING = 'PENDING',
   CLAIMED = 'CLAIMED',
   CANCELLED = 'CANCELLED',
+}
+
+export interface Contribution {
+  id: string;
+  name: string;
+  description?: string;
+  cost?: number;
+  splitCost: boolean;
+  completed: boolean;
+  createdBy: string;
+  createdByEmail: string;
+  owner: boolean;
+}
+
+export interface CreateContributionRequest {
+  name: string;
+  description?: string;
+  cost?: number | null;
+  splitCost: boolean;
 }

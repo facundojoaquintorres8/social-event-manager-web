@@ -4,12 +4,14 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
 import {
+  Contribution,
+  CreateContributionRequest,
   EventFull,
   EventParticipant,
   EventStatus,
   InvitationStatus,
 } from '../../../core/models/event.model';
-import { LucideAngularModule, Trash2, ArrowLeft } from 'lucide-angular';
+import { LucideAngularModule, Trash2, ArrowLeft, Plus, Pencil } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
@@ -17,11 +19,19 @@ import { AuthService } from '../../../core/services/auth.service';
 import { InvitationsService } from '../../../core/services/invitations.service';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
 import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
+import { ContributionsService } from '../../../core/services/contributions.service';
+import { ContributionModalComponent } from '../contribution/contribution-modal.component';
 
 @Component({
   selector: 'app-event-details',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule, InviteUserModalComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LucideAngularModule,
+    InviteUserModalComponent,
+    ContributionModalComponent,
+  ],
   templateUrl: './event-details.component.html',
 })
 export class EventDetailsComponent implements OnInit {
@@ -35,6 +45,7 @@ export class EventDetailsComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly invitationService = inject(InvitationsService);
   private readonly externalInvitationService = inject(ExternalInvitationsService);
+  private readonly contributionsService = inject(ContributionsService);
 
   readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
@@ -42,11 +53,16 @@ export class EventDetailsComponent implements OnInit {
   readonly inviteModalOpen = signal(false);
   readonly removingParticipant = signal<string | null>(null);
   readonly updatingInvitationStatus = signal<InvitationStatus | null>(null);
+  readonly contributionModalOpen = signal(false);
+  readonly contributionLoading = signal(false);
+  readonly editingContribution = signal<Contribution | null>(null);
 
   readonly EventStatus = EventStatus;
   readonly InvitationStatus = InvitationStatus;
   readonly Trash2 = Trash2;
   readonly ArrowLeft = ArrowLeft;
+  readonly Plus = Plus;
+  readonly Pencil = Pencil;
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
   readonly canInteractWithEvent = canInteractWithEvent;
   readonly isEventExpired = isEventExpired;
@@ -186,6 +202,81 @@ export class EventDetailsComponent implements OnInit {
           this.updatingInvitationStatus.set(null);
         },
       });
+  }
+
+  openCreateContributionModal() {
+    this.editingContribution.set(null);
+    this.contributionModalOpen.set(true);
+  }
+
+  openEditContributionModal(contribution: Contribution) {
+    this.editingContribution.set(contribution);
+    this.contributionModalOpen.set(true);
+  }
+
+  closeContributionModal() {
+    this.contributionModalOpen.set(false);
+    this.editingContribution.set(null);
+  }
+
+  submitContribution(payload: CreateContributionRequest) {
+    const currentEvent = this.event();
+
+    if (!currentEvent) {
+      return;
+    }
+
+    this.contributionLoading.set(true);
+
+    const editingContribution = this.editingContribution();
+
+    const request = editingContribution
+      ? this.contributionsService.updateContribution(
+          currentEvent.id,
+          editingContribution.id,
+          payload,
+        )
+      : this.contributionsService.createContribution(currentEvent.id, payload);
+
+    request.pipe(finalize(() => this.contributionLoading.set(false))).subscribe({
+      next: () => {
+        this.toastService.show(
+          editingContribution
+            ? 'Contribution updated successfully'
+            : 'Contribution created successfully',
+          'success',
+        );
+
+        this.closeContributionModal();
+
+        this.refreshEvent(currentEvent.id);
+      },
+    });
+  }
+
+  deleteContribution(contribution: Contribution) {
+    const currentEvent = this.event();
+
+    if (!currentEvent) {
+      return;
+    }
+
+    this.contributionsService.deleteContribution(currentEvent.id, contribution.id).subscribe({
+      next: () => {
+        this.toastService.show('Contribution deleted successfully', 'success');
+
+        this.event.update((event) => {
+          if (!event) {
+            return event;
+          }
+
+          return {
+            ...event,
+            contributions: event.contributions.filter((c) => c.id !== contribution.id),
+          };
+        });
+      },
+    });
   }
 
   goBack(): void {
