@@ -333,7 +333,7 @@
                       <span class="text-gray-500 dark:text-gray-400">
                         Cost:
                         <span class="font-medium text-gray-700 dark:text-gray-200">
-                          {{ contribution.cost | currency: 'ARS' }}
+                          {{ contribution.cost | currency }}
                         </span>
                       </span>
                     }
@@ -376,17 +376,17 @@
     Back
   </button>
 </div>
-<app-invite-user-modal
-  [open]="inviteModalOpen()"
-  (close)="inviteModalOpen.set(false)"
-  (invite)="inviteUser($event)"
->
-</app-invite-user-modal>
-<app-contribution-modal
-  [open]="contributionModalOpen()"
-  [loading]="contributionLoading()"
-  [contribution]="editingContribution()"
-  (modalClosed)="closeContributionModal()"
-  (submitContribution)="submitContribution($event)"
->
-</app-contribution-modal>
+
+@if (inviteModalOpen()) {
+  <app-invite-user-modal (close)="inviteModalOpen.set(false)" (invite)="inviteUser($event)">
+  </app-invite-user-modal>
+}
+@if (contributionModalOpen()) {
+  <app-contribution-modal
+    [loading]="contributionLoading()"
+    [contribution]="editingContribution()"
+    (modalClosed)="closeContributionModal()"
+    (submitContribution)="submitContribution($event)"
+  >
+  </app-contribution-modal>
+}

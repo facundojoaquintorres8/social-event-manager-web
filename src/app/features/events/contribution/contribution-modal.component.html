@@ -1,91 +1,89 @@
-@if (open) {
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+  (click)="onClose()"
+>
   <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
-    (click)="onClose()"
+    class="w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900"
+    (click)="stopPropagation($event)"
   >
-    <div
-      class="w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900"
-      (click)="stopPropagation($event)"
-    >
-      <div class="mb-5">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-          {{ contribution ? 'Edit contribution' : 'Add contribution' }}
-        </h2>
+    <div class="mb-5">
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        {{ contribution() ? 'Edit contribution' : 'Add contribution' }}
+      </h2>
 
-        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Add something you will bring to the event.
-        </p>
+      <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+        Add something you will bring to the event.
+      </p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div>
+        <input
+          type="text"
+          formControlName="name"
+          placeholder="Pizza, drinks, wine..."
+          class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+        />
+
+        @if (form.controls.name.invalid && form.controls.name.touched) {
+          <p class="mt-1 text-xs text-red-500">Contribution name is required</p>
+        }
       </div>
 
-      <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
-        <div>
-          <input
-            type="text"
-            formControlName="name"
-            placeholder="Pizza, drinks, wine..."
-            class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
-          />
+      <div>
+        <textarea
+          rows="3"
+          formControlName="description"
+          placeholder="Optional details..."
+          class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+        ></textarea>
+      </div>
 
-          @if (form.controls.name.invalid && form.controls.name.touched) {
-            <p class="mt-1 text-xs text-red-500">Contribution name is required</p>
+      <div>
+        <input
+          type="number"
+          formControlName="cost"
+          placeholder="Cost (optional)"
+          class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+        />
+      </div>
+
+      <label class="flex items-center gap-3">
+        <input
+          type="checkbox"
+          formControlName="splitCost"
+          class="h-4 w-4 rounded border-gray-300"
+        />
+
+        <span class="text-sm text-gray-700 dark:text-gray-300">
+          Split this cost between participants
+        </span>
+      </label>
+
+      <div class="flex justify-end gap-3 pt-2">
+        <button
+          type="button"
+          [disabled]="loading()"
+          (click)="onClose()"
+          class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="submit"
+          [disabled]="loading()"
+          class="flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:opacity-50"
+        >
+          @if (loading()) {
+            <span
+              class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
+            ></span>
+          } @else {
+            Save
           }
-        </div>
-
-        <div>
-          <textarea
-            rows="3"
-            formControlName="description"
-            placeholder="Optional details..."
-            class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
-          ></textarea>
-        </div>
-
-        <div>
-          <input
-            type="number"
-            formControlName="cost"
-            placeholder="Cost (optional)"
-            class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
-          />
-        </div>
-
-        <label class="flex items-center gap-3">
-          <input
-            type="checkbox"
-            formControlName="splitCost"
-            class="h-4 w-4 rounded border-gray-300"
-          />
-
-          <span class="text-sm text-gray-700 dark:text-gray-300">
-            Split this cost between participants
-          </span>
-        </label>
-
-        <div class="flex justify-end gap-3 pt-2">
-          <button
-            type="button"
-            [disabled]="loading"
-            (click)="onClose()"
-            class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
-          >
-            Cancel
-          </button>
-
-          <button
-            type="submit"
-            [disabled]="loading"
-            class="flex items-center justify-center rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:opacity-50"
-          >
-            @if (loading) {
-              <span
-                class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
-              ></span>
-            } @else {
-              Save
-            }
-          </button>
-        </div>
-      </form>
-    </div>
+        </button>
+      </div>
+    </form>
   </div>
-}
+</div>

@@ -215,8 +215,8 @@ export class EventDetailsComponent implements OnInit {
   }
 
   closeContributionModal() {
-    this.contributionModalOpen.set(false);
     this.editingContribution.set(null);
+    this.contributionModalOpen.set(false);
   }
 
   submitContribution(payload: CreateContributionRequest) {

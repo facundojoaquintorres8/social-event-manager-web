@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, effect, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Contribution, CreateContributionRequest } from '../../../core/models/event.model';
@@ -9,16 +9,12 @@ import { Contribution, CreateContributionRequest } from '../../../core/models/ev
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './contribution-modal.component.html',
 })
-export class ContributionModalComponent implements OnChanges {
-  @Input() open = false;
+export class ContributionModalComponent {
+  readonly loading = input(false);
+  readonly contribution = input<Contribution | null>(null);
 
-  @Input() loading = false;
-
-  @Input() contribution: Contribution | null = null;
-
-  @Output() modalClosed = new EventEmitter<void>();
-
-  @Output() submitContribution = new EventEmitter<CreateContributionRequest>();
+  readonly modalClosed = output<void>();
+  readonly submitContribution = output<CreateContributionRequest>();
 
   private readonly fb = new FormBuilder();
 
@@ -29,14 +25,15 @@ export class ContributionModalComponent implements OnChanges {
     splitCost: [false],
   });
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['contribution']) {
-      if (this.contribution) {
+  constructor() {
+    effect(() => {
+      const contribution = this.contribution();
+      if (contribution) {
         this.form.patchValue({
-          name: this.contribution.name,
-          description: this.contribution.description ?? '',
-          cost: this.contribution.cost ?? null,
-          splitCost: this.contribution.splitCost,
+          name: contribution.name,
+          description: contribution.description ?? '',
+          cost: contribution.cost ?? null,
+          splitCost: contribution.splitCost,
         });
       } else {
         this.form.reset({
@@ -46,11 +43,11 @@ export class ContributionModalComponent implements OnChanges {
           splitCost: false,
         });
       }
-    }
+    });
   }
 
   onClose() {
-    if (this.loading) {
+    if (this.loading()) {
       return;
     }
 
