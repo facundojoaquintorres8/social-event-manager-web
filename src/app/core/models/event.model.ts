@@ -119,3 +119,7 @@ export interface CreateContributionRequest {
   cost?: number | null;
   splitCost: boolean;
 }
+
+export interface UpdateContributionStatusRequest {
+  completed: boolean;
+}

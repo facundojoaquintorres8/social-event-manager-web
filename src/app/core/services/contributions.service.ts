@@ -23,6 +23,12 @@ export class ContributionsService {
     );
   }
 
+  updateContributionStatus(eventId: string, contributionId: string, completed: boolean) {
+    return this.http.patch(`${this.apiUrl}/${eventId}/contributions/${contributionId}/status`, {
+      completed,
+    });
+  }
+
   deleteContribution(eventId: string, contributionId: string) {
     return this.http.delete<ApiResponse<void>>(
       `${this.apiUrl}/${eventId}/contributions/${contributionId}`,

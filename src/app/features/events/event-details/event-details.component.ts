@@ -56,6 +56,7 @@ export class EventDetailsComponent implements OnInit {
   readonly contributionModalOpen = signal(false);
   readonly contributionLoading = signal(false);
   readonly editingContribution = signal<Contribution | null>(null);
+  readonly processingContributions = signal<Set<string>>(new Set());
 
   readonly EventStatus = EventStatus;
   readonly InvitationStatus = InvitationStatus;
@@ -254,6 +255,59 @@ export class EventDetailsComponent implements OnInit {
     });
   }
 
+  toggleContributionCompleted(contribution: Contribution) {
+    const currentEvent = this.event();
+
+    if (!currentEvent) {
+      return;
+    }
+
+    if (!currentEvent.owner && !contribution.owner) {
+      return;
+    }
+
+    const completed = !contribution.completed;
+
+    this.startContributionUpdate(contribution.id);
+
+    this.contributionsService
+      .updateContributionStatus(currentEvent.id, contribution.id, completed)
+      .pipe(finalize(() => this.finishContributionUpdate(contribution.id)))
+      .subscribe({
+        next: () => {
+          this.event.update((event) => {
+            if (!event) {
+              return event;
+            }
+
+            return {
+              ...event,
+              contributions: event.contributions.map((c) =>
+                c.id === contribution.id
+                  ? {
+                      ...c,
+                      completed,
+                    }
+                  : c,
+              ),
+            };
+          });
+
+          this.toastService.show(
+            completed ? 'Contribution marked as ready' : 'Contribution marked as pending',
+            'success',
+          );
+        },
+        error: () => {
+          this.toastService.show('Error updating contribution status', 'error');
+        },
+      });
+  }
+
+  isUpdatingContribution(contributionId: string): boolean {
+    return this.processingContributions().has(contributionId);
+  }
+
   deleteContribution(contribution: Contribution) {
     const currentEvent = this.event();
 
@@ -311,5 +365,25 @@ export class EventDetailsComponent implements OnInit {
           this.toastService.show('Error refreshing event', 'error');
         },
       });
+  }
+
+  private startContributionUpdate(contributionId: string) {
+    this.processingContributions.update((current) => {
+      const next = new Set(current);
+
+      next.add(contributionId);
+
+      return next;
+    });
+  }
+
+  private finishContributionUpdate(contributionId: string) {
+    this.processingContributions.update((current) => {
+      const next = new Set(current);
+
+      next.delete(contributionId);
+
+      return next;
+    });
   }
 }
