@@ -4,6 +4,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { EventsService } from '../../../core/services/events.service';
 import {
+  BalanceRequest,
+  BalanceResponse,
   Contribution,
   CreateContributionRequest,
   EventFull,
@@ -21,6 +23,7 @@ import { ExternalInvitationsService } from '../../../core/services/external-invi
 import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
 import { ContributionsService } from '../../../core/services/contributions.service';
 import { ContributionModalComponent } from '../contribution/contribution-modal.component';
+import { BalanceModalComponent } from '../balance/balance-modal.component';
 
 @Component({
   selector: 'app-event-details',
@@ -31,6 +34,7 @@ import { ContributionModalComponent } from '../contribution/contribution-modal.c
     LucideAngularModule,
     InviteUserModalComponent,
     ContributionModalComponent,
+    BalanceModalComponent,
   ],
   templateUrl: './event-details.component.html',
 })
@@ -57,6 +61,9 @@ export class EventDetailsComponent implements OnInit {
   readonly contributionLoading = signal(false);
   readonly editingContribution = signal<Contribution | null>(null);
   readonly processingContributions = signal<Set<string>>(new Set());
+  readonly balanceModalOpen = signal(false);
+  readonly balanceLoading = signal(false);
+  readonly balanceResult = signal<BalanceResponse | null>(null);
 
   readonly EventStatus = EventStatus;
   readonly InvitationStatus = InvitationStatus;
@@ -331,6 +338,35 @@ export class EventDetailsComponent implements OnInit {
         });
       },
     });
+  }
+
+  openBalanceModal() {
+    this.balanceResult.set(null);
+    this.balanceModalOpen.set(true);
+  }
+
+  closeBalanceModal() {
+    this.balanceResult.set(null);
+    this.balanceModalOpen.set(false);
+  }
+
+  calculateBalance(payload: BalanceRequest) {
+    const currentEvent = this.event();
+
+    if (!currentEvent) {
+      return;
+    }
+
+    this.balanceLoading.set(true);
+
+    this.eventsService
+      .calculateBalance(currentEvent.id, payload)
+      .pipe(finalize(() => this.balanceLoading.set(false)))
+      .subscribe({
+        next: (res) => {
+          this.balanceResult.set(res.data);
+        },
+      });
   }
 
   goBack(): void {

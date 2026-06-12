@@ -1,0 +1,106 @@
+import { Component, OnChanges, SimpleChanges, input, output, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import {
+  BalanceParticipantRequest,
+  BalanceRequest,
+  BalanceResponse,
+  EventFull,
+  InvitationStatus,
+} from '../../../core/models/event.model';
+
+@Component({
+  selector: 'app-balance-modal',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './balance-modal.component.html',
+})
+export class BalanceModalComponent implements OnChanges {
+  readonly event = input.required<EventFull>();
+  readonly loading = input(false);
+  readonly result = input<BalanceResponse | null>(null);
+
+  readonly modalClosed = output<void>();
+  readonly calculateBalance = output<BalanceRequest>();
+
+  readonly participants = signal<BalanceParticipantRequest[]>([]);
+  readonly externalParticipantName = signal('');
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['event']?.currentValue) {
+      this.initializeParticipants();
+    }
+  }
+
+  getRemoveParticipantReason(participant: BalanceParticipantRequest): string {
+    if (this.canRemoveParticipant(participant)) {
+      return 'Remove participant';
+    }
+
+    return 'Participant has shared expenses';
+  }
+
+  canRemoveParticipant(participant: BalanceParticipantRequest): boolean {
+    if (!participant.userId) {
+      return true;
+    }
+
+    return !this.event().contributions.some(
+      (contribution) => contribution.splitCost && contribution.createdById === participant.userId,
+    );
+  }
+
+  removeParticipant(index: number) {
+    this.participants.update((participants) => participants.filter((_, i) => i !== index));
+  }
+
+  addExternalParticipant(input: HTMLInputElement) {
+    const name = input.value.trim();
+
+    if (!name) {
+      return;
+    }
+
+    this.participants.update((participants) => [
+      ...participants,
+      {
+        name,
+      },
+    ]);
+
+    input.value = '';
+  }
+
+  submit() {
+    this.calculateBalance.emit({
+      participants: this.participants(),
+    });
+  }
+
+  close() {
+    this.modalClosed.emit();
+  }
+
+  private initializeParticipants() {
+    const event = this.event();
+
+    const participants: BalanceParticipantRequest[] = [];
+
+    if (event.owner) {
+      participants.push({
+        userId: event.createdById,
+        name: event.createdBy,
+      });
+    }
+
+    event.participants
+      .filter((participant) => participant.status === InvitationStatus.ACCEPTED)
+      .forEach((participant) => {
+        participants.push({
+          userId: participant.userId,
+          name: `${participant.firstName} ${participant.lastName}`,
+        });
+      });
+
+    this.participants.set(participants);
+  }
+}

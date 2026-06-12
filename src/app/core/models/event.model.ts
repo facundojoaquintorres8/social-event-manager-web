@@ -15,6 +15,7 @@ export interface Event {
 export interface EventFull extends Event {
   participants: EventParticipant[];
   contributions: Contribution[];
+  createdById: string;
   owner: boolean;
 }
 
@@ -65,6 +66,7 @@ export enum InvitationStatus {
 }
 
 export interface EventParticipant {
+  userId?: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -108,6 +110,7 @@ export interface Contribution {
   cost?: number;
   splitCost: boolean;
   completed: boolean;
+  createdById: string;
   createdBy: string;
   createdByEmail: string;
   owner: boolean;
@@ -122,4 +125,34 @@ export interface CreateContributionRequest {
 
 export interface UpdateContributionStatusRequest {
   completed: boolean;
+}
+
+export interface BalanceParticipantRequest {
+  userId?: string;
+  name: string;
+}
+
+export interface BalanceRequest {
+  participants: BalanceParticipantRequest[];
+}
+
+export interface BalanceResponse {
+  totalCost: number;
+  participantCount: number;
+  costPerPerson: number;
+  balances: BalanceParticipant[];
+  settlements: Settlement[];
+}
+
+export interface BalanceParticipant {
+  name: string;
+  paid: number;
+  shouldPay: number;
+  balance: number;
+}
+
+export interface Settlement {
+  from: string;
+  to: string;
+  amount: number;
 }

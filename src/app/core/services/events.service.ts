@@ -3,6 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import {
+  BalanceRequest,
+  BalanceResponse,
   CalendarEvent,
   CreateEventRequest,
   Dashboard,
@@ -100,5 +102,12 @@ export class EventsService {
         size,
       },
     });
+  }
+
+  calculateBalance(eventId: string, payload: BalanceRequest) {
+    return this.http.post<ApiResponse<BalanceResponse>>(
+      `${this.apiUrl}/${eventId}/balance`,
+      payload,
+    );
   }
 }

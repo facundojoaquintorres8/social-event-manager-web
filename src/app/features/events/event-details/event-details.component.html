@@ -257,7 +257,7 @@
     <div
       class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
     >
-      <div class="mb-5 flex items-center justify-between">
+      <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Contributions</h2>
 
@@ -266,17 +266,28 @@
           </p>
         </div>
 
-        @if (event.owner || currentUserParticipant()?.status === InvitationStatus.ACCEPTED) {
-          <button
-            (click)="openCreateContributionModal()"
-            [disabled]="!canInteractWithEvent(event.eventDate, event.status)"
-            class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <lucide-icon [img]="Plus" class="h-4 w-4"></lucide-icon>
+        <div class="flex flex-wrap items-center gap-2">
+          @if (event.owner) {
+            <button
+              (click)="openBalanceModal()"
+              class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 transition-all duration-200 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              Generate balance
+            </button>
+          }
 
-            Add item
-          </button>
-        }
+          @if (event.owner || currentUserParticipant()?.status === InvitationStatus.ACCEPTED) {
+            <button
+              (click)="openCreateContributionModal()"
+              [disabled]="!canInteractWithEvent(event.eventDate, event.status)"
+              class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <lucide-icon [img]="Plus" class="h-4 w-4"></lucide-icon>
+
+              Add item
+            </button>
+          }
+        </div>
       </div>
 
       @if (event.contributions.length === 0) {
@@ -397,7 +408,7 @@
 </div>
 
 @if (inviteModalOpen()) {
-  <app-invite-user-modal (close)="inviteModalOpen.set(false)" (invite)="inviteUser($event)">
+  <app-invite-user-modal (closeModal)="inviteModalOpen.set(false)" (invite)="inviteUser($event)">
   </app-invite-user-modal>
 }
 @if (contributionModalOpen()) {
@@ -408,4 +419,13 @@
     (submitContribution)="submitContribution($event)"
   >
   </app-contribution-modal>
+}
+@if (balanceModalOpen() && event(); as currentEvent) {
+  <app-balance-modal
+    [event]="currentEvent"
+    [loading]="balanceLoading()"
+    [result]="balanceResult()"
+    (modalClosed)="closeBalanceModal()"
+    (calculateBalance)="calculateBalance($event)"
+  />
 }
