@@ -13,7 +13,15 @@ import {
   EventStatus,
   InvitationStatus,
 } from '../../../core/models/event.model';
-import { LucideAngularModule, Trash2, ArrowLeft, Plus, Pencil } from 'lucide-angular';
+import {
+  LucideAngularModule,
+  Trash2,
+  ArrowLeft,
+  Plus,
+  Pencil,
+  Users,
+  Package,
+} from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
@@ -24,6 +32,8 @@ import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/even
 import { ContributionsService } from '../../../core/services/contributions.service';
 import { ContributionModalComponent } from '../contribution/contribution-modal.component';
 import { BalanceModalComponent } from '../balance/balance-modal.component';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-event-details',
@@ -35,6 +45,8 @@ import { BalanceModalComponent } from '../balance/balance-modal.component';
     InviteUserModalComponent,
     ContributionModalComponent,
     BalanceModalComponent,
+    EmptyStateComponent,
+    ErrorStateComponent,
   ],
   templateUrl: './event-details.component.html',
 })
@@ -53,7 +65,7 @@ export class EventDetailsComponent implements OnInit {
 
   readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
+  readonly error = signal<boolean>(false);
   readonly inviteModalOpen = signal(false);
   readonly removingParticipant = signal<string | null>(null);
   readonly updatingInvitationStatus = signal<InvitationStatus | null>(null);
@@ -71,6 +83,8 @@ export class EventDetailsComponent implements OnInit {
   readonly ArrowLeft = ArrowLeft;
   readonly Plus = Plus;
   readonly Pencil = Pencil;
+  readonly Users = Users;
+  readonly Package = Package;
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
   readonly canInteractWithEvent = canInteractWithEvent;
   readonly isEventExpired = isEventExpired;
@@ -92,15 +106,30 @@ export class EventDetailsComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    const eventId = this.route.snapshot.paramMap.get('id');
+    this.loadEvent();
+  }
 
+  loadEvent(): void {
+    this.loading.set(true);
+    const eventId = this.route.snapshot.paramMap.get('id');
     if (!eventId) {
-      this.error.set('Invalid event');
+      this.error.set(true);
       this.loading.set(false);
       return;
     }
 
-    this.loadEvent(eventId);
+    this.error.set(false);
+    this.eventsService
+      .getFullEventById(eventId)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (res) => {
+          this.event.set(res.data);
+        },
+        error: () => {
+          this.error.set(true);
+        },
+      });
   }
 
   inviteUser(email: string) {
@@ -371,22 +400,6 @@ export class EventDetailsComponent implements OnInit {
 
   goBack(): void {
     this.location.back();
-  }
-
-  private loadEvent(eventId: string): void {
-    this.loading.set(true);
-
-    this.eventsService
-      .getFullEventById(eventId)
-      .pipe(finalize(() => this.loading.set(false)))
-      .subscribe({
-        next: (res) => {
-          this.event.set(res.data);
-        },
-        error: () => {
-          this.error.set('Error loading event');
-        },
-      });
   }
 
   private refreshEvent(eventId: string): void {

@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventsComponent } from '../events/events.component';
-import { InvitationsComponent } from '../events/invitations/invitations.component';
-import { AttendingEventsComponent } from '../events/attending-events/attending-events.component';
-import { EventsCalendarComponent } from '../events/events-calendar/events-calendar.component';
+import { InvitationsComponent } from './invitations/invitations.component';
+import { AttendingEventsComponent } from './attending-events/attending-events.component';
+import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
+import { CreatedEventsComponent } from './created-events/created-events.component';
 
 type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
 
@@ -12,7 +12,7 @@ type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
   standalone: true,
   imports: [
     CommonModule,
-    EventsComponent,
+    CreatedEventsComponent,
     InvitationsComponent,
     AttendingEventsComponent,
     EventsCalendarComponent,

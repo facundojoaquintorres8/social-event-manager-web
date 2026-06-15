@@ -1,12 +1,8 @@
 import { Component, inject, signal, OnInit, DestroyRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventsService } from '../../core/services/events.service';
-import { Event, EventStatus } from '../../core/models/event.model';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
-import { ToastService } from '../../core/services/toast.service';
-import { ConfirmModalComponent } from '../../shared/components/confirm-modal/confirm-modal.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   LucideAngularModule,
@@ -17,12 +13,16 @@ import {
   EllipsisVertical,
   CalendarX2,
 } from 'lucide-angular';
-import { canInteractWithEvent, isEventExpired } from '../../shared/utils/event.utils';
-import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
-import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
+import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
+import { EventsService } from '../../../core/services/events.service';
+import { ToastService } from '../../../core/services/toast.service';
+import { Event, EventStatus } from '../../../core/models/event.model';
+import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
 
 @Component({
-  selector: 'app-events',
+  selector: 'app-created-events',
   standalone: true,
   imports: [
     CommonModule,
@@ -33,9 +33,9 @@ import { ErrorStateComponent } from '../../shared/components/error-state/error-s
     EmptyStateComponent,
     ErrorStateComponent,
   ],
-  templateUrl: './events.component.html',
+  templateUrl: './created-events.component.html',
 })
-export class EventsComponent implements OnInit {
+export class CreatedEventsComponent implements OnInit {
   private readonly eventsService = inject(EventsService);
   private readonly fb = inject(FormBuilder);
   private readonly router = inject(Router);
@@ -48,7 +48,7 @@ export class EventsComponent implements OnInit {
   readonly totalPages = signal(0);
   readonly currentPage = signal(0);
   readonly loading = signal(true);
-  readonly error = signal<string | null>(null);
+  readonly error = signal<boolean>(false);
   readonly actionLoading = signal<string | null>(null);
   readonly confirmModalOpen = signal<boolean>(false);
   readonly selectedEventId = signal<string | null>(null);
@@ -215,7 +215,7 @@ export class EventsComponent implements OnInit {
   }
 
   private loadEvents(page = 0): void {
-    this.error.set(null);
+    this.error.set(false);
     this.loading.set(true);
 
     const params = this.route.snapshot.queryParams;
@@ -241,7 +241,7 @@ export class EventsComponent implements OnInit {
           }
         },
         error: () => {
-          this.error.set('Error loading events');
+          this.error.set(true);
         },
       });
   }
