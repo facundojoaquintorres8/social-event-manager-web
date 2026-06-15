@@ -18,6 +18,8 @@ import {
   CalendarX2,
 } from 'lucide-angular';
 import { canInteractWithEvent, isEventExpired } from '../../shared/utils/event.utils';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-events',
@@ -28,6 +30,8 @@ import { canInteractWithEvent, isEventExpired } from '../../shared/utils/event.u
     ReactiveFormsModule,
     LucideAngularModule,
     ConfirmModalComponent,
+    EmptyStateComponent,
+    ErrorStateComponent,
   ],
   templateUrl: './events.component.html',
 })
@@ -40,6 +44,7 @@ export class EventsComponent implements OnInit {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly events = signal<Event[]>([]);
+  readonly hasEvents = signal(false);
   readonly totalPages = signal(0);
   readonly currentPage = signal(0);
   readonly loading = signal(true);
@@ -77,6 +82,11 @@ export class EventsComponent implements OnInit {
       return;
     }
     this.updateQueryParams(page);
+  }
+
+  retryLoad(): void {
+    const page = this.currentPage();
+    this.loadEvents(page);
   }
 
   goToDetails(eventId: string): void {
@@ -141,6 +151,20 @@ export class EventsComponent implements OnInit {
     this.closeMenu();
   }
 
+  hasActiveFilters(): boolean {
+    const filters = this.filterForm.getRawValue();
+    return !!(filters.title || filters.fromDate || filters.toDate || filters.status);
+  }
+
+  clearFilters(): void {
+    this.filterForm.reset({
+      title: '',
+      fromDate: '',
+      toDate: '',
+      status: '',
+    });
+  }
+
   private initFromQueryParams(): void {
     const params = this.route.snapshot.queryParams;
 
@@ -191,8 +215,8 @@ export class EventsComponent implements OnInit {
   }
 
   private loadEvents(page = 0): void {
-    this.loading.set(true);
     this.error.set(null);
+    this.loading.set(true);
 
     const params = this.route.snapshot.queryParams;
 
@@ -212,6 +236,9 @@ export class EventsComponent implements OnInit {
           this.events.set(pageData.content);
           this.totalPages.set(pageData.totalPages);
           this.currentPage.set(pageData.number);
+          if (!this.hasEvents() && pageData.totalElements > 0) {
+            this.hasEvents.set(true);
+          }
         },
         error: () => {
           this.error.set('Error loading events');

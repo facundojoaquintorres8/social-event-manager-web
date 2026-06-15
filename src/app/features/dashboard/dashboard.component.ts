@@ -16,11 +16,12 @@ import { EventsService } from '../../core/services/events.service';
 import { Dashboard } from '../../core/models/event.model';
 import { AuthService } from '../../core/services/auth.service';
 import { buildGoogleMapsUrl } from '../../shared/utils/maps.utils';
+import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule],
+  imports: [CommonModule, RouterLink, LucideAngularModule, EmptyStateComponent],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {

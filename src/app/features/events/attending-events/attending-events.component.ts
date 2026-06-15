@@ -4,11 +4,13 @@ import { RouterLink } from '@angular/router';
 import { EventsService } from '../../../core/services/events.service';
 import { Event } from '../../../core/models/event.model';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
+import { Calendar, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-attending-events',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LucideAngularModule, EmptyStateComponent],
   templateUrl: './attending-events.component.html',
 })
 export class AttendingEventsComponent implements OnInit {
@@ -18,6 +20,7 @@ export class AttendingEventsComponent implements OnInit {
   loading = signal(true);
 
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
+  readonly Calendar = Calendar;
 
   ngOnInit(): void {
     this.loadEvents();
