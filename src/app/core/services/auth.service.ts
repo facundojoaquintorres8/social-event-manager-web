@@ -5,12 +5,14 @@ import { ApiResponse } from '../models/api-response.model';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { RegisterRequest, RegisterResponse } from '../models/register.model';
 import { User } from '../models/user.model';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
 
   private readonly apiUrl = `${environment.apiUrl}auth`;
 
@@ -59,6 +61,8 @@ export class AuthService {
     this.accessToken.set(null);
     this.refreshToken.set(null);
     this.currentUser.set(null);
+
+    this.router.navigate(['/login']);
   }
 
   isAuthenticated(): boolean {
