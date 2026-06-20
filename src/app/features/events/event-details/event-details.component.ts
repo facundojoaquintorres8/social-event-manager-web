@@ -21,6 +21,7 @@ import {
   Pencil,
   Users,
   Package,
+  Mail,
 } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
@@ -34,6 +35,8 @@ import { ContributionModalComponent } from '../contribution/contribution-modal.c
 import { BalanceModalComponent } from '../balance/balance-modal.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
+import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
+import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-event-details',
@@ -47,6 +50,8 @@ import { ErrorStateComponent } from '../../../shared/components/error-state/erro
     BalanceModalComponent,
     EmptyStateComponent,
     ErrorStateComponent,
+    StatusLabelPipe,
+    ConfirmModalComponent,
   ],
   templateUrl: './event-details.component.html',
 })
@@ -66,6 +71,8 @@ export class EventDetailsComponent implements OnInit {
   readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
   readonly error = signal<boolean>(false);
+  readonly cancelModalOpen = signal(false);
+  readonly cancelling = signal(false);
   readonly inviteModalOpen = signal(false);
   readonly removingParticipant = signal<string | null>(null);
   readonly updatingInvitationStatus = signal<InvitationStatus | null>(null);
@@ -85,6 +92,7 @@ export class EventDetailsComponent implements OnInit {
   readonly Pencil = Pencil;
   readonly Users = Users;
   readonly Package = Package;
+  readonly Mail = Mail;
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
   readonly canInteractWithEvent = canInteractWithEvent;
   readonly isEventExpired = isEventExpired;
@@ -128,6 +136,34 @@ export class EventDetailsComponent implements OnInit {
         },
         error: () => {
           this.error.set(true);
+        },
+      });
+  }
+
+  openCancelModal(): void {
+    this.cancelModalOpen.set(true);
+  }
+
+  closeCancelModal(): void {
+    this.cancelModalOpen.set(false);
+  }
+
+  confirmCancel(): void {
+    const current = this.event();
+    if (!current) return;
+
+    this.cancelling.set(true);
+    this.eventsService
+      .cancelEvent(current.id)
+      .pipe(finalize(() => this.cancelling.set(false)))
+      .subscribe({
+        next: () => {
+          this.toastService.show('Event cancelled successfully', 'success');
+          this.loadEvent();
+          this.closeCancelModal();
+        },
+        error: () => {
+          this.toastService.show('Failed to cancel event', 'error');
         },
       });
   }

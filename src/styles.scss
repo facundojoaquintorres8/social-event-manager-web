@@ -34,3 +34,10 @@ textarea,
 select {
   font-size: 16px;
 }
+
+.scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

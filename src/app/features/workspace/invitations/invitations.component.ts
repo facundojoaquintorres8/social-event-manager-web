@@ -9,11 +9,18 @@ import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/even
 import { finalize } from 'rxjs';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
+import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
 
 @Component({
   selector: 'app-invitations',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, EmptyStateComponent, ErrorStateComponent],
+  imports: [
+    CommonModule,
+    LucideAngularModule,
+    EmptyStateComponent,
+    ErrorStateComponent,
+    StatusLabelPipe,
+  ],
   templateUrl: './invitations.component.html',
 })
 export class InvitationsComponent implements OnInit {

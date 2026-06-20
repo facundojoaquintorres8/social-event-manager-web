@@ -121,6 +121,23 @@ export class EventsCalendarComponent implements OnInit {
     this.loadEvents();
   }
 
+  getEventDotClass(event: CalendarEvent): string {
+    if (event.owner) {
+      return 'bg-blue-500 dark:bg-blue-400';
+    }
+
+    switch (event.invitationStatus) {
+      case InvitationStatus.ACCEPTED:
+        return 'bg-green-500 dark:bg-green-400';
+      case InvitationStatus.PENDING:
+        return 'bg-yellow-500 dark:bg-yellow-400';
+      case InvitationStatus.REJECTED:
+        return 'bg-gray-400 dark:bg-gray-500';
+      default:
+        return 'bg-gray-300';
+    }
+  }
+
   getEventClasses(event: CalendarEvent): string {
     if (event.owner) {
       return `

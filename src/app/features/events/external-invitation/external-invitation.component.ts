@@ -7,11 +7,12 @@ import {
   ExternalInvitationStatus,
 } from '../../../core/models/event.model';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
+import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
 
 @Component({
   selector: 'app-external-invitation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, StatusLabelPipe],
   templateUrl: './external-invitation.component.html',
 })
 export class ExternalInvitationComponent implements OnInit {

@@ -1,6 +1,6 @@
 <div
   class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
-  (click)="!loading() && close()"
+  (click)="!loading() && onClose()"
 >
   <div
     class="w-full max-w-3xl rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900"
@@ -139,7 +139,7 @@
           <div class="flex justify-end pt-2">
             <button
               type="button"
-              (click)="close()"
+              (click)="onClose()"
               class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
             >
               Close
@@ -215,7 +215,7 @@
             <button
               type="button"
               [disabled]="loading()"
-              (click)="close()"
+              (click)="onClose()"
               class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
             >
               Cancel

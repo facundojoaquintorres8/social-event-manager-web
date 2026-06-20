@@ -234,15 +234,12 @@
                   {{ event.title }}
                 </h3>
 
-                <a
-                  [href]="buildGoogleMapsUrl(event.latitude, event.longitude)"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  (click)="$event.stopPropagation()"
-                  class="mt-1 inline-block text-sm text-blue-600 transition-colors hover:underline dark:text-blue-400"
+                <span
+                  (click)="openMaps($event, event.latitude, event.longitude)"
+                  class="mt-1 inline-block cursor-pointer text-sm text-blue-600 transition-colors hover:underline dark:text-blue-400"
                 >
                   {{ event.location }}
-                </a>
+                </span>
               </div>
 
               <div class="flex items-center justify-between gap-4 md:text-right">
@@ -258,7 +255,7 @@
                     'bg-red-100 text-red-700': event.status === 'CANCELLED',
                   }"
                 >
-                  {{ event.status }}
+                  {{ event.status | statusLabel }}
                 </span>
                 <lucide-icon
                   [img]="ArrowRight"

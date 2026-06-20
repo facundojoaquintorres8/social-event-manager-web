@@ -49,8 +49,8 @@ export class CreatedEventsComponent implements OnInit {
   readonly currentPage = signal(0);
   readonly loading = signal(true);
   readonly error = signal<boolean>(false);
-  readonly actionLoading = signal<string | null>(null);
-  readonly confirmModalOpen = signal<boolean>(false);
+  readonly cancelModalOpen = signal<boolean>(false);
+  readonly cancelling = signal(false);
   readonly selectedEventId = signal<string | null>(null);
   readonly openedMenuId = signal<string | null>(null);
 
@@ -100,39 +100,31 @@ export class CreatedEventsComponent implements OnInit {
   }
 
   openCancelModal(eventId: string): void {
-    if (this.actionLoading()) return;
+    this.cancelModalOpen.set(true);
     this.selectedEventId.set(eventId);
-    this.confirmModalOpen.set(true);
+  }
+
+  closeCancelModal(): void {
+    this.cancelModalOpen.set(false);
+    this.selectedEventId.set(null);
   }
 
   confirmCancel(): void {
     const eventId = this.selectedEventId();
-
     if (!eventId) return;
 
-    this.confirmModalOpen.set(false);
-    this.selectedEventId.set(null);
-
-    this.cancelEvent(eventId);
-  }
-
-  closeModal(): void {
-    this.confirmModalOpen.set(false);
-    this.selectedEventId.set(null);
-  }
-
-  cancelEvent(eventId: string): void {
-    this.actionLoading.set(eventId);
-
+    this.cancelling.set(true);
     this.eventsService
       .cancelEvent(eventId)
-      .pipe(finalize(() => this.actionLoading.set(null)))
+      .pipe(finalize(() => this.cancelling.set(false)))
       .subscribe({
         next: () => {
-          this.toastService.show('Event cancelled');
-          this.events.update((events) =>
-            events.map((e) => (e.id === eventId ? { ...e, status: EventStatus.CANCELLED } : e)),
-          );
+          this.toastService.show('Event cancelled successfully', 'success');
+          this.listenToQueryParams();
+          this.closeCancelModal();
+        },
+        error: () => {
+          this.toastService.show('Failed to cancel event', 'error');
         },
       });
   }

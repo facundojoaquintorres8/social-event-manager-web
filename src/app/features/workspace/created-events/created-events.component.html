@@ -75,19 +75,19 @@
           type="text"
           placeholder="Search by title..."
           formControlName="title"
-          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none sm:w-48 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none sm:w-48 sm:w-auto dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
 
         <input
           type="date"
           formControlName="fromDate"
-          class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md sm:w-48 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
 
         <input
           type="date"
           formControlName="toDate"
-          class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md sm:w-48 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
 
         <select
@@ -103,7 +103,7 @@
           <button
             type="button"
             (click)="clearFilters()"
-            class="self-end text-sm text-blue-600 hover:text-blue-700 sm:ml-4 sm:self-auto"
+            class="text-sm text-blue-600 hover:text-blue-700 sm:ml-4"
           >
             Clear filters
           </button>
@@ -236,11 +236,13 @@
   </div>
 }
 
-<app-confirm-modal
-  [open]="confirmModalOpen()"
-  title="Cancel event"
-  message="Are you sure you want to cancel this event?"
-  (confirm)="confirmCancel()"
-  (cancel)="closeModal()"
->
-</app-confirm-modal>
+@if (cancelModalOpen()) {
+  <app-confirm-modal
+    title="Cancel event"
+    message="Are you sure you want to cancel this event?"
+    [confirmDisabled]="cancelling()"
+    (confirm)="confirmCancel()"
+    (closeModal)="closeCancelModal()"
+  >
+  </app-confirm-modal>
+}

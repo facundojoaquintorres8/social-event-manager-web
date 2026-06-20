@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, HostListener, inject, output, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -41,5 +41,10 @@ export class InviteUserModalComponent {
 
   resetLoading() {
     this.loading.set(false);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (!this.loading()) this.onClose();
   }
 }

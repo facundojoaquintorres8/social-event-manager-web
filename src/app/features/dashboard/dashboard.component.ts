@@ -17,11 +17,12 @@ import { Dashboard } from '../../core/models/event.model';
 import { AuthService } from '../../core/services/auth.service';
 import { buildGoogleMapsUrl } from '../../shared/utils/maps.utils';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
+import { StatusLabelPipe } from '../../shared/utils/status-label.pipe';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule, EmptyStateComponent],
+  imports: [CommonModule, RouterLink, LucideAngularModule, EmptyStateComponent, StatusLabelPipe],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
@@ -43,6 +44,12 @@ export class DashboardComponent {
 
   constructor() {
     this.loadDashboard();
+  }
+
+  openMaps(e: MouseEvent, lat: number, lng: number): void {
+    e.stopPropagation();
+    e.preventDefault();
+    window.open(this.buildGoogleMapsUrl(lat, lng), '_blank', 'noopener,noreferrer');
   }
 
   private loadDashboard(): void {

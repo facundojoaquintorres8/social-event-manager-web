@@ -1,4 +1,4 @@
-import { Component, effect, input, output } from '@angular/core';
+import { Component, effect, HostListener, input, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Contribution, CreateContributionRequest } from '../../../core/models/event.model';
@@ -73,5 +73,10 @@ export class ContributionModalComponent {
       cost: value.cost,
       splitCost: value.splitCost ?? false,
     });
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (!this.loading()) this.onClose();
   }
 }

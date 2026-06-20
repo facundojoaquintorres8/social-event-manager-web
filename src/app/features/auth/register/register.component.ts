@@ -6,6 +6,7 @@ import { finalize } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { passwordMatchValidator } from '../../../shared/utils/validators';
 
 @Component({
   selector: 'app-register',
@@ -28,13 +29,16 @@ export class RegisterComponent {
   readonly Eye = Eye;
   readonly EyeOff = EyeOff;
 
-  readonly form = this.fb.nonNullable.group({
-    firstName: ['', [Validators.required]],
-    lastName: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]],
-  });
+  readonly form = this.fb.nonNullable.group(
+    {
+      firstName: ['', [Validators.required]],
+      lastName: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', Validators.required],
+    },
+    { validators: passwordMatchValidator },
+  );
 
   submit(): void {
     if (this.form.invalid) {

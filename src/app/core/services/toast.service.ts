@@ -21,7 +21,7 @@ export class ToastService {
     }, 3000);
   }
 
-  clear(): void {
+  hide(): void {
     this._toast.set(null);
   }
 }

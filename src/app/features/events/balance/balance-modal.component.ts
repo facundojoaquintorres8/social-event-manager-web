@@ -1,4 +1,12 @@
-import { Component, OnChanges, SimpleChanges, input, output, signal } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnChanges,
+  SimpleChanges,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   BalanceParticipantRequest,
@@ -76,7 +84,7 @@ export class BalanceModalComponent implements OnChanges {
     });
   }
 
-  close() {
+  onClose() {
     this.modalClosed.emit();
   }
 
@@ -102,5 +110,10 @@ export class BalanceModalComponent implements OnChanges {
       });
 
     this.participants.set(participants);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    if (!this.loading()) this.onClose();
   }
 }

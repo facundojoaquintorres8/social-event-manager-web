@@ -1,7 +1,7 @@
 <div class="min-h-[100dvh] bg-gray-50 transition-colors duration-300 dark:bg-gray-950">
   @if (toastService.toast()) {
     <div
-      class="slide-in-from-top-2 fixed top-4 right-4 z-[9999] rounded-lg px-4 py-2 text-sm shadow-lg transition-all duration-300"
+      class="slide-in-from-top-2 fixed inset-x-4 top-4 z-[9999] flex items-center gap-3 rounded-lg px-4 py-2 text-sm shadow-lg transition-all duration-300 sm:inset-x-auto sm:right-4 sm:left-auto sm:max-w-sm"
       [ngClass]="{
         'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300':
           toastService.toast()?.type === 'success',
@@ -9,7 +9,15 @@
           toastService.toast()?.type === 'error',
       }"
     >
-      {{ toastService.toast()?.message }}
+      <span class="flex-1">{{ toastService.toast()?.message }}</span>
+
+      <button
+        (click)="toastService.hide()"
+        class="flex-shrink-0 rounded-md p-1 transition-colors hover:bg-black/10 dark:hover:bg-white/10"
+        aria-label="Close notification"
+      >
+        <lucide-icon [img]="X" class="h-4 w-4"></lucide-icon>
+      </button>
     </div>
   }
 

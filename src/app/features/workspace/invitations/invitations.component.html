@@ -91,7 +91,7 @@
                           invitation.status === InvitationStatus.CANCELLED,
                       }"
                     >
-                      {{ invitation.status }}
+                      {{ invitation.status | statusLabel }}
                     </span>
 
                     @if (isEventExpired(invitation.eventDate)) {
