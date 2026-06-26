@@ -70,6 +70,12 @@
       </div>
     </div>
   </div>
+} @else if (error()) {
+  <app-error-state
+    title="Unable to load dashboard"
+    description="Something went wrong while loading your dashboard."
+    (retry)="loadDashboard()"
+  />
 } @else {
   <div class="space-y-5 md:space-y-8">
     <div>

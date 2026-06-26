@@ -18,11 +18,19 @@ import { AuthService } from '../../core/services/auth.service';
 import { buildGoogleMapsUrl } from '../../shared/utils/maps.utils';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { StatusLabelPipe } from '../../shared/utils/status-label.pipe';
+import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule, EmptyStateComponent, StatusLabelPipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    LucideAngularModule,
+    EmptyStateComponent,
+    StatusLabelPipe,
+    ErrorStateComponent,
+  ],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent {
@@ -31,6 +39,7 @@ export class DashboardComponent {
 
   readonly loading = signal(true);
   readonly dashboard = signal<Dashboard | null>(null);
+  readonly error = signal(false);
 
   readonly Calendar = Calendar;
   readonly CircleCheckBig = CircleCheckBig;
@@ -52,13 +61,19 @@ export class DashboardComponent {
     window.open(this.buildGoogleMapsUrl(lat, lng), '_blank', 'noopener,noreferrer');
   }
 
-  private loadDashboard(): void {
+  loadDashboard(): void {
+    this.error.set(false);
+    this.loading.set(true);
+
     this.eventsService
       .getDashboard()
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
         next: (res) => {
           this.dashboard.set(res.data);
+        },
+        error: () => {
+          this.error.set(true);
         },
       });
   }
