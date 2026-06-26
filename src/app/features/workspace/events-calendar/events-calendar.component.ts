@@ -1,14 +1,16 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import { Component, HostListener, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EventsService } from '../../../core/services/events.service';
 import { CalendarEvent, InvitationStatus } from '../../../core/models/event.model';
 import { finalize } from 'rxjs';
+import { LucideAngularModule, X, ArrowRight } from 'lucide-angular';
+import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 
 @Component({
   selector: 'app-events-calendar',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, LucideAngularModule, ErrorStateComponent],
   templateUrl: './events-calendar.component.html',
 })
 export class EventsCalendarComponent implements OnInit {
@@ -17,39 +19,10 @@ export class EventsCalendarComponent implements OnInit {
   loading = signal(true);
   events = signal<CalendarEvent[]>([]);
   currentDate = signal(new Date());
-
-  readonly weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-
-  ngOnInit(): void {
-    this.loadEvents();
-  }
-
-  loadEvents() {
-    this.loading.set(true);
-
-    const currentDate = this.currentDate();
-
-    const from = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
-      2,
-      '0',
-    )}-01T00:00:00`;
-
-    const to = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
-      2,
-      '0',
-    )}-${String(
-      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
-    ).padStart(2, '0')}T23:59:59`;
-
-    this.eventsService
-      .getCalendarEvents(from, to)
-      .pipe(finalize(() => this.loading.set(false)))
-      .subscribe({
-        next: (response) => {
-          this.events.set(response.data);
-        },
-      });
-  }
+  selectedDay = signal<{ date: Date; isCurrentMonth: boolean; events: CalendarEvent[] } | null>(
+    null,
+  );
+  error = signal(false);
 
   monthLabel = computed(() => {
     return this.currentDate().toLocaleDateString('en-US', {
@@ -57,7 +30,6 @@ export class EventsCalendarComponent implements OnInit {
       year: 'numeric',
     });
   });
-
   calendarDays = computed(() => {
     const date = this.currentDate();
 
@@ -108,6 +80,51 @@ export class EventsCalendarComponent implements OnInit {
 
     return days;
   });
+  skeletonDays = computed(() => {
+    const date = this.currentDate();
+    const firstDay = new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+    const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+    return Array.from({ length: firstDay + daysInMonth });
+  });
+
+  readonly weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  readonly ArrowRight = ArrowRight;
+  readonly X = X;
+
+  ngOnInit(): void {
+    this.loadEvents();
+  }
+
+  loadEvents() {
+    this.loading.set(true);
+    this.error.set(false);
+
+    const currentDate = this.currentDate();
+
+    const from = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-01T00:00:00`;
+
+    const to = `${currentDate.getFullYear()}-${String(currentDate.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-${String(
+      new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate(),
+    ).padStart(2, '0')}T23:59:59`;
+
+    this.eventsService
+      .getCalendarEvents(from, to)
+      .pipe(finalize(() => this.loading.set(false)))
+      .subscribe({
+        next: (response) => {
+          this.events.set(response.data);
+        },
+        error: () => {
+          this.error.set(true);
+        },
+      });
+  }
 
   previousMonth() {
     const date = this.currentDate();
@@ -119,6 +136,20 @@ export class EventsCalendarComponent implements OnInit {
     const date = this.currentDate();
     this.currentDate.set(new Date(date.getFullYear(), date.getMonth() + 1, 1));
     this.loadEvents();
+  }
+
+  selectDay(day: { date: Date; isCurrentMonth: boolean; events: CalendarEvent[] }): void {
+    if (day.events.length === 0) return;
+    this.selectedDay.set(day);
+  }
+
+  closeDay(): void {
+    this.selectedDay.set(null);
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscape(): void {
+    this.closeDay();
   }
 
   getEventDotClass(event: CalendarEvent): string {
