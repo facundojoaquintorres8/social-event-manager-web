@@ -90,9 +90,10 @@ export interface ExternalInvitationPreview {
   description: string;
   eventDate: string;
   location: string;
+  latitude: number;
+  longitude: number;
   createdBy: string;
   status: ExternalInvitationStatus;
-  expiresAt: string;
   alreadyClaimed: boolean;
   invitedEmail: string;
 }

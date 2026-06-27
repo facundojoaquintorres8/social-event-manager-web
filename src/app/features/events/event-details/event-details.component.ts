@@ -36,6 +36,7 @@ import { EmptyStateComponent } from '../../../shared/components/empty-state/empt
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
+import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 
 @Component({
   selector: 'app-event-details',
@@ -94,6 +95,7 @@ export class EventDetailsComponent implements OnInit {
   readonly Mail = Mail;
   readonly canInteractWithEvent = canInteractWithEvent;
   readonly isEventExpired = isEventExpired;
+  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   currentUserParticipant = computed<EventParticipant | null>(() => {
     const currentEvent = this.event();
@@ -430,13 +432,6 @@ export class EventDetailsComponent implements OnInit {
           this.balanceResult.set(res.data);
         },
       });
-  }
-
-  buildGoogleMapsUrl(latitude?: number, longitude?: number): string {
-    if (latitude == null || longitude == null) {
-      return '#';
-    }
-    return `https://www.google.com/maps?q=${latitude},${longitude}`;
   }
 
   goBack(): void {

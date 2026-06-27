@@ -8,7 +8,7 @@ export class StatusLabelPipe implements PipeTransform {
     PENDING: 'Pending',
     ACCEPTED: 'Accepted',
     REJECTED: 'Rejected',
-    CLAIMED: 'Claimed',
+    CLAIMED: 'Accepted',
   };
 
   transform(value: string): string {

@@ -8,11 +8,13 @@ import {
 } from '../../../core/models/event.model';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
 import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
+import { LucideAngularModule, TriangleAlert } from 'lucide-angular';
+import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 
 @Component({
   selector: 'app-external-invitation',
   standalone: true,
-  imports: [CommonModule, StatusLabelPipe],
+  imports: [CommonModule, StatusLabelPipe, LucideAngularModule],
   templateUrl: './external-invitation.component.html',
 })
 export class ExternalInvitationComponent implements OnInit {
@@ -26,16 +28,11 @@ export class ExternalInvitationComponent implements OnInit {
   invitation = signal<ExternalInvitationPreview | null>(null);
 
   readonly ExternalInvitationStatus = ExternalInvitationStatus;
+  readonly TriangleAlert = TriangleAlert;
+  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   readonly loggedIn = computed(() => this.authService.isAuthenticated());
   readonly alreadyClaimed = computed(() => this.invitation()?.alreadyClaimed ?? false);
-  readonly isExpired = computed(() => {
-    const invitation = this.invitation();
-    if (!invitation) {
-      return false;
-    }
-    return new Date(invitation.expiresAt) < new Date();
-  });
   readonly wrongAccount = computed(() => {
     const invitation = this.invitation();
     const currentUserEmail = this.authService.currentUser()?.email;
@@ -50,7 +47,6 @@ export class ExternalInvitationComponent implements OnInit {
       !!invitation &&
       !this.loggedIn() &&
       !this.alreadyClaimed() &&
-      !this.isExpired() &&
       invitation.status !== ExternalInvitationStatus.CANCELLED
     );
   });
@@ -59,6 +55,10 @@ export class ExternalInvitationComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this.loadInvitation();
+  }
+
+  loadInvitation() {
     const token = this.route.snapshot.paramMap.get('token');
 
     if (!token) {
@@ -69,10 +69,6 @@ export class ExternalInvitationComponent implements OnInit {
       return;
     }
 
-    this.loadInvitation(token);
-  }
-
-  loadInvitation(token: string) {
     this.externalInvitationsService.getExternalInvitationPreview(token).subscribe({
       next: (response) => {
         const invitation = response.data;
