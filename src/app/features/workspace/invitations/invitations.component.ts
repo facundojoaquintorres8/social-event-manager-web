@@ -1,15 +1,14 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { EventStatus, Invitation, InvitationStatus } from '../../../core/models/event.model';
+import { EventCardModel, Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
-import { LucideAngularModule, Calendar, MapPin, User, Check, X, Inbox } from 'lucide-angular';
-import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import { LucideAngularModule, Inbox } from 'lucide-angular';
 import { InvitationsService } from '../../../core/services/invitations.service';
-import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
 import { finalize } from 'rxjs';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
-import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
+import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
+import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 
 @Component({
   selector: 'app-invitations',
@@ -19,7 +18,8 @@ import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
     LucideAngularModule,
     EmptyStateComponent,
     ErrorStateComponent,
-    StatusLabelPipe,
+    EventCardComponent,
+    EventCardSkeletonComponent,
   ],
   templateUrl: './invitations.component.html',
 })
@@ -30,19 +30,12 @@ export class InvitationsComponent implements OnInit {
   readonly invitations = signal<Invitation[]>([]);
   readonly error = signal<boolean>(false);
   readonly loading = signal(true);
-  readonly actionLoading = signal<{ invitationId: string; status: InvitationStatus } | null>(null);
+  readonly actionLoading = signal<{ invitationId: string; action: 'accept' | 'reject' } | null>(
+    null,
+  );
 
   readonly InvitationStatus = InvitationStatus;
-  readonly EventStatus = EventStatus;
-  readonly Calendar = Calendar;
-  readonly MapPin = MapPin;
-  readonly User = User;
-  readonly Check = Check;
-  readonly X = X;
   readonly Inbox = Inbox;
-  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
-  readonly canInteractWithEvent = canInteractWithEvent;
-  readonly isEventExpired = isEventExpired;
 
   ngOnInit(): void {
     this.loadInvitations();
@@ -65,32 +58,39 @@ export class InvitationsComponent implements OnInit {
       });
   }
 
-  updateStatus(invitation: Invitation, status: InvitationStatus) {
-    this.actionLoading.set({
-      invitationId: invitation.invitationId,
-      status,
-    });
+  updateStatus(eventId: string, status: InvitationStatus): void {
+    const invitation = this.invitations().find((inv) => inv.eventId === eventId);
+    if (!invitation) return;
 
-    this.invitationService.updateInvitationStatus(invitation.eventId, status).subscribe({
+    const action = status === InvitationStatus.ACCEPTED ? 'accept' : 'reject';
+    this.actionLoading.set({ invitationId: invitation.invitationId, action });
+
+    this.invitationService.updateInvitationStatus(eventId, status).subscribe({
       next: () => {
         this.invitations.update((invitations) =>
-          invitations.map((inv) =>
-            inv.invitationId === invitation.invitationId
-              ? {
-                  ...inv,
-                  status,
-                }
-              : inv,
-          ),
+          invitations.map((inv) => (inv.eventId === eventId ? { ...inv, status } : inv)),
         );
-
         this.toastService.show(`Invitation ${status.toLowerCase()} successfully`, 'success');
-
         this.actionLoading.set(null);
       },
       error: () => {
         this.actionLoading.set(null);
       },
     });
+  }
+
+  toEventCard(inv: Invitation): EventCardModel {
+    return {
+      id: inv.eventId,
+      title: inv.title,
+      eventDate: inv.eventDate,
+      location: inv.location,
+      latitude: inv.latitude,
+      longitude: inv.longitude,
+      createdBy: inv.createdBy,
+      eventStatus: inv.eventStatus,
+      invitationId: inv.invitationId,
+      invitationStatus: inv.status,
+    };
   }
 }

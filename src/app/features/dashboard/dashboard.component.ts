@@ -9,16 +9,14 @@ import {
   CircleX,
   Clock,
   Plus,
-  ArrowRight,
-  CalendarDays,
 } from 'lucide-angular';
 import { EventsService } from '../../core/services/events.service';
-import { Dashboard } from '../../core/models/event.model';
+import { Dashboard, Event, EventCardModel } from '../../core/models/event.model';
 import { AuthService } from '../../core/services/auth.service';
-import { buildGoogleMapsUrl } from '../../shared/utils/maps.utils';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
-import { StatusLabelPipe } from '../../shared/utils/status-label.pipe';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
+import { EventCardComponent } from '../../shared/components/event-card/event-card.component';
+import { EventCardSkeletonComponent } from '../../shared/components/event-card-skeleton/event-card-skeleton.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,8 +26,9 @@ import { ErrorStateComponent } from '../../shared/components/error-state/error-s
     RouterLink,
     LucideAngularModule,
     EmptyStateComponent,
-    StatusLabelPipe,
     ErrorStateComponent,
+    EventCardComponent,
+    EventCardSkeletonComponent,
   ],
   templateUrl: './dashboard.component.html',
 })
@@ -46,19 +45,9 @@ export class DashboardComponent {
   readonly CircleX = CircleX;
   readonly Clock = Clock;
   readonly Plus = Plus;
-  readonly ArrowRight = ArrowRight;
-  readonly CalendarDays = CalendarDays;
-
-  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   constructor() {
     this.loadDashboard();
-  }
-
-  openMaps(e: MouseEvent, lat: number, lng: number): void {
-    e.stopPropagation();
-    e.preventDefault();
-    window.open(this.buildGoogleMapsUrl(lat, lng), '_blank', 'noopener,noreferrer');
   }
 
   loadDashboard(): void {
@@ -76,5 +65,18 @@ export class DashboardComponent {
           this.error.set(true);
         },
       });
+  }
+
+  toEventCard(e: Event): EventCardModel {
+    return {
+      id: e.id,
+      title: e.title,
+      eventDate: e.eventDate,
+      location: e.location,
+      latitude: e.latitude,
+      longitude: e.longitude,
+      createdBy: e.createdBy,
+      eventStatus: e.status,
+    };
   }
 }

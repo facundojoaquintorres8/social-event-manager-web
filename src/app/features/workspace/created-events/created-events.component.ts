@@ -1,37 +1,32 @@
-import { Component, inject, signal, OnInit, DestroyRef, HostListener } from '@angular/core';
+import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import {
-  LucideAngularModule,
-  Plus,
-  Pencil,
-  X,
-  ArrowRight,
-  EllipsisVertical,
-  CalendarX2,
-} from 'lucide-angular';
+import { LucideAngularModule, Plus, CalendarX2 } from 'lucide-angular';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { EventsService } from '../../../core/services/events.service';
 import { ToastService } from '../../../core/services/toast.service';
-import { Event, EventStatus } from '../../../core/models/event.model';
-import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
+import { Event, EventCardModel, EventStatus } from '../../../core/models/event.model';
+import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
+import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 
 @Component({
   selector: 'app-created-events',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     ReactiveFormsModule,
+    RouterLink,
     LucideAngularModule,
     ConfirmModalComponent,
     EmptyStateComponent,
     ErrorStateComponent,
+    EventCardComponent,
+    EventCardSkeletonComponent,
   ],
   templateUrl: './created-events.component.html',
 })
@@ -51,18 +46,11 @@ export class CreatedEventsComponent implements OnInit {
   readonly error = signal<boolean>(false);
   readonly cancelModalOpen = signal<boolean>(false);
   readonly cancelling = signal(false);
-  readonly selectedEventId = signal<string | null>(null);
-  readonly openedMenuId = signal<string | null>(null);
+  private readonly selectedEventId = signal<string | null>(null);
 
   readonly Plus = Plus;
-  readonly Pencil = Pencil;
-  readonly X = X;
-  readonly ArrowRight = ArrowRight;
-  readonly EllipsisVertical = EllipsisVertical;
   readonly CalendarX2 = CalendarX2;
   readonly EventStatus = EventStatus;
-  readonly canInteractWithEvent = canInteractWithEvent;
-  readonly isEventExpired = isEventExpired;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],
@@ -87,16 +75,6 @@ export class CreatedEventsComponent implements OnInit {
   retryLoad(): void {
     const page = this.currentPage();
     this.loadEvents(page);
-  }
-
-  goToDetails(eventId: string): void {
-    this.router.navigate(['/events', eventId]);
-  }
-
-  editEvent(eventId: string, event: MouseEvent): void {
-    event.stopPropagation();
-
-    this.router.navigate(['/events/edit', eventId]);
   }
 
   openCancelModal(eventId: string): void {
@@ -129,20 +107,6 @@ export class CreatedEventsComponent implements OnInit {
       });
   }
 
-  toggleMenu(eventId: string, event: MouseEvent): void {
-    event.stopPropagation();
-    this.openedMenuId.update((current) => (current === eventId ? null : eventId));
-  }
-
-  closeMenu(): void {
-    this.openedMenuId.set(null);
-  }
-
-  @HostListener('document:click')
-  onDocumentClick(): void {
-    this.closeMenu();
-  }
-
   hasActiveFilters(): boolean {
     const filters = this.filterForm.getRawValue();
     return !!(filters.title || filters.fromDate || filters.toDate || filters.status);
@@ -155,6 +119,19 @@ export class CreatedEventsComponent implements OnInit {
       toDate: '',
       status: '',
     });
+  }
+
+  toEventCard(e: Event): EventCardModel {
+    return {
+      id: e.id,
+      title: e.title,
+      eventDate: e.eventDate,
+      location: e.location,
+      latitude: e.latitude,
+      longitude: e.longitude,
+      createdBy: e.createdBy,
+      eventStatus: e.status,
+    };
   }
 
   private initFromQueryParams(): void {

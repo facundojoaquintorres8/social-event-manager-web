@@ -53,7 +53,7 @@ export interface Invitation {
   placeId: string;
   latitude: number;
   longitude: number;
-  invitedBy: string;
+  createdBy: string;
   status: InvitationStatus;
   eventStatus: EventStatus;
 }
@@ -155,4 +155,19 @@ export interface Settlement {
   from: string;
   to: string;
   amount: number;
+}
+
+export type EventCardVariant = 'created' | 'attending' | 'invitations' | 'dashboard';
+
+export interface EventCardModel {
+  id: string; // eventId or invitationId
+  title: string;
+  eventDate: string;
+  location: string;
+  latitude: number;
+  longitude: number;
+  createdBy: string;
+  eventStatus: EventStatus;
+  invitationId?: string; // only invitations
+  invitationStatus?: InvitationStatus; // only invitations
 }

@@ -1,0 +1,160 @@
+<div
+  (click)="navigateToDetail()"
+  class="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-700"
+>
+  <div
+    class="flex gap-3"
+    [ngClass]="{
+      'flex-col sm:flex-row sm:items-start sm:justify-between': variant() === 'invitations',
+      'flex-row items-start justify-between': variant() !== 'invitations',
+    }"
+  >
+    <div class="min-w-0 flex-1">
+      <h3
+        class="truncate font-semibold text-gray-900 transition-colors group-hover:text-blue-600 dark:text-gray-100"
+      >
+        {{ event().title }}
+      </h3>
+
+      <span
+        (click)="openMaps($event)"
+        class="mt-1 inline-block cursor-pointer text-sm text-blue-600 transition-colors hover:underline dark:text-blue-400"
+      >
+        {{ event().location }}
+      </span>
+
+      <p class="mt-1 text-xs text-gray-400">
+        {{ event().eventDate | date: 'medium' }}
+      </p>
+
+      @if (showOrganizer) {
+        <p class="mt-2 text-xs text-gray-400">
+          Organized by
+          <span class="font-medium text-gray-500 dark:text-gray-400">{{ event().createdBy }}</span>
+        </p>
+      }
+    </div>
+
+    <div
+      class="flex flex-wrap items-center gap-2"
+      [ngClass]="{ 'sm:flex-shrink-0': variant() === 'invitations' }"
+    >
+      @if (variant() === 'invitations' && event().invitationStatus) {
+        <span
+          class="rounded-full px-2 py-1 text-xs font-medium whitespace-nowrap"
+          [ngClass]="{
+            'bg-yellow-100 text-yellow-700': event().invitationStatus === InvitationStatus.PENDING,
+            'bg-green-100 text-green-700': event().invitationStatus === InvitationStatus.ACCEPTED,
+            'bg-red-100 text-red-700': event().invitationStatus === InvitationStatus.REJECTED,
+          }"
+        >
+          {{ event().invitationStatus! | statusLabel }}
+        </span>
+      }
+
+      @if (variant() === 'attending') {
+        <span
+          class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium whitespace-nowrap text-green-700"
+        >
+          Attending
+        </span>
+      }
+
+      @if (variant() === 'created' || variant() === 'dashboard') {
+        <span
+          class="rounded-full px-2 py-1 text-xs font-medium whitespace-nowrap"
+          [ngClass]="{
+            'bg-green-100 text-green-700': event().eventStatus === EventStatus.ACTIVE,
+            'bg-red-100 text-red-700': event().eventStatus === EventStatus.CANCELLED,
+          }"
+        >
+          {{ event().eventStatus | statusLabel }}
+        </span>
+      }
+
+      @if (expired) {
+        <span
+          class="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium whitespace-nowrap text-gray-700 dark:bg-gray-800 dark:text-gray-300"
+        >
+          Expired
+        </span>
+      }
+
+      @if (variant() === 'invitations' && canInteract) {
+        <button
+          (click)="$event.stopPropagation(); acceptInvitation.emit(event().id)"
+          [disabled]="
+            loadingAction() !== null || event().invitationStatus === InvitationStatus.ACCEPTED
+          "
+          class="flex items-center justify-center gap-1 rounded-xl bg-green-600 px-3 py-1.5 text-xs font-medium text-white transition-all hover:bg-green-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-green-600"
+        >
+          @if (loadingAction() === 'accept') {
+            <span
+              class="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent"
+            ></span>
+          } @else {
+            Accept
+          }
+        </button>
+
+        <button
+          (click)="$event.stopPropagation(); rejectInvitation.emit(event().id)"
+          [disabled]="
+            loadingAction() !== null || event().invitationStatus === InvitationStatus.REJECTED
+          "
+          class="flex items-center justify-center gap-1 rounded-xl border border-gray-200 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition-all hover:bg-gray-100 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200"
+        >
+          @if (loadingAction() === 'reject') {
+            <span
+              class="h-3 w-3 animate-spin rounded-full border-2 border-gray-500 border-t-transparent"
+            ></span>
+          } @else {
+            Reject
+          }
+        </button>
+      }
+
+      @if (variant() === 'created' && canInteract) {
+        <div class="relative">
+          <button
+            (click)="toggleMenu($event)"
+            class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-700 active:scale-95 dark:text-gray-400 dark:hover:bg-gray-800"
+          >
+            <lucide-icon [img]="EllipsisVertical" class="h-4 w-4"></lucide-icon>
+          </button>
+
+          @if (menuOpen()) {
+            <div
+              (click)="$event.stopPropagation()"
+              class="absolute right-0 z-20 mt-2 w-36 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900"
+            >
+              <button
+                (click)="router.navigate(['/events/edit', event().id]); closeMenu()"
+                class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+              >
+                <lucide-icon [img]="Pencil" class="h-4 w-4"></lucide-icon>
+                Edit
+              </button>
+
+              @if (event().eventStatus === EventStatus.ACTIVE) {
+                <button
+                  (click)="cancelEvent.emit(event().id); closeMenu(); $event.stopPropagation()"
+                  class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+                >
+                  <lucide-icon [img]="X" class="h-4 w-4"></lucide-icon>
+                  Cancel
+                </button>
+              }
+            </div>
+          }
+        </div>
+      }
+
+      <lucide-icon
+        [img]="ArrowRight"
+        class="h-4 w-4 flex-shrink-0 text-gray-400 transition-transform duration-200 group-hover:translate-x-1"
+        [ngClass]="{ 'hidden sm:block': variant() === 'invitations' }"
+      ></lucide-icon>
+    </div>
+  </div>
+</div>

@@ -25,7 +25,6 @@ import {
 } from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
-import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 import { AuthService } from '../../../core/services/auth.service';
 import { InvitationsService } from '../../../core/services/invitations.service';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
@@ -93,7 +92,6 @@ export class EventDetailsComponent implements OnInit {
   readonly Users = Users;
   readonly Package = Package;
   readonly Mail = Mail;
-  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
   readonly canInteractWithEvent = canInteractWithEvent;
   readonly isEventExpired = isEventExpired;
 
@@ -432,6 +430,13 @@ export class EventDetailsComponent implements OnInit {
           this.balanceResult.set(res.data);
         },
       });
+  }
+
+  buildGoogleMapsUrl(latitude?: number, longitude?: number): string {
+    if (latitude == null || longitude == null) {
+      return '#';
+    }
+    return `https://www.google.com/maps?q=${latitude},${longitude}`;
   }
 
   goBack(): void {

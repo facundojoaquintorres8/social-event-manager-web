@@ -1,23 +1,24 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { EventsService } from '../../../core/services/events.service';
-import { Event } from '../../../core/models/event.model';
-import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import { Event, EventCardModel } from '../../../core/models/event.model';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { Calendar, LucideAngularModule } from 'lucide-angular';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { finalize } from 'rxjs';
+import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
+import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 
 @Component({
   selector: 'app-attending-events',
   standalone: true,
   imports: [
     CommonModule,
-    RouterLink,
     LucideAngularModule,
     EmptyStateComponent,
     ErrorStateComponent,
+    EventCardComponent,
+    EventCardSkeletonComponent,
   ],
   templateUrl: './attending-events.component.html',
 })
@@ -28,7 +29,6 @@ export class AttendingEventsComponent implements OnInit {
   readonly error = signal<boolean>(false);
   readonly loading = signal(true);
 
-  readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
   readonly Calendar = Calendar;
 
   ngOnInit(): void {
@@ -50,5 +50,18 @@ export class AttendingEventsComponent implements OnInit {
           this.error.set(true);
         },
       });
+  }
+
+  toEventCard(e: Event): EventCardModel {
+    return {
+      id: e.id,
+      title: e.title,
+      eventDate: e.eventDate,
+      location: e.location,
+      latitude: e.latitude,
+      longitude: e.longitude,
+      createdBy: e.createdBy,
+      eventStatus: e.status,
+    };
   }
 }
