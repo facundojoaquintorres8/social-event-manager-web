@@ -104,7 +104,7 @@
     >
       <div class="mb-4 flex items-center justify-between">
         <h3 class="font-semibold text-gray-900 dark:text-gray-100">
-          {{ selectedDay()!.date | date: 'fullDate' }}
+          {{ selectedDay()!.date | date: 'medium' }}
         </h3>
         <button
           (click)="closeDay()"
