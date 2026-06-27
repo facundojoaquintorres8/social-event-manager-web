@@ -10,6 +10,7 @@ import {
 } from '../../../core/models/event.model';
 import { canInteractWithEvent, isEventExpired } from '../../utils/event.utils';
 import { StatusLabelPipe } from '../../utils/status-label.pipe';
+import { buildGoogleMapsUrl } from '../../utils/maps.utils';
 
 @Component({
   selector: 'app-event-card',
@@ -47,7 +48,7 @@ export class EventCardComponent {
     e.stopPropagation();
     e.preventDefault();
     window.open(
-      `https://www.google.com/maps?q=${this.event().latitude},${this.event().longitude}`,
+      buildGoogleMapsUrl(this.event().latitude, this.event().longitude),
       '_blank',
       'noopener,noreferrer',
     );
