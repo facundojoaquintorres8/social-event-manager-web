@@ -12,6 +12,7 @@ import {
   EventFull,
 } from '../models/event.model';
 import { Page } from '../models/page.model';
+import { PAGE_SIZE } from '../../shared/utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class EventsService {
   }) {
     const {
       page = 0,
-      size = 10,
+      size = PAGE_SIZE,
       sortBy = 'eventDate',
       direction = 'desc',
       title,
@@ -95,7 +96,7 @@ export class EventsService {
     });
   }
 
-  getAttendingEvents(page = 0, size = 10) {
+  getAttendingEvents(page = 0, size = PAGE_SIZE) {
     return this.http.get<ApiResponse<Page<Event>>>(`${this.apiUrl}/attending`, {
       params: {
         page,

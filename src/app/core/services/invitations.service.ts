@@ -4,6 +4,7 @@ import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { Invitation, InvitationStatus } from '../models/event.model';
 import { Page } from '../models/page.model';
+import { PAGE_SIZE } from '../../shared/utils/constants';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +17,7 @@ export class InvitationsService {
     return this.http.get<ApiResponse<Page<Invitation>>>(`${this.apiUrl}/me`, {
       params: {
         page,
-        size: 10,
+        size: PAGE_SIZE,
       },
     });
   }
