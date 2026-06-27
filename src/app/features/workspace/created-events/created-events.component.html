@@ -58,17 +58,29 @@
           class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none sm:w-48 sm:w-auto dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
 
-        <input
-          type="date"
-          formControlName="fromDate"
-          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md sm:w-48 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
-        />
+        <div class="relative w-full sm:w-44">
+          <input
+            type="date"
+            formControlName="fromDate"
+            class="w-full rounded-lg border border-gray-200 bg-white py-2 pr-9 pl-3 text-sm text-gray-900 shadow-sm focus:shadow-md dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+          />
+          <lucide-icon
+            [img]="CalendarDays"
+            class="calendar-icon pointer-events-none absolute top-1/2 right-2.5 h-4 w-4 -translate-y-1/2 text-gray-400"
+          ></lucide-icon>
+        </div>
 
-        <input
-          type="date"
-          formControlName="toDate"
-          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md sm:w-48 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
-        />
+        <div class="relative w-full sm:w-44">
+          <input
+            type="date"
+            formControlName="toDate"
+            class="w-full rounded-lg border border-gray-200 bg-white py-2 pr-9 pl-3 text-sm text-gray-900 shadow-sm focus:shadow-md dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+          />
+          <lucide-icon
+            [img]="CalendarDays"
+            class="calendar-icon pointer-events-none absolute top-1/2 right-2.5 h-4 w-4 -translate-y-1/2 text-gray-400"
+          ></lucide-icon>
+        </div>
 
         <select
           formControlName="status"

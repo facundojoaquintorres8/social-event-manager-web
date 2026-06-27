@@ -50,3 +50,13 @@ input[type='time'] {
   max-width: 100%;
   min-width: 0;
 }
+
+.calendar-icon {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .calendar-icon {
+    display: none;
+  }
+}

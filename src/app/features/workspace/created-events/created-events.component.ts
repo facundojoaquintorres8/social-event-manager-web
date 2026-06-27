@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideAngularModule, Plus, CalendarX2 } from 'lucide-angular';
+import { LucideAngularModule, Plus, CalendarX2, CalendarDays } from 'lucide-angular';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
@@ -51,6 +51,7 @@ export class CreatedEventsComponent implements OnInit {
   readonly Plus = Plus;
   readonly CalendarX2 = CalendarX2;
   readonly EventStatus = EventStatus;
+  readonly CalendarDays = CalendarDays;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],

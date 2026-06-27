@@ -7,11 +7,12 @@ import { ToastService } from '../../../core/services/toast.service';
 import { Location } from '@angular/common';
 import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
 import { SelectedLocation } from '../../../core/models/location.model';
+import { CalendarDays, LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule, LocationAutocompleteComponent],
+  imports: [ReactiveFormsModule, LocationAutocompleteComponent, LucideAngularModule],
   templateUrl: './create-event.component.html',
 })
 export class CreateEventComponent implements OnInit {
@@ -24,6 +25,8 @@ export class CreateEventComponent implements OnInit {
   readonly loading = signal<boolean>(false);
   readonly isEditMode = signal<boolean>(false);
   readonly eventId = signal<string | null>(null);
+
+  readonly CalendarDays = CalendarDays;
 
   readonly form = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
