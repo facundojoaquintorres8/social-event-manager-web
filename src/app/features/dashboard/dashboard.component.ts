@@ -11,7 +11,7 @@ import {
   Plus,
 } from 'lucide-angular';
 import { EventsService } from '../../core/services/events.service';
-import { Dashboard, Event, EventCardModel } from '../../core/models/event.model';
+import { Dashboard, Event, EventCardModel, Invitation } from '../../core/models/event.model';
 import { AuthService } from '../../core/services/auth.service';
 import { EmptyStateComponent } from '../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../shared/components/error-state/error-state.component';
@@ -77,6 +77,21 @@ export class DashboardComponent {
       longitude: e.longitude,
       createdBy: e.createdBy,
       eventStatus: e.status,
+    };
+  }
+
+  toInvitationCard(inv: Invitation): EventCardModel {
+    return {
+      id: inv.eventId,
+      title: inv.title,
+      eventDate: inv.eventDate,
+      location: inv.location,
+      latitude: inv.latitude,
+      longitude: inv.longitude,
+      createdBy: inv.createdBy,
+      eventStatus: inv.eventStatus,
+      invitationId: inv.invitationId,
+      invitationStatus: inv.status,
     };
   }
 }

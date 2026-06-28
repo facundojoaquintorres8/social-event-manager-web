@@ -41,6 +41,7 @@ export interface Dashboard {
   cancelledEvents: number;
   upcomingEvents: number;
   recentEvents: Event[];
+  recentInvitations: Invitation[];
 }
 
 export interface Invitation {

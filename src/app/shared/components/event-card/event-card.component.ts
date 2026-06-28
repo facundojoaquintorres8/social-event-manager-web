@@ -21,6 +21,7 @@ import { buildGoogleMapsUrl } from '../../utils/maps.utils';
 export class EventCardComponent {
   event = input.required<EventCardModel>();
   variant = input.required<EventCardVariant>();
+  showButtons = input<boolean>(true);
   loadingAction = input<'accept' | 'reject' | null>(null);
 
   cancelEvent = output<string>();
@@ -73,7 +74,9 @@ export class EventCardComponent {
   }
 
   get canInteract(): boolean {
-    return canInteractWithEvent(this.event().eventDate, this.event().eventStatus);
+    return (
+      canInteractWithEvent(this.event().eventDate, this.event().eventStatus) && this.showButtons()
+    );
   }
 
   get expired(): boolean {
