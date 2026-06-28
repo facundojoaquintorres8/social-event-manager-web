@@ -4,7 +4,7 @@ import { InvitationsComponent } from './invitations/invitations.component';
 import { AttendingEventsComponent } from './attending-events/attending-events.component';
 import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
 import { CreatedEventsComponent } from './created-events/created-events.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
 
@@ -21,12 +21,22 @@ type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
   templateUrl: './workspace.component.html',
 })
 export class WorkspaceComponent implements OnInit {
-  readonly route = inject(ActivatedRoute);
+  private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
 
   activeTab = signal<WorkspaceTab>('created');
 
   ngOnInit(): void {
     const tab = this.route.snapshot.queryParams['tab'];
     if (tab) this.activeTab.set(tab);
+  }
+
+  setTab(tab: WorkspaceTab): void {
+    this.activeTab.set(tab);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab },
+      queryParamsHandling: 'merge',
+    });
   }
 }
