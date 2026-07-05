@@ -28,7 +28,11 @@ import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal
 import { AuthService } from '../../../core/services/auth.service';
 import { InvitationsService } from '../../../core/services/invitations.service';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
-import { canInteractWithEvent, isEventExpired } from '../../../shared/utils/event.utils';
+import {
+  canAddContribution,
+  canInteractWithEvent,
+  isEventExpired,
+} from '../../../shared/utils/event.utils';
 import { ContributionsService } from '../../../core/services/contributions.service';
 import { ContributionModalComponent } from '../contribution/contribution-modal.component';
 import { BalanceModalComponent } from '../balance/balance-modal.component';
@@ -94,6 +98,7 @@ export class EventDetailsComponent implements OnInit {
   readonly Package = Package;
   readonly Mail = Mail;
   readonly canInteractWithEvent = canInteractWithEvent;
+  readonly canAddContribution = canAddContribution;
   readonly isEventExpired = isEventExpired;
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 

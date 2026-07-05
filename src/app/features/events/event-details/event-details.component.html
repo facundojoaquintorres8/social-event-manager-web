@@ -313,11 +313,10 @@
           @if (
             event.contributions.length > 0 &&
             (event.owner || currentUserParticipant()?.status === InvitationStatus.ACCEPTED) &&
-            canInteractWithEvent(event.eventDate, event.status)
+            canAddContribution(event.status)
           ) {
             <button
               (click)="openCreateContributionModal()"
-              [disabled]="!canInteractWithEvent(event.eventDate, event.status)"
               class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <lucide-icon [img]="Plus" class="h-4 w-4"></lucide-icon>
@@ -338,12 +337,11 @@
 
           @if (
             (event.owner || currentUserParticipant()?.status === InvitationStatus.ACCEPTED) &&
-            canInteractWithEvent(event.eventDate, event.status)
+            canAddContribution(event.status)
           ) {
             <button
               actions
               (click)="openCreateContributionModal()"
-              [disabled]="!canInteractWithEvent(event.eventDate, event.status)"
               class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
             >
               <lucide-icon [img]="Plus" class="h-4 w-4"></lucide-icon>
@@ -370,10 +368,16 @@
                       class="mt-1 h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"
                     ></span>
                   } @else {
+                    <label class="sr-only" for="contribution-completed-{{ contribution.id }}"
+                      >Mark contribution completed</label
+                    >
                     <input
+                      id="contribution-completed-{{ contribution.id }}"
                       type="checkbox"
                       [checked]="contribution.completed"
-                      [disabled]="!(event.owner || contribution.owner)"
+                      [disabled]="
+                        !(event.owner || contribution.owner) || !canAddContribution(event.status)
+                      "
                       (change)="toggleContributionCompleted(contribution)"
                       class="mt-1 h-5 w-5 cursor-pointer rounded border-gray-300 text-green-600 focus:ring-green-500"
                     />
@@ -425,10 +429,7 @@
                     </div>
                   </div>
 
-                  @if (
-                    canInteractWithEvent(event.eventDate, event.status) &&
-                    (event.owner || contribution.owner)
-                  ) {
+                  @if (canAddContribution(event.status) && (event.owner || contribution.owner)) {
                     <div class="flex items-center gap-2">
                       <button
                         (click)="openEditContributionModal(contribution)"

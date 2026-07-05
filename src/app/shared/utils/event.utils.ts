@@ -44,3 +44,7 @@ export function canEditContribution(
 
   return contribution.createdByEmail.toLowerCase() === currentUserEmail.toLowerCase();
 }
+
+export function canAddContribution(status: EventStatus): boolean {
+  return status !== EventStatus.CANCELLED;
+}
