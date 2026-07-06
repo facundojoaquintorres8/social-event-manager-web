@@ -1,7 +1,14 @@
-import { Component, signal, HostListener, inject, output, input } from '@angular/core';
+import {
+  Component,
+  signal,
+  HostListener,
+  inject,
+  output,
+  input,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LucideAngularModule, ArrowRight, EllipsisVertical, Pencil, X } from 'lucide-angular';
 import {
   EventCardModel,
   EventCardVariant,
@@ -11,11 +18,20 @@ import {
 import { canInteractWithEvent, isEventExpired } from '../../utils/event.utils';
 import { StatusLabelPipe } from '../../utils/status-label.pipe';
 import { buildGoogleMapsUrl } from '../../utils/maps.utils';
+import { LucideArrowRight, LucideEllipsisVertical, LucidePencil, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-event-card',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule, StatusLabelPipe],
+  imports: [
+    CommonModule,
+    StatusLabelPipe,
+    LucideArrowRight,
+    LucideEllipsisVertical,
+    LucidePencil,
+    LucideX,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-card.component.html',
 })
 export class EventCardComponent {
@@ -32,10 +48,6 @@ export class EventCardComponent {
 
   readonly menuOpen = signal(false);
 
-  readonly ArrowRight = ArrowRight;
-  readonly EllipsisVertical = EllipsisVertical;
-  readonly Pencil = Pencil;
-  readonly X = X;
   readonly EventStatus = EventStatus;
   readonly InvitationStatus = InvitationStatus;
   readonly canInteractWithEvent = canInteractWithEvent;
@@ -45,7 +57,7 @@ export class EventCardComponent {
     this.router.navigate(['/events', this.event().id]);
   }
 
-  openMaps(e: MouseEvent): void {
+  openMaps(e: Event): void {
     e.stopPropagation();
     e.preventDefault();
     window.open(

@@ -1,4 +1,11 @@
-import { Component, HostListener, inject, output, signal } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  inject,
+  output,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -6,6 +13,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-invite-user-modal',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './invite-user-modal.component.html',
 })
 export class InviteUserModalComponent {

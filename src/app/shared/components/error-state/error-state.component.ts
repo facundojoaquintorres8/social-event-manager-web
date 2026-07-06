@@ -1,10 +1,11 @@
-import { Component, input, output } from '@angular/core';
-import { LucideAngularModule, TriangleAlert } from 'lucide-angular';
+import { Component, input, output, ChangeDetectionStrategy } from '@angular/core';
+import { LucideTriangleAlert } from '@lucide/angular';
 
 @Component({
   selector: 'app-error-state',
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [LucideTriangleAlert],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './error-state.component.html',
 })
 export class ErrorStateComponent {
@@ -12,6 +13,4 @@ export class ErrorStateComponent {
   readonly description = input('Please try again later.');
 
   readonly retry = output<void>();
-
-  readonly TriangleAlert = TriangleAlert;
 }

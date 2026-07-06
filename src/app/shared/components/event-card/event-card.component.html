@@ -1,6 +1,10 @@
 <div
-  (click)="navigateToDetail()"
   class="group cursor-pointer rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-blue-300 hover:shadow-md dark:border-gray-800 dark:bg-gray-900 dark:hover:border-blue-700"
+  (click)="navigateToDetail()"
+  (keydown.enter)="navigateToDetail()"
+  (keydown.space)="navigateToDetail()"
+  role="button"
+  tabindex="0"
 >
   <div
     class="flex gap-3"
@@ -17,8 +21,11 @@
       </h3>
 
       <span
-        (click)="openMaps($event)"
         class="mt-1 inline-block cursor-pointer text-sm text-blue-600 transition-colors hover:underline dark:text-blue-400"
+        (click)="openMaps($event)"
+        (keydown.enter)="openMaps($event)"
+        role="button"
+        tabindex="0"
       >
         {{ event().location }}
       </span>
@@ -120,19 +127,22 @@
             (click)="toggleMenu($event)"
             class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-500 transition-all hover:bg-gray-100 hover:text-gray-700 active:scale-95 dark:text-gray-400 dark:hover:bg-gray-800"
           >
-            <lucide-icon [img]="EllipsisVertical" class="h-4 w-4"></lucide-icon>
+            <svg lucideEllipsisVertical [size]="16"></svg>
           </button>
 
           @if (menuOpen()) {
             <div
-              (click)="$event.stopPropagation()"
               class="absolute right-0 z-20 mt-2 w-36 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg dark:border-gray-800 dark:bg-gray-900"
+              (click)="$event.stopPropagation()"
+              (keydown)="$event.stopPropagation()"
+              tabindex="-1"
             >
               <button
                 (click)="router.navigate(['/events/edit', event().id]); closeMenu()"
                 class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
-                <lucide-icon [img]="Pencil" class="h-4 w-4"></lucide-icon>
+                <svg lucidePencil [size]="16"></svg>
+
                 Edit
               </button>
 
@@ -141,7 +151,8 @@
                   (click)="cancelEvent.emit(event().id); closeMenu(); $event.stopPropagation()"
                   class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
-                  <lucide-icon [img]="X" class="h-4 w-4"></lucide-icon>
+                  <svg lucideX [size]="16"></svg>
+
                   Cancel
                 </button>
               }
@@ -149,12 +160,12 @@
           }
         </div>
       }
-
-      <lucide-icon
-        [img]="ArrowRight"
-        class="h-4 w-4 flex-shrink-0 text-gray-400 transition-transform duration-200 group-hover:translate-x-1"
+      <svg
+        lucideArrowRight
+        [size]="16"
+        class="flex-shrink-0 text-gray-400 transition-transform duration-200 group-hover:translate-x-1"
         [ngClass]="{ 'hidden sm:block': variant() === 'invitations' }"
-      ></lucide-icon>
+      ></svg>
     </div>
   </div>
 </div>

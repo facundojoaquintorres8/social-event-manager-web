@@ -87,7 +87,7 @@
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-600 md:h-12 md:w-12 dark:bg-blue-900/20"
           >
-            <lucide-icon [img]="Calendar" class="h-6 w-6"> </lucide-icon>
+            <svg lucideCalendar [size]="24"></svg>
           </div>
         </div>
       </div>
@@ -107,7 +107,7 @@
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-100 text-green-600 md:h-12 md:w-12 dark:bg-green-900/20"
           >
-            <lucide-icon [img]="CircleCheckBig" class="h-6 w-6"> </lucide-icon>
+            <svg lucideCircleCheckBig [size]="24"></svg>
           </div>
         </div>
       </div>
@@ -127,7 +127,7 @@
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 text-red-600 md:h-12 md:w-12 dark:bg-red-900/20"
           >
-            <lucide-icon [img]="CircleX" class="h-6 w-6"> </lucide-icon>
+            <svg lucideCircleX [size]="24"></svg>
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-100 text-yellow-600 md:h-12 md:w-12 dark:bg-yellow-900/20"
           >
-            <lucide-icon [img]="Clock" class="h-6 w-6"> </lucide-icon>
+            <svg lucideClock [size]="24"></svg>
           </div>
         </div>
       </div>
@@ -169,8 +169,7 @@
               routerLink="/events/create"
               class="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
             >
-              <lucide-icon [img]="Plus" class="h-4 w-4"> </lucide-icon>
-
+              <svg lucidePlus [size]="16"></svg>
               Create Event
             </button>
           </div>
@@ -202,15 +201,13 @@
           title="No recent events"
           description="Start creating events to see your latest activity here."
         >
-          <lucide-icon icon [img]="Calendar" class="h-7 w-7 text-blue-600 dark:text-blue-400">
-          </lucide-icon>
-
+          <svg icon lucideCalendar [size]="28" class="text-blue-600 dark:text-blue-400"></svg>
           <button
             actions
             routerLink="/events/create"
             class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
           >
-            <lucide-icon [img]="Plus" class="h-4 w-4"></lucide-icon>
+            <svg lucidePlus [size]="16"></svg>
 
             Create Event
           </button>

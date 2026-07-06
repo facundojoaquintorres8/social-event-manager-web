@@ -1,10 +1,16 @@
-import { Component, inject, signal, OnInit, DestroyRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  signal,
+  OnInit,
+  DestroyRef,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, finalize } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { LucideAngularModule, Plus, CalendarX2, CalendarDays } from 'lucide-angular';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
@@ -13,6 +19,7 @@ import { ToastService } from '../../../core/services/toast.service';
 import { Event, EventCardModel, EventStatus } from '../../../core/models/event.model';
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
+import { LucideCalendarDays, LucideCalendarX2, LucidePlus } from '@lucide/angular';
 
 @Component({
   selector: 'app-created-events',
@@ -21,13 +28,16 @@ import { EventCardSkeletonComponent } from '../../../shared/components/event-car
     CommonModule,
     ReactiveFormsModule,
     RouterLink,
-    LucideAngularModule,
     ConfirmModalComponent,
     EmptyStateComponent,
     ErrorStateComponent,
     EventCardComponent,
     EventCardSkeletonComponent,
+    LucidePlus,
+    LucideCalendarX2,
+    LucideCalendarDays,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './created-events.component.html',
 })
 export class CreatedEventsComponent implements OnInit {
@@ -48,10 +58,7 @@ export class CreatedEventsComponent implements OnInit {
   readonly cancelling = signal(false);
   private readonly selectedEventId = signal<string | null>(null);
 
-  readonly Plus = Plus;
-  readonly CalendarX2 = CalendarX2;
   readonly EventStatus = EventStatus;
-  readonly CalendarDays = CalendarDays;
 
   readonly filterForm = this.fb.nonNullable.group({
     title: [''],

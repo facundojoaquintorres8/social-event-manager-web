@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InvitationsComponent } from './invitations/invitations.component';
 import { AttendingEventsComponent } from './attending-events/attending-events.component';
@@ -18,6 +18,7 @@ type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
     AttendingEventsComponent,
     EventsCalendarComponent,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './workspace.component.html',
 })
 export class WorkspaceComponent implements OnInit {

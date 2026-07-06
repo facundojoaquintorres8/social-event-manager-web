@@ -1,17 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastService } from './core/services/toast.service';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, X } from 'lucide-angular';
+import { LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, LucideAngularModule],
+  imports: [RouterOutlet, CommonModule, LucideX],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './app.component.html',
 })
 export class AppComponent {
   readonly toastService = inject(ToastService);
-
-  readonly X = X;
 }

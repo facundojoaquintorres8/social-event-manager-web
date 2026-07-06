@@ -1,15 +1,16 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy, computed } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
-import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
+import { LucideDynamicIcon, LucideEye, LucideEyeOff } from '@lucide/angular';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideDynamicIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './login.component.html',
 })
 export class LoginComponent {
@@ -22,8 +23,9 @@ export class LoginComponent {
   readonly error = signal<string | null>(null);
   readonly showPassword = signal(false);
 
-  readonly Eye = Eye;
-  readonly EyeOff = EyeOff;
+  protected readonly passwordIcon = computed(() =>
+    this.showPassword() ? LucideEyeOff : LucideEye,
+  );
 
   readonly form = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],

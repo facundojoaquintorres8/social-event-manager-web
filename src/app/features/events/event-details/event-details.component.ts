@@ -1,4 +1,12 @@
-import { Component, computed, inject, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  computed,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -13,16 +21,6 @@ import {
   EventStatus,
   InvitationStatus,
 } from '../../../core/models/event.model';
-import {
-  LucideAngularModule,
-  Trash2,
-  ArrowLeft,
-  Plus,
-  Pencil,
-  Users,
-  Package,
-  Mail,
-} from 'lucide-angular';
 import { ToastService } from '../../../core/services/toast.service';
 import { InviteUserModalComponent } from '../invite-user-modal/invite-user-modal.component';
 import { AuthService } from '../../../core/services/auth.service';
@@ -41,6 +39,15 @@ import { ErrorStateComponent } from '../../../shared/components/error-state/erro
 import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
 import { ConfirmModalComponent } from '../../../shared/components/confirm-modal/confirm-modal.component';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import {
+  LucideArrowLeft,
+  LucideMail,
+  LucidePackage,
+  LucidePencil,
+  LucidePlus,
+  LucideTrash2,
+  LucideUsers,
+} from '@lucide/angular';
 
 @Component({
   selector: 'app-event-details',
@@ -48,7 +55,6 @@ import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
   imports: [
     CommonModule,
     RouterLink,
-    LucideAngularModule,
     InviteUserModalComponent,
     ContributionModalComponent,
     BalanceModalComponent,
@@ -56,7 +62,15 @@ import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
     ErrorStateComponent,
     StatusLabelPipe,
     ConfirmModalComponent,
+    LucideTrash2,
+    LucideArrowLeft,
+    LucidePlus,
+    LucidePencil,
+    LucideUsers,
+    LucidePackage,
+    LucideMail,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-details.component.html',
 })
 export class EventDetailsComponent implements OnInit {
@@ -90,13 +104,6 @@ export class EventDetailsComponent implements OnInit {
 
   readonly EventStatus = EventStatus;
   readonly InvitationStatus = InvitationStatus;
-  readonly Trash2 = Trash2;
-  readonly ArrowLeft = ArrowLeft;
-  readonly Plus = Plus;
-  readonly Pencil = Pencil;
-  readonly Users = Users;
-  readonly Package = Package;
-  readonly Mail = Mail;
   readonly canInteractWithEvent = canInteractWithEvent;
   readonly canAddContribution = canAddContribution;
   readonly isEventExpired = isEventExpired;

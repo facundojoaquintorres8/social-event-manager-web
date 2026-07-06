@@ -1,8 +1,9 @@
-import { Component, HostListener, input, output } from '@angular/core';
+import { Component, HostListener, input, output, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-confirm-modal',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './confirm-modal.component.html',
 })
 export class ConfirmModalComponent {

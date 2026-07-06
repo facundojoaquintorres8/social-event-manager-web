@@ -1,4 +1,11 @@
-import { Component, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
@@ -8,13 +15,14 @@ import {
 } from '../../../core/models/event.model';
 import { ExternalInvitationsService } from '../../../core/services/external-invitations.service';
 import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
-import { LucideAngularModule, TriangleAlert } from 'lucide-angular';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
+import { LucideTriangleAlert } from '@lucide/angular';
 
 @Component({
   selector: 'app-external-invitation',
   standalone: true,
-  imports: [CommonModule, StatusLabelPipe, LucideAngularModule],
+  imports: [CommonModule, StatusLabelPipe, LucideTriangleAlert],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './external-invitation.component.html',
 })
 export class ExternalInvitationComponent implements OnInit {
@@ -28,7 +36,6 @@ export class ExternalInvitationComponent implements OnInit {
   invitation = signal<ExternalInvitationPreview | null>(null);
 
   readonly ExternalInvitationStatus = ExternalInvitationStatus;
-  readonly TriangleAlert = TriangleAlert;
   readonly buildGoogleMapsUrl = buildGoogleMapsUrl;
 
   readonly loggedIn = computed(() => this.authService.isAuthenticated());

@@ -1,4 +1,11 @@
-import { Component, effect, HostListener, input, output } from '@angular/core';
+import {
+  Component,
+  effect,
+  HostListener,
+  input,
+  output,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Contribution, CreateContributionRequest } from '../../../core/models/event.model';
@@ -7,6 +14,7 @@ import { Contribution, CreateContributionRequest } from '../../../core/models/ev
   selector: 'app-contribution-modal',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './contribution-modal.component.html',
 })
 export class ContributionModalComponent {

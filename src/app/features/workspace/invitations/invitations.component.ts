@@ -1,26 +1,27 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EventCardModel, Invitation, InvitationStatus } from '../../../core/models/event.model';
 import { ToastService } from '../../../core/services/toast.service';
-import { LucideAngularModule, Inbox } from 'lucide-angular';
 import { InvitationsService } from '../../../core/services/invitations.service';
 import { finalize } from 'rxjs';
 import { EmptyStateComponent } from '../../../shared/components/empty-state/empty-state.component';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
+import { LucideInbox } from '@lucide/angular';
 
 @Component({
   selector: 'app-invitations',
   standalone: true,
   imports: [
     CommonModule,
-    LucideAngularModule,
     EmptyStateComponent,
     ErrorStateComponent,
     EventCardComponent,
     EventCardSkeletonComponent,
+    LucideInbox,
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './invitations.component.html',
 })
 export class InvitationsComponent implements OnInit {
@@ -35,7 +36,6 @@ export class InvitationsComponent implements OnInit {
   );
 
   readonly InvitationStatus = InvitationStatus;
-  readonly Inbox = Inbox;
 
   ngOnInit(): void {
     this.loadInvitations();

@@ -5,6 +5,28 @@ import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 import { errorInterceptor } from './core/interceptors/error-interceptor';
+import {
+  provideLucideIcons,
+  LucideX,
+  LucideEye,
+  LucideEyeOff,
+  LucideCalendar,
+  LucideCircleCheckBig,
+  LucideCircleX,
+  LucideClock,
+  LucidePlus,
+  LucideMail,
+  LucideTrash2,
+  LucideArrowLeft,
+  LucideTriangleAlert,
+  LucideCalendarX2,
+  LucideEllipsisVertical,
+  LucidePencil,
+  LucideLogOut,
+  LucideMenu,
+  LucideSun,
+  LucideMoon,
+} from '@lucide/angular';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +36,27 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({
         scrollPositionRestoration: 'top',
       }),
+    ),
+    provideLucideIcons(
+      LucideX,
+      LucideEye,
+      LucideEyeOff,
+      LucideCalendar,
+      LucideCircleCheckBig,
+      LucideCircleX,
+      LucideClock,
+      LucidePlus,
+      LucideMail,
+      LucideTrash2,
+      LucideArrowLeft,
+      LucideTriangleAlert,
+      LucideCalendarX2,
+      LucideEllipsisVertical,
+      LucidePencil,
+      LucideLogOut,
+      LucideMenu,
+      LucideSun,
+      LucideMoon,
     ),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
   ],

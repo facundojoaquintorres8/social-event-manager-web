@@ -1,17 +1,18 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ChangeDetectionStrategy, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
-import { LucideAngularModule, Eye, EyeOff } from 'lucide-angular';
 import { passwordMatchValidator } from '../../../shared/utils/validators';
+import { LucideDynamicIcon, LucideEye, LucideEyeOff } from '@lucide/angular';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideAngularModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideDynamicIcon],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
@@ -26,8 +27,13 @@ export class RegisterComponent {
   readonly showPassword = signal(false);
   readonly showConfirmPassword = signal(false);
 
-  readonly Eye = Eye;
-  readonly EyeOff = EyeOff;
+  protected readonly passwordIcon = computed(() =>
+    this.showPassword() ? LucideEyeOff : LucideEye,
+  );
+
+  protected readonly confirmPasswordIcon = computed(() =>
+    this.showConfirmPassword() ? LucideEyeOff : LucideEye,
+  );
 
   readonly form = this.fb.nonNullable.group(
     {

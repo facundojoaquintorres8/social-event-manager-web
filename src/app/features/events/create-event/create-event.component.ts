@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -7,12 +7,15 @@ import { ToastService } from '../../../core/services/toast.service';
 import { Location } from '@angular/common';
 import { LocationAutocompleteComponent } from '../../../shared/components/location-autocomplete/location-autocomplete.component';
 import { SelectedLocation } from '../../../core/models/location.model';
-import { CalendarDays, LucideAngularModule } from 'lucide-angular';
+import { LucideCalendarDays } from '@lucide/angular';
+import { ApiResponse } from '../../../core/models/api-response.model';
+import { Event } from '../../../core/models/event.model';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule, LocationAutocompleteComponent, LucideAngularModule],
+  imports: [ReactiveFormsModule, LocationAutocompleteComponent, LucideCalendarDays],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './create-event.component.html',
 })
 export class CreateEventComponent implements OnInit {
@@ -25,8 +28,6 @@ export class CreateEventComponent implements OnInit {
   readonly loading = signal<boolean>(false);
   readonly isEditMode = signal<boolean>(false);
   readonly eventId = signal<string | null>(null);
-
-  readonly CalendarDays = CalendarDays;
 
   readonly form = this.fb.nonNullable.group({
     title: ['', [Validators.required]],
@@ -97,7 +98,7 @@ export class CreateEventComponent implements OnInit {
       .getEventById(id)
       .pipe(finalize(() => this.loading.set(false)))
       .subscribe({
-        next: (res: any) => {
+        next: (res: ApiResponse<Event>) => {
           const event = res.data;
 
           this.form.patchValue({

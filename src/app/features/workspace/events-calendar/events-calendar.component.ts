@@ -1,16 +1,25 @@
-import { Component, HostListener, OnInit, computed, inject, signal } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  OnInit,
+  computed,
+  inject,
+  signal,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { EventsService } from '../../../core/services/events.service';
 import { CalendarEvent, InvitationStatus } from '../../../core/models/event.model';
 import { finalize } from 'rxjs';
-import { LucideAngularModule, X, ArrowRight } from 'lucide-angular';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
+import { LucideArrowRight, LucideX } from '@lucide/angular';
 
 @Component({
   selector: 'app-events-calendar',
   standalone: true,
-  imports: [CommonModule, RouterLink, LucideAngularModule, ErrorStateComponent],
+  imports: [CommonModule, RouterLink, ErrorStateComponent, LucideArrowRight, LucideX],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './events-calendar.component.html',
 })
 export class EventsCalendarComponent implements OnInit {
@@ -88,8 +97,6 @@ export class EventsCalendarComponent implements OnInit {
   });
 
   readonly weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  readonly ArrowRight = ArrowRight;
-  readonly X = X;
 
   ngOnInit(): void {
     this.loadEvents();

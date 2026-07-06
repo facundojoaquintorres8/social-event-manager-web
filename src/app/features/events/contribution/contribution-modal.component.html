@@ -1,10 +1,16 @@
 <div
   class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
   (click)="onClose()"
+  (keydown.escape)="onClose()"
+  role="dialog"
+  aria-modal="true"
+  tabindex="-1"
 >
   <div
     class="w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl dark:border-gray-800 dark:bg-gray-900"
+    tabindex="-1"
     (click)="stopPropagation($event)"
+    (keydown)="$event.stopPropagation()"
   >
     <div class="mb-5">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
@@ -18,7 +24,9 @@
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
       <div>
+        <label for="contribution-name" class="sr-only">Contribution name</label>
         <input
+          id="contribution-name"
           type="text"
           formControlName="name"
           placeholder="Pizza, drinks, wine..."
@@ -31,7 +39,9 @@
       </div>
 
       <div>
+        <label for="contribution-description" class="sr-only">Contribution description</label>
         <textarea
+          id="contribution-description"
           rows="3"
           formControlName="description"
           placeholder="Optional details..."
@@ -40,7 +50,9 @@
       </div>
 
       <div>
+        <label for="contribution-cost" class="sr-only">Contribution cost</label>
         <input
+          id="contribution-cost"
           type="number"
           formControlName="cost"
           placeholder="Cost (optional)"
