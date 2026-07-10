@@ -14,16 +14,26 @@ import { CalendarEvent, InvitationStatus } from '../../../core/models/event.mode
 import { finalize } from 'rxjs';
 import { ErrorStateComponent } from '../../../shared/components/error-state/error-state.component';
 import { LucideArrowRight, LucideX } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
+import { LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-events-calendar',
   standalone: true,
-  imports: [CommonModule, RouterLink, ErrorStateComponent, LucideArrowRight, LucideX],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ErrorStateComponent,
+    LucideArrowRight,
+    LucideX,
+    TranslatePipe,
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './events-calendar.component.html',
 })
 export class EventsCalendarComponent implements OnInit {
   private readonly eventsService = inject(EventsService);
+  private readonly languageService = inject(LanguageService);
 
   loading = signal(true);
   events = signal<CalendarEvent[]>([]);
@@ -34,10 +44,13 @@ export class EventsCalendarComponent implements OnInit {
   error = signal(false);
 
   monthLabel = computed(() => {
-    return this.currentDate().toLocaleDateString('en-US', {
+    const lang = this.languageService.currentLanguage();
+    const locale = lang === 'es' ? 'es-AR' : 'en-US';
+    const label = this.currentDate().toLocaleDateString(locale, {
       month: 'long',
       year: 'numeric',
     });
+    return label.charAt(0).toUpperCase() + label.slice(1);
   });
   calendarDays = computed(() => {
     const date = this.currentDate();
@@ -95,8 +108,14 @@ export class EventsCalendarComponent implements OnInit {
     const daysInMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     return Array.from({ length: firstDay + daysInMonth });
   });
-
-  readonly weekDays = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  weekDays = computed(() => {
+    const lang = this.languageService.currentLanguage();
+    const locale = lang === 'es' ? 'es-AR' : 'en-US';
+    return Array.from({ length: 7 }, (_, i) => {
+      const date = new Date(2024, 0, i);
+      return date.toLocaleDateString(locale, { weekday: 'short' });
+    });
+  });
 
   ngOnInit(): void {
     this.loadEvents();
