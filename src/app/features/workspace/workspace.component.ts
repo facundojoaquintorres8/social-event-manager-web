@@ -5,6 +5,7 @@ import { AttendingEventsComponent } from './attending-events/attending-events.co
 import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
 import { CreatedEventsComponent } from './created-events/created-events.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslatePipe } from '@ngx-translate/core';
 
 type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
 
@@ -17,6 +18,7 @@ type WorkspaceTab = 'created' | 'attending' | 'invitations' | 'calendar';
     InvitationsComponent,
     AttendingEventsComponent,
     EventsCalendarComponent,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './workspace.component.html',

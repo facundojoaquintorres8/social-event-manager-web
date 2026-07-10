@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { ToastService } from './core/services/toast.service';
 import { CommonModule } from '@angular/common';
 import { LucideX } from '@lucide/angular';
+import { LanguageService } from './core/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +13,10 @@ import { LucideX } from '@lucide/angular';
   templateUrl: './app.component.html',
 })
 export class AppComponent {
+  private readonly languageService = inject(LanguageService);
   readonly toastService = inject(ToastService);
+
+  constructor() {
+    this.languageService.init();
+  }
 }

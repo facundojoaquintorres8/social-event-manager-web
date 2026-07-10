@@ -1,0 +1,80 @@
+{
+  "workspace": {
+    "title": "Workspace",
+    "subtitle": "Manage your events, invitations and attendance.",
+    "tabs": {
+      "created": "Created",
+      "attending": "Attending",
+      "invitations": "Invitations",
+      "calendar": "Calendar"
+    }
+  },
+  "createdEvents": {
+    "title": "My Events",
+    "subtitle": "Manage and organize your events.",
+    "createButton": "Create Event",
+    "filters": {
+      "search": "Search by title...",
+      "all": "All",
+      "active": "Active",
+      "cancelled": "Cancelled",
+      "clearFilters": "Clear filters"
+    },
+    "empty": {
+      "title": "No events yet",
+      "description": "Create your first event and start managing everything in one place."
+    },
+    "noResults": {
+      "title": "No events found",
+      "description": "No events match the current filters."
+    },
+    "pagination": {
+      "prev": "Prev",
+      "next": "Next",
+      "page": "Page",
+      "of": "of"
+    },
+    "card": {
+      "edit": "Edit",
+      "cancel": "Cancel"
+    },
+    "cancelModal": {
+      "title": "Cancel event",
+      "message": "Are you sure you want to cancel this event?"
+    },
+    "errors": {
+      "load": "Unable to load events",
+      "loadDescription": "Something went wrong while loading your events."
+    }
+  },
+  "attendingEvents": {
+    "title": "Attending",
+    "subtitle": "Events you've accepted invitations to.",
+    "empty": {
+      "title": "No attending events",
+      "description": "Accepted invitations will appear here."
+    },
+    "errors": {
+      "load": "Unable to load events",
+      "loadDescription": "Something went wrong while loading your events."
+    }
+  },
+  "invitations": {
+    "title": "Invitations",
+    "subtitle": "Manage invitations received from other events.",
+    "empty": {
+      "title": "No invitations yet",
+      "description": "Invitations you receive will appear here."
+    },
+    "errors": {
+      "load": "Unable to load invitations",
+      "loadDescription": "Something went wrong while loading your invitations."
+    }
+  },
+  "calendar": {
+    "errors": {
+      "load": "Unable to load events",
+      "loadDescription": "Something went wrong while loading your events."
+    }
+  }
+}

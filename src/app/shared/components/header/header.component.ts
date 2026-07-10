@@ -10,6 +10,7 @@ import {
   LucideMoon,
   LucideSun,
 } from '@lucide/angular';
+import { Language, LanguageService } from '../../../core/services/language.service';
 
 @Component({
   selector: 'app-header',
@@ -26,13 +27,20 @@ import {
   templateUrl: './header.component.html',
 })
 export class HeaderComponent {
-  private readonly authService = inject(AuthService);
   readonly themeService = inject(ThemeService);
+  readonly languageService = inject(LanguageService);
+  private readonly authService = inject(AuthService);
+
   readonly mobileMenuOpen = signal(false);
 
   protected readonly darkModeIcon = computed(() =>
     this.themeService.darkMode() ? LucideSun : LucideMoon,
   );
+
+  toggleLanguage(): void {
+    const next: Language = this.languageService.currentLanguage() === 'en' ? 'es' : 'en';
+    this.languageService.setLanguage(next);
+  }
 
   logout(): void {
     this.authService.logout();

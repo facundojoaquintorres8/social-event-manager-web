@@ -1,0 +1,80 @@
+{
+  "workspace": {
+    "title": "Espacio de trabajo",
+    "subtitle": "Administrá tus eventos, invitaciones y asistencias.",
+    "tabs": {
+      "created": "Creados",
+      "attending": "Asistiendo",
+      "invitations": "Invitaciones",
+      "calendar": "Calendario"
+    }
+  },
+  "createdEvents": {
+    "title": "Mis Eventos",
+    "subtitle": "Administrá y organizá tus eventos.",
+    "createButton": "Crear Evento",
+    "filters": {
+      "search": "Buscar por título...",
+      "all": "Todos",
+      "active": "Activo",
+      "cancelled": "Cancelado",
+      "clearFilters": "Limpiar filtros"
+    },
+    "empty": {
+      "title": "Sin eventos aún",
+      "description": "Creá tu primer evento y empezá a gestionar todo en un solo lugar."
+    },
+    "noResults": {
+      "title": "Sin resultados",
+      "description": "Ningún evento coincide con los filtros actuales."
+    },
+    "pagination": {
+      "prev": "Anterior",
+      "next": "Siguiente",
+      "page": "Página",
+      "of": "de"
+    },
+    "card": {
+      "edit": "Editar",
+      "cancel": "Cancelar"
+    },
+    "cancelModal": {
+      "title": "Cancelar evento",
+      "message": "¿Estás seguro que querés cancelar este evento?"
+    },
+    "errors": {
+      "load": "No se pudieron cargar los eventos",
+      "loadDescription": "Algo salió mal al cargar tus eventos."
+    }
+  },
+  "attendingEvents": {
+    "title": "Asistiendo",
+    "subtitle": "Eventos a los que aceptaste invitaciones.",
+    "empty": {
+      "title": "Sin eventos",
+      "description": "Las invitaciones aceptadas aparecerán aquí."
+    },
+    "errors": {
+      "load": "No se pudieron cargar los eventos",
+      "loadDescription": "Algo salió mal al cargar tus eventos."
+    }
+  },
+  "invitations": {
+    "title": "Invitaciones",
+    "subtitle": "Administrá las invitaciones recibidas de otros eventos.",
+    "empty": {
+      "title": "Sin invitaciones aún",
+      "description": "Las invitaciones que recibas aparecerán aquí."
+    },
+    "errors": {
+      "load": "No se pudieron cargar las invitaciones",
+      "loadDescription": "Algo salió mal al cargar tus invitaciones."
+    }
+  },
+  "calendar": {
+    "errors": {
+      "load": "No se pudieron cargar los eventos",
+      "loadDescription": "Algo salió mal al cargar tus eventos."
+    }
+  }
+}

@@ -1,26 +1,27 @@
 <div class="space-y-6">
   <div>
-    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">Workspace</h1>
+    <h1 class="text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
+      {{ 'workspace.title' | translate }}
+    </h1>
 
     <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-      Manage your events, invitations and attendance.
+      {{ 'workspace.subtitle' | translate }}
     </p>
   </div>
 
   <div
-    class="scrollbar-none flex gap-2 overflow-x-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+    class="flex scrollbar-none gap-2 overflow-x-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-sm dark:border-gray-800 dark:bg-gray-900"
   >
     <button
       (click)="setTab('created')"
       class="flex-shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
       [ngClass]="{
         'bg-blue-600 text-white shadow-sm': activeTab() === 'created',
-
         'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800':
           activeTab() !== 'created',
       }"
     >
-      Created
+      {{ 'workspace.tabs.created' | translate }}
     </button>
 
     <button
@@ -28,12 +29,11 @@
       class="flex-shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
       [ngClass]="{
         'bg-blue-600 text-white shadow-sm': activeTab() === 'attending',
-
         'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800':
           activeTab() !== 'attending',
       }"
     >
-      Attending
+      {{ 'workspace.tabs.attending' | translate }}
     </button>
 
     <button
@@ -41,12 +41,11 @@
       class="flex-shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
       [ngClass]="{
         'bg-blue-600 text-white shadow-sm': activeTab() === 'invitations',
-
         'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800':
           activeTab() !== 'invitations',
       }"
     >
-      Invitations
+      {{ 'workspace.tabs.invitations' | translate }}
     </button>
 
     <button
@@ -54,12 +53,11 @@
       class="flex-shrink-0 rounded-xl px-4 py-2 text-sm font-medium transition-all duration-200"
       [ngClass]="{
         'bg-blue-600 text-white shadow-sm': activeTab() === 'calendar',
-
         'text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800':
           activeTab() !== 'calendar',
       }"
     >
-      Calendar
+      {{ 'workspace.tabs.calendar' | translate }}
     </button>
   </div>
 
