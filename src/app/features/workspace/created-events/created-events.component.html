@@ -1,9 +1,12 @@
 <div class="rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900">
   <div class="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
     <div>
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">My Events</h2>
-
-      <p class="text-sm text-gray-500 dark:text-gray-400">Manage and organize your events.</p>
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        {{ 'createdEvents.title' | translate }}
+      </h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400">
+        {{ 'createdEvents.subtitle' | translate }}
+      </p>
     </div>
 
     @if (hasEvents()) {
@@ -12,15 +15,15 @@
         class="inline-flex w-fit items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
       >
         <svg lucidePlus [size]="16"></svg>
-        Create Event
+        {{ 'createdEvents.createButton' | translate }}
       </button>
     }
   </div>
 
   @if (error()) {
     <app-error-state
-      title="Unable to load events"
-      description="Something went wrong while loading your events."
+      [title]="'createdEvents.errors.load' | translate"
+      [description]="'createdEvents.errors.loadDescription' | translate"
       (retry)="retryLoad()"
     />
   } @else if (loading()) {
@@ -33,18 +36,17 @@
     <app-event-card-skeleton />
   } @else if (!loading() && !hasEvents() && !hasActiveFilters()) {
     <app-empty-state
-      [title]="'No events yet'"
-      [description]="'Create your first event and start managing everything in one place.'"
+      [title]="'createdEvents.empty.title' | translate"
+      [description]="'createdEvents.empty.description' | translate"
     >
       <svg icon lucideCalendarX2 [size]="28" class="text-blue-600 dark:text-blue-400"></svg>
-
       <button
         actions
         routerLink="/events/create"
         class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
       >
         <svg lucidePlus [size]="16"></svg>
-        Create Event
+        {{ 'createdEvents.createButton' | translate }}
       </button>
     </app-empty-state>
   } @else {
@@ -52,9 +54,9 @@
       <div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
         <input
           type="text"
-          placeholder="Search by title..."
+          [placeholder]="'createdEvents.filters.search' | translate"
           formControlName="title"
-          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none sm:w-48 sm:w-auto dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none sm:w-auto dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
 
         <div class="relative w-full sm:w-44">
@@ -87,9 +89,13 @@
           formControlName="status"
           class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm focus:shadow-md sm:w-48 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         >
-          <option value="">All</option>
-          <option [value]="EventStatus.ACTIVE">Active</option>
-          <option [value]="EventStatus.CANCELLED">Cancelled</option>
+          <option value="">{{ 'createdEvents.filters.all' | translate }}</option>
+          <option [value]="EventStatus.ACTIVE">
+            {{ 'createdEvents.filters.active' | translate }}
+          </option>
+          <option [value]="EventStatus.CANCELLED">
+            {{ 'createdEvents.filters.cancelled' | translate }}
+          </option>
         </select>
 
         @if (hasActiveFilters()) {
@@ -98,19 +104,18 @@
             (click)="clearFilters()"
             class="text-sm text-blue-600 hover:text-blue-700 sm:ml-4"
           >
-            Clear filters
+            {{ 'createdEvents.filters.clearFilters' | translate }}
           </button>
         }
       </div>
     </form>
+
     @if (events().length === 0) {
       <div class="flex flex-col items-center justify-center py-12 text-center">
         <svg lucideCalendarX2 [size]="28" class="mb-4 text-blue-600 dark:text-blue-400"></svg>
-
-        <h3 class="text-lg font-semibold">No events found</h3>
-
+        <h3 class="text-lg font-semibold">{{ 'createdEvents.noResults.title' | translate }}</h3>
         <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          No events match the current filters.
+          {{ 'createdEvents.noResults.description' | translate }}
         </p>
       </div>
     } @else {
@@ -132,32 +137,34 @@
     <button
       (click)="goToPage(currentPage() - 1)"
       [disabled]="currentPage() === 0"
-      class="rounded border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 transition-all transition-colors duration-200 hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+      class="rounded border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
     >
-      Prev
+      {{ 'createdEvents.pagination.prev' | translate }}
     </button>
 
     <span class="text-sm text-gray-600 dark:text-gray-400">
-      Page {{ totalPages() === 0 ? 0 : currentPage() + 1 }} of {{ totalPages() }}
+      {{ 'createdEvents.pagination.page' | translate }}
+      {{ totalPages() === 0 ? 0 : currentPage() + 1 }}
+      {{ 'createdEvents.pagination.of' | translate }}
+      {{ totalPages() }}
     </span>
 
     <button
       (click)="goToPage(currentPage() + 1)"
       [disabled]="totalPages() === 0 || currentPage() >= totalPages() - 1"
-      class="rounded border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 transition-all transition-colors duration-200 hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+      class="rounded border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
     >
-      Next
+      {{ 'createdEvents.pagination.next' | translate }}
     </button>
   </div>
 }
 
 @if (cancelModalOpen()) {
   <app-confirm-modal
-    title="Cancel event"
-    message="Are you sure you want to cancel this event?"
+    [title]="'createdEvents.cancelModal.title' | translate"
+    [message]="'createdEvents.cancelModal.message' | translate"
     [confirmDisabled]="cancelling()"
     (confirm)="confirmCancel()"
     (closeModal)="closeCancelModal()"
-  >
-  </app-confirm-modal>
+  />
 }

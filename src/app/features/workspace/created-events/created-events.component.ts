@@ -20,6 +20,7 @@ import { Event, EventCardModel, EventStatus } from '../../../core/models/event.m
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 import { LucideCalendarDays, LucideCalendarX2, LucidePlus } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-created-events',
@@ -36,6 +37,7 @@ import { LucideCalendarDays, LucideCalendarX2, LucidePlus } from '@lucide/angula
     LucidePlus,
     LucideCalendarX2,
     LucideCalendarDays,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './created-events.component.html',
