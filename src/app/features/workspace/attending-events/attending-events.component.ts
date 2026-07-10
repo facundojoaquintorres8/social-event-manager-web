@@ -8,6 +8,7 @@ import { finalize } from 'rxjs';
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 import { LucideCalendar } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-attending-events',
@@ -19,6 +20,7 @@ import { LucideCalendar } from '@lucide/angular';
     EventCardComponent,
     EventCardSkeletonComponent,
     LucideCalendar,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './attending-events.component.html',
