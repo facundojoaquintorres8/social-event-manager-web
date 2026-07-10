@@ -9,6 +9,7 @@ import { ErrorStateComponent } from '../../../shared/components/error-state/erro
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 import { LucideInbox } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-invitations',
@@ -20,6 +21,7 @@ import { LucideInbox } from '@lucide/angular';
     EventCardComponent,
     EventCardSkeletonComponent,
     LucideInbox,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './invitations.component.html',
