@@ -9,15 +9,12 @@
     >
       <div>
         <h1 class="text-3xl font-bold">Social Event Manager</h1>
-
         <p class="mt-4 text-sm leading-relaxed text-blue-100">
-          Manage your events, organize schedules and keep everything under control with a modern
-          experience.
+          {{ 'login.sidebar.description' | translate }}
         </p>
       </div>
-
       <div class="text-sm text-blue-200">
-        Built with Angular 21 + Spring Boot <br />by Facundo J. Torres (<a
+        Built with Angular 22 + Spring Boot <br />by Facundo J. Torres (<a
           href="mailto:facundojoaquintorres8@gmail.com"
           >facundojoaquintorres8@gmail.com</a
         >)
@@ -27,9 +24,12 @@
     <div class="flex items-center justify-center p-6 sm:p-10">
       <div class="w-full max-w-sm">
         <div class="mb-8 text-center">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Welcome back</h2>
-
-          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">Sign in to continue</p>
+          <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">
+            {{ 'login.title' | translate }}
+          </h2>
+          <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+            {{ 'login.subtitle' | translate }}
+          </p>
         </div>
 
         <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
@@ -38,9 +38,8 @@
               for="email"
               class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              Email
+              {{ 'login.email' | translate }}
             </label>
-
             <input
               id="email"
               type="email"
@@ -49,7 +48,7 @@
               class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
             />
             @if (form.controls.email.touched && form.controls.email.invalid) {
-              <p class="mt-1 text-xs text-red-500">Enter a valid email</p>
+              <p class="mt-1 text-xs text-red-500">{{ 'login.errors.invalidEmail' | translate }}</p>
             }
           </div>
 
@@ -58,9 +57,8 @@
               for="password"
               class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
-              Password
+              {{ 'login.password' | translate }}
             </label>
-
             <div class="relative">
               <input
                 id="password"
@@ -70,7 +68,9 @@
                 class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pr-12 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
               />
               @if (form.controls.password.touched && form.controls.password.invalid) {
-                <p class="mt-1 text-xs text-red-500">Password is required</p>
+                <p class="mt-1 text-xs text-red-500">
+                  {{ 'login.errors.passwordRequired' | translate }}
+                </p>
               }
               <button
                 type="button"
@@ -98,18 +98,15 @@
             @if (loading()) {
               <span
                 class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
-              >
-              </span>
+              ></span>
             }
-
-            Sign In
+            {{ 'login.signIn' | translate }}
           </button>
 
           <div class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            Don't have an account?
-
+            {{ 'login.noAccount' | translate }}
             <a routerLink="/register" class="font-medium text-blue-600 hover:text-blue-700">
-              Sign up
+              {{ 'login.signUp' | translate }}
             </a>
           </div>
         </form>

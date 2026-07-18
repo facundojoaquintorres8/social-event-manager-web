@@ -109,5 +109,21 @@
       "load": "No se pudo cargar el dashboard",
       "loadDescription": "Algo salió mal al cargar tu dashboard."
     }
+  },
+  "login": {
+    "sidebar": {
+      "description": "Administrá tus eventos, organizá horarios y mantené todo bajo control con una experiencia moderna."
+    },
+    "title": "Bienvenido",
+    "subtitle": "Iniciá sesión para continuar",
+    "email": "Email",
+    "password": "Contraseña",
+    "signIn": "Iniciar sesión",
+    "noAccount": "¿No tenés cuenta?",
+    "signUp": "Registrate",
+    "errors": {
+      "invalidEmail": "Ingresá un email válido",
+      "passwordRequired": "La contraseña es requerida"
+    }
   }
 }

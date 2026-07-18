@@ -109,5 +109,21 @@
       "load": "Unable to load dashboard",
       "loadDescription": "Something went wrong while loading your dashboard."
     }
+  },
+  "login": {
+    "sidebar": {
+      "description": "Manage your events, organize schedules and keep everything under control with a modern experience."
+    },
+    "title": "Welcome back",
+    "subtitle": "Sign in to continue",
+    "email": "Email",
+    "password": "Password",
+    "signIn": "Sign in",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign up",
+    "errors": {
+      "invalidEmail": "Enter a valid email",
+      "passwordRequired": "Password is required"
+    }
   }
 }
