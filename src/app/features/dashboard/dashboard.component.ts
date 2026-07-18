@@ -16,6 +16,7 @@ import {
   LucideClock,
   LucidePlus,
 } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +33,7 @@ import {
     LucideCircleX,
     LucideClock,
     LucidePlus,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './dashboard.component.html',

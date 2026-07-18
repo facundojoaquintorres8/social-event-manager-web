@@ -76,5 +76,38 @@
       "load": "Unable to load events",
       "loadDescription": "Something went wrong while loading your events."
     }
+  },
+  "dashboard": {
+    "welcome": "Welcome back, {{name}} 👋",
+    "subtitle": "Here's a quick overview of your events.",
+    "stats": {
+      "totalEvents": "Total Events",
+      "active": "Active",
+      "cancelled": "Cancelled",
+      "upcoming": "Upcoming"
+    },
+    "quickActions": {
+      "title": "Quick Actions",
+      "subtitle": "Manage your events faster.",
+      "createButton": "Create Event"
+    },
+    "recentEvents": {
+      "title": "Recent Events",
+      "subtitle": "Your latest activity.",
+      "viewAll": "View all",
+      "empty": {
+        "title": "No recent events",
+        "description": "Start creating events to see your latest activity here."
+      }
+    },
+    "recentInvitations": {
+      "title": "Recent Invitations",
+      "subtitle": "Events you've been invited to.",
+      "viewAll": "View all"
+    },
+    "errors": {
+      "load": "Unable to load dashboard",
+      "loadDescription": "Something went wrong while loading your dashboard."
+    }
   }
 }

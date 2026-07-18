@@ -76,5 +76,38 @@
       "load": "No se pudieron cargar los eventos",
       "loadDescription": "Algo salió mal al cargar tus eventos."
     }
+  },
+  "dashboard": {
+    "welcome": "Bienvenido, {{name}} 👋",
+    "subtitle": "Un resumen rápido de tus eventos.",
+    "stats": {
+      "totalEvents": "Total de Eventos",
+      "active": "Activos",
+      "cancelled": "Cancelados",
+      "upcoming": "Próximos"
+    },
+    "quickActions": {
+      "title": "Acciones Rápidas",
+      "subtitle": "Administrá tus eventos más rápido.",
+      "createButton": "Crear Evento"
+    },
+    "recentEvents": {
+      "title": "Eventos Recientes",
+      "subtitle": "Tu actividad más reciente.",
+      "viewAll": "Ver todos",
+      "empty": {
+        "title": "Sin eventos recientes",
+        "description": "Creá eventos para ver tu actividad más reciente aquí."
+      }
+    },
+    "recentInvitations": {
+      "title": "Invitaciones Recientes",
+      "subtitle": "Eventos a los que fuiste invitado.",
+      "viewAll": "Ver todas"
+    },
+    "errors": {
+      "load": "No se pudo cargar el dashboard",
+      "loadDescription": "Algo salió mal al cargar tu dashboard."
+    }
   }
 }

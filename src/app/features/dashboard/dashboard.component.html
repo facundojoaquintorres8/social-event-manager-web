@@ -55,19 +55,18 @@
   </div>
 } @else if (error()) {
   <app-error-state
-    title="Unable to load dashboard"
-    description="Something went wrong while loading your dashboard."
+    [title]="'dashboard.errors.load' | translate"
+    [description]="'dashboard.errors.loadDescription' | translate"
     (retry)="loadDashboard()"
   />
 } @else {
   <div class="space-y-5 md:space-y-8">
     <div>
       <h1 class="text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
-        Welcome back, {{ authService.currentUser()?.firstName }} 👋
+        {{ 'dashboard.welcome' | translate: { name: authService.currentUser()?.firstName } }}
       </h1>
-
       <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
-        Here's a quick overview of your events.
+        {{ 'dashboard.subtitle' | translate }}
       </p>
     </div>
 
@@ -77,13 +76,13 @@
       >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">Total Events</p>
-
+            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">
+              {{ 'dashboard.stats.totalEvents' | translate }}
+            </p>
             <h3 class="mt-2 text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
               {{ dashboard()?.totalEvents }}
             </h3>
           </div>
-
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100 text-blue-600 md:h-12 md:w-12 dark:bg-blue-900/20"
           >
@@ -97,13 +96,13 @@
       >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">Active</p>
-
+            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">
+              {{ 'dashboard.stats.active' | translate }}
+            </p>
             <h3 class="mt-2 text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
               {{ dashboard()?.activeEvents }}
             </h3>
           </div>
-
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-100 text-green-600 md:h-12 md:w-12 dark:bg-green-900/20"
           >
@@ -117,13 +116,13 @@
       >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">Cancelled</p>
-
+            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">
+              {{ 'dashboard.stats.cancelled' | translate }}
+            </p>
             <h3 class="mt-2 text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
               {{ dashboard()?.cancelledEvents }}
             </h3>
           </div>
-
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100 text-red-600 md:h-12 md:w-12 dark:bg-red-900/20"
           >
@@ -137,13 +136,13 @@
       >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">Upcoming</p>
-
+            <p class="text-xs text-gray-500 md:text-sm dark:text-gray-400">
+              {{ 'dashboard.stats.upcoming' | translate }}
+            </p>
             <h3 class="mt-2 text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
               {{ dashboard()?.upcomingEvents }}
             </h3>
           </div>
-
           <div
             class="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-100 text-yellow-600 md:h-12 md:w-12 dark:bg-yellow-900/20"
           >
@@ -159,18 +158,20 @@
       >
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Quick Actions</h2>
-
-            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Manage your events faster.</p>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {{ 'dashboard.quickActions.title' | translate }}
+            </h2>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {{ 'dashboard.quickActions.subtitle' | translate }}
+            </p>
           </div>
-
           <div class="flex gap-3">
             <button
               routerLink="/events/create"
               class="flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
             >
               <svg lucidePlus [size]="16"></svg>
-              Create Event
+              {{ 'dashboard.quickActions.createButton' | translate }}
             </button>
           </div>
         </div>
@@ -182,24 +183,26 @@
     >
       <div class="mb-6 flex items-center justify-between">
         <div>
-          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Recent Events</h2>
-
-          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Your latest activity.</p>
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            {{ 'dashboard.recentEvents.title' | translate }}
+          </h2>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {{ 'dashboard.recentEvents.subtitle' | translate }}
+          </p>
         </div>
-
         <a
           routerLink="/workspace"
           [queryParams]="{ tab: 'created' }"
           class="text-sm font-medium text-blue-600 hover:text-blue-700"
         >
-          View all
+          {{ 'dashboard.recentEvents.viewAll' | translate }}
         </a>
       </div>
 
       @if (dashboard()?.recentEvents?.length === 0) {
         <app-empty-state
-          title="No recent events"
-          description="Start creating events to see your latest activity here."
+          [title]="'dashboard.recentEvents.empty.title' | translate"
+          [description]="'dashboard.recentEvents.empty.description' | translate"
         >
           <svg icon lucideCalendar [size]="28" class="text-blue-600 dark:text-blue-400"></svg>
           <button
@@ -208,8 +211,7 @@
             class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
           >
             <svg lucidePlus [size]="16"></svg>
-
-            Create Event
+            {{ 'dashboard.quickActions.createButton' | translate }}
           </button>
         </app-empty-state>
       } @else {
@@ -228,10 +230,10 @@
         <div class="mb-6 flex items-center justify-between">
           <div>
             <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
-              Recent Invitations
+              {{ 'dashboard.recentInvitations.title' | translate }}
             </h2>
             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-              Events you've been invited to.
+              {{ 'dashboard.recentInvitations.subtitle' | translate }}
             </p>
           </div>
           <a
@@ -239,10 +241,9 @@
             [queryParams]="{ tab: 'invitations' }"
             class="text-sm font-medium text-blue-600 hover:text-blue-700"
           >
-            View all
+            {{ 'dashboard.recentInvitations.viewAll' | translate }}
           </a>
         </div>
-
         <div class="grid gap-4">
           @for (inv of dashboard()?.recentInvitations; track inv.invitationId) {
             <app-event-card
