@@ -95,12 +95,10 @@ export class BalanceModalComponent implements OnChanges {
 
     const participants: BalanceParticipantRequest[] = [];
 
-    if (event.owner) {
-      participants.push({
-        userId: event.createdById,
-        name: event.createdBy,
-      });
-    }
+    participants.push({
+      userId: event.createdById, // owner
+      name: event.createdBy,
+    });
 
     event.participants
       .filter((participant) => participant.status === InvitationStatus.ACCEPTED)
