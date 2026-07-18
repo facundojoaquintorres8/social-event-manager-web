@@ -7,11 +7,12 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { passwordMatchValidator } from '../../../shared/utils/validators';
 import { LucideDynamicIcon, LucideEye, LucideEyeOff } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideDynamicIcon],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, LucideDynamicIcon, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './register.component.html',
 })

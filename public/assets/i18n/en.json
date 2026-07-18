@@ -125,5 +125,26 @@
       "invalidEmail": "Enter a valid email",
       "passwordRequired": "Password is required"
     }
+  },
+  "register": {
+    "sidebar": {
+      "description": "Create your account and start managing your events with a modern experience."
+    },
+    "title": "Create account",
+    "subtitle": "Start managing your events",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm password",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in",
+    "errors": {
+      "firstNameRequired": "First name is required",
+      "lastNameRequired": "Last name is required",
+      "invalidEmail": "Enter a valid email",
+      "passwordMismatch": "Passwords do not match"
+    }
   }
 }

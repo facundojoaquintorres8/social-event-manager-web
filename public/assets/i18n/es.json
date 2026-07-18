@@ -125,5 +125,26 @@
       "invalidEmail": "Ingresá un email válido",
       "passwordRequired": "La contraseña es requerida"
     }
+  },
+  "register": {
+    "sidebar": {
+      "description": "Creá tu cuenta y empezá a gestionar tus eventos con una experiencia moderna."
+    },
+    "title": "Crear cuenta",
+    "subtitle": "Empezá a gestionar tus eventos",
+    "firstName": "Nombre",
+    "lastName": "Apellido",
+    "email": "Email",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "createAccount": "Crear Cuenta",
+    "alreadyHaveAccount": "¿Ya tenés cuenta?",
+    "signIn": "Iniciá sesión",
+    "errors": {
+      "firstNameRequired": "El nombre es requerido",
+      "lastNameRequired": "El apellido es requerido",
+      "invalidEmail": "Ingresá un email válido",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    }
   }
 }
