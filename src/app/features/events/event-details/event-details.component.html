@@ -13,8 +13,8 @@
     </div>
   } @else if (error()) {
     <app-error-state
-      title="Unable to load event"
-      description="Something went wrong while loading this event."
+      [title]="'eventDetails.errors.load' | translate"
+      [description]="'eventDetails.errors.loadDescription' | translate"
       (retry)="loadEvent()"
     />
   } @else if (event(); as event) {
@@ -24,15 +24,11 @@
       <div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <div>
           <div class="flex flex-wrap items-center gap-2">
-            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
-              {{ event.title }}
-            </h1>
-
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">{{ event.title }}</h1>
             <span
               class="rounded-full px-2 py-1 text-xs font-medium"
               [ngClass]="{
                 'bg-green-100 text-green-700': event.status === EventStatus.ACTIVE,
-
                 'bg-red-100 text-red-700': event.status === EventStatus.CANCELLED,
               }"
             >
@@ -42,14 +38,11 @@
               <span
                 class="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300"
               >
-                Expired
+                {{ 'eventDetails.expired' | translate }}
               </span>
             }
           </div>
-
-          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">
-            {{ event.description }}
-          </p>
+          <p class="mt-3 text-sm text-gray-500 dark:text-gray-400">{{ event.description }}</p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -58,16 +51,15 @@
               [routerLink]="['/events/edit', event.id]"
               class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
             >
-              Edit Event
+              {{ 'eventDetails.editEvent' | translate }}
             </button>
-
             @if (event.status === EventStatus.ACTIVE) {
               <button
                 (click)="openCancelModal()"
                 [disabled]="cancelling()"
                 class="rounded-xl border border-red-300 px-4 py-2 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-50 active:scale-95 disabled:opacity-50 dark:border-red-800 dark:hover:bg-red-900/20"
               >
-                Cancel Event
+                {{ 'eventDetails.cancelEvent' | translate }}
               </button>
             }
           }
@@ -87,7 +79,7 @@
                     class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
                   ></span>
                 }
-                <span>Accept</span>
+                <span>{{ 'eventDetails.accept' | translate }}</span>
               </button>
 
               <button
@@ -103,7 +95,7 @@
                     class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
                   ></span>
                 }
-                <span>Reject</span>
+                <span>{{ 'eventDetails.reject' | translate }}</span>
               </button>
             </div>
           }
@@ -115,8 +107,9 @@
       <div
         class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900"
       >
-        <p class="text-xs tracking-wide text-gray-500 uppercase">Date</p>
-
+        <p class="text-xs tracking-wide text-gray-500 uppercase">
+          {{ 'eventDetails.date' | translate }}
+        </p>
         <p class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
           {{ event.eventDate | date: 'medium' }}
         </p>
@@ -125,8 +118,9 @@
       <div
         class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900"
       >
-        <p class="text-xs tracking-wide text-gray-500 uppercase">Location</p>
-
+        <p class="text-xs tracking-wide text-gray-500 uppercase">
+          {{ 'eventDetails.location' | translate }}
+        </p>
         <a
           [href]="buildGoogleMapsUrl(event.latitude, event.longitude)"
           target="_blank"
@@ -140,21 +134,25 @@
       <div
         class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm dark:border-gray-800 dark:bg-gray-900"
       >
-        <p class="text-xs tracking-wide text-gray-500 uppercase">Organizer</p>
-
+        <p class="text-xs tracking-wide text-gray-500 uppercase">
+          {{ 'eventDetails.organizer' | translate }}
+        </p>
         <p class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
           {{ event.createdBy }}
         </p>
       </div>
     </div>
 
+    <!-- Participants -->
     <div
       class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
     >
       <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div class="flex items-center gap-2">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Participants</h2>
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {{ 'eventDetails.participants.title' | translate }}
+            </h2>
             @if (event.participants.length > 0) {
               <span
                 class="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300"
@@ -163,8 +161,9 @@
               </span>
             }
           </div>
-
-          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Users invited to this event</p>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+            {{ 'eventDetails.participants.subtitle' | translate }}
+          </p>
         </div>
 
         @if (
@@ -176,22 +175,24 @@
             (click)="inviteModalOpen.set(true)"
             class="inline-flex w-fit items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
           >
-            Invite User
+            {{ 'eventDetails.participants.inviteButton' | translate }}
           </button>
         }
       </div>
 
       @if (event.participants.length === 0) {
-        <app-empty-state title="No participants yet" description="Invite users to join this event.">
+        <app-empty-state
+          [title]="'eventDetails.participants.empty.title' | translate"
+          [description]="'eventDetails.participants.empty.description' | translate"
+        >
           <svg icon lucideUsers [size]="28" class="text-blue-600 dark:text-blue-400"></svg>
-
           @if (event.owner && canInteractWithEvent(event.eventDate, event.status)) {
             <button
               actions
               (click)="inviteModalOpen.set(true)"
               class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
             >
-              Invite User
+              {{ 'eventDetails.participants.inviteButton' | translate }}
             </button>
           }
         </app-empty-state>
@@ -217,11 +218,10 @@
                     {{ participant.firstName.charAt(0) }}{{ participant.lastName.charAt(0) }}
                   }
                 </div>
-
                 <div class="min-w-0">
                   <h3 class="truncate font-medium text-gray-900 dark:text-gray-100">
                     @if (participant.external) {
-                      External Invitation
+                      {{ 'eventDetails.participants.externalInvitation' | translate }}
                     } @else {
                       {{ participant.firstName }} {{ participant.lastName }}
                     }
@@ -234,7 +234,7 @@
                       <span
                         class="flex-shrink-0 rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium text-purple-700 dark:bg-purple-900/20 dark:text-purple-300"
                       >
-                        External
+                        {{ 'eventDetails.participants.external' | translate }}
                       </span>
                     }
                   </div>
@@ -254,7 +254,6 @@
                 >
                   {{ participant.status | statusLabel }}
                 </span>
-
                 @if (event.owner && canInteractWithEvent(event.eventDate, event.status)) {
                   <button
                     (click)="removeParticipant(participant)"
@@ -277,14 +276,16 @@
       }
     </div>
 
+    <!-- Contributions -->
     <div
       class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
     >
       <div class="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <div class="flex items-center gap-2">
-            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Contributions</h2>
-
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+              {{ 'eventDetails.contributions.title' | translate }}
+            </h2>
             @if (event.contributions.length > 0) {
               <span
                 class="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 dark:bg-gray-800 dark:text-gray-300"
@@ -293,9 +294,8 @@
               </span>
             }
           </div>
-
           <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-            Things participants are bringing to the event
+            {{ 'eventDetails.contributions.subtitle' | translate }}
           </p>
         </div>
 
@@ -305,10 +305,9 @@
               (click)="openBalanceModal()"
               class="inline-flex items-center gap-2 rounded-xl border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 transition-all duration-200 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-800"
             >
-              Generate balance
+              {{ 'eventDetails.contributions.generateBalance' | translate }}
             </button>
           }
-
           @if (
             event.contributions.length > 0 &&
             (event.owner || currentUserParticipant()?.status === InvitationStatus.ACCEPTED) &&
@@ -319,8 +318,7 @@
               class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <svg lucidePlus [size]="16"></svg>
-
-              Add item
+              {{ 'eventDetails.contributions.addItem' | translate }}
             </button>
           }
         </div>
@@ -328,11 +326,10 @@
 
       @if (event.contributions.length === 0) {
         <app-empty-state
-          title="No contributions yet"
-          description="Add the first contribution for this event."
+          [title]="'eventDetails.contributions.empty.title' | translate"
+          [description]="'eventDetails.contributions.empty.description' | translate"
         >
           <svg icon lucidePackage [size]="28" class="text-blue-600 dark:text-blue-400"></svg>
-
           @if (
             (event.owner || currentUserParticipant()?.status === InvitationStatus.ACCEPTED) &&
             canAddContribution(event.status)
@@ -343,8 +340,7 @@
               class="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-4 py-2 text-sm font-medium text-white transition-all duration-200 hover:bg-blue-700 active:scale-95"
             >
               <svg lucidePlus [size]="16"></svg>
-
-              Add item
+              {{ 'eventDetails.contributions.addItem' | translate }}
             </button>
           }
         </app-empty-state>
@@ -366,9 +362,9 @@
                       class="mt-1 h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent"
                     ></span>
                   } @else {
-                    <label class="sr-only" for="contribution-completed-{{ contribution.id }}"
-                      >Mark contribution completed</label
-                    >
+                    <label class="sr-only" for="contribution-completed-{{ contribution.id }}">
+                      {{ 'eventDetails.contributions.markCompleted' | translate }}
+                    </label>
                     <input
                       id="contribution-completed-{{ contribution.id }}"
                       type="checkbox"
@@ -392,12 +388,11 @@
                       >
                         {{ contribution.name }}
                       </h3>
-
                       @if (contribution.splitCost && contribution.cost) {
                         <span
                           class="rounded-full bg-purple-100 px-2 py-0.5 text-[10px] font-medium text-purple-700 dark:bg-purple-900/20 dark:text-purple-300"
                         >
-                          Split
+                          {{ 'eventDetails.contributions.split' | translate }}
                         </span>
                       }
                     </div>
@@ -410,18 +405,17 @@
 
                     <div class="flex flex-wrap items-center gap-3 text-xs">
                       <span class="text-gray-500 dark:text-gray-400">
-                        By
-                        <span class="font-medium text-gray-700 dark:text-gray-200">
-                          {{ contribution.createdBy }}
-                        </span>
+                        {{ 'eventDetails.contributions.by' | translate }}
+                        <span class="font-medium text-gray-700 dark:text-gray-200">{{
+                          contribution.createdBy
+                        }}</span>
                       </span>
-
                       @if (contribution.cost) {
                         <span class="text-gray-500 dark:text-gray-400">
-                          Cost:
-                          <span class="font-medium text-gray-700 dark:text-gray-200">
-                            {{ contribution.cost | currency }}
-                          </span>
+                          {{ 'eventDetails.contributions.cost' | translate }}:
+                          <span class="font-medium text-gray-700 dark:text-gray-200">{{
+                            contribution.cost | currency
+                          }}</span>
                         </span>
                       }
                     </div>
@@ -435,7 +429,6 @@
                       >
                         <svg lucidePencil [size]="16"></svg>
                       </button>
-
                       <button
                         (click)="deleteContribution(contribution)"
                         class="flex h-9 w-9 items-center justify-center rounded-lg text-red-500 transition-all duration-200 hover:bg-red-50 hover:text-red-600 active:scale-95 dark:hover:bg-red-900/20"
@@ -459,15 +452,15 @@
       class="mt-3 inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-3 py-2 text-sm text-gray-600 shadow-sm transition-all duration-200 hover:bg-gray-100 hover:text-gray-900 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100"
     >
       <svg lucideArrowLeft [size]="16"></svg>
-      Back
+      {{ 'eventDetails.back' | translate }}
     </button>
   }
 </div>
 
 @if (cancelModalOpen()) {
   <app-confirm-modal
-    title="Cancel event"
-    message="Are you sure you want to cancel this event?"
+    [title]="'eventDetails.cancelModal.title' | translate"
+    [message]="'eventDetails.cancelModal.message' | translate"
     [confirmDisabled]="cancelling()"
     (confirm)="confirmCancel()"
     (closeModal)="closeCancelModal()"
@@ -484,8 +477,7 @@
     [contribution]="editingContribution()"
     (modalClosed)="closeContributionModal()"
     (submitContribution)="submitContribution($event)"
-  >
-  </app-contribution-modal>
+  />
 }
 @if (balanceModalOpen() && event(); as currentEvent) {
   <app-balance-modal

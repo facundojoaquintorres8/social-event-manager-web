@@ -48,6 +48,7 @@ import {
   LucideTrash2,
   LucideUsers,
 } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-details',
@@ -69,6 +70,7 @@ import {
     LucideUsers,
     LucidePackage,
     LucideMail,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-details.component.html',

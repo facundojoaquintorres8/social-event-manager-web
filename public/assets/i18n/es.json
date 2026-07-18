@@ -146,5 +146,49 @@
       "invalidEmail": "Ingresá un email válido",
       "passwordMismatch": "Las contraseñas no coinciden"
     }
+  },
+  "eventDetails": {
+    "expired": "Expirado",
+    "editEvent": "Editar Evento",
+    "cancelEvent": "Cancelar Evento",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "back": "Volver",
+    "date": "Fecha",
+    "location": "Ubicación",
+    "organizer": "Organizador",
+    "participants": {
+      "title": "Participantes",
+      "subtitle": "Usuarios invitados a este evento",
+      "inviteButton": "Invitar Usuario",
+      "external": "Externo",
+      "externalInvitation": "Invitación Externa",
+      "empty": {
+        "title": "Sin participantes aún",
+        "description": "Invitá usuarios para unirse a este evento."
+      }
+    },
+    "contributions": {
+      "title": "Contribuciones",
+      "subtitle": "Cosas que los participantes traen al evento",
+      "generateBalance": "Generar balance",
+      "addItem": "Agregar item",
+      "by": "Por",
+      "cost": "Costo",
+      "split": "Dividir",
+      "markCompleted": "Marcar contribución como completada",
+      "empty": {
+        "title": "Sin contribuciones aún",
+        "description": "Agregá la primera contribución para este evento."
+      }
+    },
+    "cancelModal": {
+      "title": "Cancelar evento",
+      "message": "¿Estás seguro que querés cancelar este evento?"
+    },
+    "errors": {
+      "load": "No se pudo cargar el evento",
+      "loadDescription": "Algo salió mal al cargar este evento."
+    }
   }
 }

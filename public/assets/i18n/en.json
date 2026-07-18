@@ -146,5 +146,49 @@
       "invalidEmail": "Enter a valid email",
       "passwordMismatch": "Passwords do not match"
     }
+  },
+  "eventDetails": {
+    "expired": "Expired",
+    "editEvent": "Edit Event",
+    "cancelEvent": "Cancel Event",
+    "accept": "Accept",
+    "reject": "Reject",
+    "back": "Back",
+    "date": "Date",
+    "location": "Location",
+    "organizer": "Organizer",
+    "participants": {
+      "title": "Participants",
+      "subtitle": "Users invited to this event",
+      "inviteButton": "Invite User",
+      "external": "External",
+      "externalInvitation": "External Invitation",
+      "empty": {
+        "title": "No participants yet",
+        "description": "Invite users to join this event."
+      }
+    },
+    "contributions": {
+      "title": "Contributions",
+      "subtitle": "Things participants are bringing to the event",
+      "generateBalance": "Generate balance",
+      "addItem": "Add item",
+      "by": "By",
+      "cost": "Cost",
+      "split": "Split",
+      "markCompleted": "Mark contribution completed",
+      "empty": {
+        "title": "No contributions yet",
+        "description": "Add the first contribution for this event."
+      }
+    },
+    "cancelModal": {
+      "title": "Cancel event",
+      "message": "Are you sure you want to cancel this event?"
+    },
+    "errors": {
+      "load": "Unable to load event",
+      "loadDescription": "Something went wrong while loading this event."
+    }
   }
 }

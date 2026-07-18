@@ -36,7 +36,6 @@ export class AuthService {
   }
 
   // ---------- STORAGE ----------
-
   storeUserAndTokens(response: RegisterResponse): void {
     const user = {
       email: response.email,
