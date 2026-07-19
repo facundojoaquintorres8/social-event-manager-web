@@ -3,24 +3,24 @@
     class="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
   >
     <h2 class="mb-6 text-xl font-semibold text-gray-900 dark:text-gray-100">
-      {{ isEditMode() ? 'Edit Event' : 'Create Event' }}
+      {{ (isEditMode() ? 'createEvent.titleEdit' : 'createEvent.titleCreate') | translate }}
     </h2>
 
     <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
       <div>
         <label for="title" class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300">
-          Title
+          {{ 'createEvent.title' | translate }}
         </label>
-
         <input
           id="title"
           type="text"
           formControlName="title"
           class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 shadow-sm transition-colors focus:border-blue-500 focus:shadow-md focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
-
         @if (form.controls.title.touched && form.controls.title.invalid) {
-          <p class="mt-1 text-xs text-red-500 dark:text-red-400">Title is required</p>
+          <p class="mt-1 text-xs text-red-500 dark:text-red-400">
+            {{ 'createEvent.errors.titleRequired' | translate }}
+          </p>
         }
       </div>
 
@@ -29,9 +29,8 @@
           for="description"
           class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Description
+          {{ 'createEvent.description' | translate }}
         </label>
-
         <textarea
           id="description"
           formControlName="description"
@@ -45,16 +44,16 @@
           for="location"
           class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Location
+          {{ 'createEvent.location' | translate }}
         </label>
-
         <app-location-autocomplete
           [initialValue]="form.get('locationAddress')?.value ?? ''"
           (locationSelected)="onLocationSelected($event)"
         ></app-location-autocomplete>
-
         @if (form.controls.location.touched && form.controls.location.invalid) {
-          <p class="mt-1 text-xs text-red-500 dark:text-red-400">Location is required</p>
+          <p class="mt-1 text-xs text-red-500 dark:text-red-400">
+            {{ 'createEvent.errors.locationRequired' | translate }}
+          </p>
         }
       </div>
 
@@ -63,9 +62,8 @@
           for="eventDate"
           class="mb-1 block text-sm font-medium text-gray-700 dark:text-gray-300"
         >
-          Event Date
+          {{ 'createEvent.eventDate' | translate }}
         </label>
-
         <div class="relative">
           <input
             id="eventDate"
@@ -79,9 +77,10 @@
             class="calendar-icon pointer-events-none absolute top-1/2 right-2.5 -translate-y-1/2 text-gray-400"
           ></svg>
         </div>
-
         @if (form.controls.eventDate.touched && form.controls.eventDate.invalid) {
-          <p class="mt-1 text-xs text-red-500 dark:text-red-400">Event date is required</p>
+          <p class="mt-1 text-xs text-red-500 dark:text-red-400">
+            {{ 'createEvent.errors.eventDateRequired' | translate }}
+          </p>
         }
       </div>
 
@@ -90,23 +89,22 @@
           type="button"
           (click)="goBack()"
           [disabled]="loading()"
-          class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition-all transition-colors duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+          class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
         >
-          Cancel
+          {{ 'createEvent.cancel' | translate }}
         </button>
 
         <button
           type="submit"
           [disabled]="loading()"
-          class="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white transition-all transition-colors duration-200 hover:bg-blue-700 active:scale-95 disabled:opacity-50"
+          class="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm text-white transition-all duration-200 hover:bg-blue-700 active:scale-95 disabled:opacity-50"
         >
           @if (loading()) {
             <span
               class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
             ></span>
           }
-
-          {{ isEditMode() ? 'Update' : 'Create' }}
+          {{ (isEditMode() ? 'createEvent.update' : 'createEvent.create') | translate }}
         </button>
       </div>
     </form>

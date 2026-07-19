@@ -190,5 +190,21 @@
       "load": "Unable to load event",
       "loadDescription": "Something went wrong while loading this event."
     }
+  },
+  "createEvent": {
+    "titleCreate": "Create Event",
+    "titleEdit": "Edit Event",
+    "title": "Title",
+    "description": "Description",
+    "location": "Location",
+    "eventDate": "Event Date",
+    "cancel": "Cancel",
+    "create": "Create",
+    "update": "Update",
+    "errors": {
+      "titleRequired": "Title is required",
+      "locationRequired": "Location is required",
+      "eventDateRequired": "Event date is required"
+    }
   }
 }

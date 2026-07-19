@@ -190,5 +190,21 @@
       "load": "No se pudo cargar el evento",
       "loadDescription": "Algo salió mal al cargar este evento."
     }
+  },
+  "createEvent": {
+    "titleCreate": "Crear Evento",
+    "titleEdit": "Editar Evento",
+    "title": "Título",
+    "description": "Descripción",
+    "location": "Ubicación",
+    "eventDate": "Fecha del Evento",
+    "cancel": "Cancelar",
+    "create": "Crear",
+    "update": "Actualizar",
+    "errors": {
+      "titleRequired": "El título es requerido",
+      "locationRequired": "La ubicación es requerida",
+      "eventDateRequired": "La fecha del evento es requerida"
+    }
   }
 }

@@ -10,11 +10,12 @@ import { SelectedLocation } from '../../../core/models/location.model';
 import { LucideCalendarDays } from '@lucide/angular';
 import { ApiResponse } from '../../../core/models/api-response.model';
 import { Event } from '../../../core/models/event.model';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-event',
   standalone: true,
-  imports: [ReactiveFormsModule, LocationAutocompleteComponent, LucideCalendarDays],
+  imports: [ReactiveFormsModule, LocationAutocompleteComponent, LucideCalendarDays, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './create-event.component.html',
 })
