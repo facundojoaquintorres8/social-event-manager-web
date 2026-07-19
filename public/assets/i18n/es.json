@@ -241,5 +241,28 @@
     "errors": {
       "invalidEmail": "Ingresá un email válido"
     }
+  },
+  "balanceModal": {
+    "title": "Generar Balance",
+    "subtitle": "Seleccioná los participantes para incluir en el cálculo del balance.",
+    "totalCost": "COSTO TOTAL DEL EVENTO",
+    "participants": "PARTICIPANTES",
+    "sharePerPerson": "PARTE POR PERSONA",
+    "participantSummary": "Resumen de Participantes",
+    "paid": "Pagó",
+    "shouldPay": "Debe pagar",
+    "whoPayWhom": "Quién le paga a quién",
+    "allSettled": "Todos están al día.",
+    "noTransfers": "No se requieren transferencias.",
+    "pays": "le paga a",
+    "amount": "Monto",
+    "close": "Cerrar",
+    "participantsList": "Participantes",
+    "sharedExpense": "Gasto compartido",
+    "remove": "Eliminar",
+    "externalParticipant": "Participante externo",
+    "participantNamePlaceholder": "Nombre del participante",
+    "add": "Agregar",
+    "calculate": "Calcular"
   }
 }

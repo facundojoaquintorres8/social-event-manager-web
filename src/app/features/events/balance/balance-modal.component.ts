@@ -16,11 +16,12 @@ import {
   EventFull,
   InvitationStatus,
 } from '../../../core/models/event.model';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-balance-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './balance-modal.component.html',
 })

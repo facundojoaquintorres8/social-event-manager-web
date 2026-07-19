@@ -241,5 +241,28 @@
     "errors": {
       "invalidEmail": "Enter a valid email"
     }
+  },
+  "balanceModal": {
+    "title": "Generate Balance",
+    "subtitle": "Select participants to include in the balance calculation.",
+    "totalCost": "TOTAL EVENT COST",
+    "participants": "PARTICIPANTS",
+    "sharePerPerson": "SHARE PER PERSON",
+    "participantSummary": "Participant Summary",
+    "paid": "Paid",
+    "shouldPay": "Should pay",
+    "whoPayWhom": "Who Pays Whom",
+    "allSettled": "Everyone is settled.",
+    "noTransfers": "No transfers are required.",
+    "pays": "pays",
+    "amount": "Amount",
+    "close": "Close",
+    "participantsList": "Participants",
+    "sharedExpense": "Shared expense",
+    "remove": "Remove",
+    "externalParticipant": "External participant",
+    "participantNamePlaceholder": "Participant name",
+    "add": "Add",
+    "calculate": "Calculate"
   }
 }

@@ -14,10 +14,11 @@
   >
     <div class="max-h-[90vh] overflow-y-auto p-6">
       <div class="mb-5">
-        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Generate Balance</h2>
-
+        <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+          {{ 'balanceModal.title' | translate }}
+        </h2>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          Select participants to include in the balance calculation.
+          {{ 'balanceModal.subtitle' | translate }}
         </p>
       </div>
 
@@ -25,24 +26,25 @@
         <div class="space-y-6">
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
             <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-              <p class="text-xs text-gray-500 dark:text-gray-400">TOTAL EVENT COST</p>
-
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                {{ 'balanceModal.totalCost' | translate }}
+              </p>
               <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {{ balanceResult.totalCost | currency }}
               </p>
             </div>
-
             <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-              <p class="text-xs text-gray-500 dark:text-gray-400">PARTICIPANTS</p>
-
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                {{ 'balanceModal.participants' | translate }}
+              </p>
               <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {{ balanceResult.participantCount }}
               </p>
             </div>
-
             <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800">
-              <p class="text-xs text-gray-500 dark:text-gray-400">SHARE PER PERSON</p>
-
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                {{ 'balanceModal.sharePerPerson' | translate }}
+              </p>
               <p class="mt-1 text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {{ balanceResult.costPerPerson | currency }}
               </p>
@@ -51,33 +53,27 @@
 
           <div>
             <h3 class="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
-              Participant Summary
+              {{ 'balanceModal.participantSummary' | translate }}
             </h3>
-
             <div class="space-y-2">
               @for (balance of balanceResult.balances; track balance.name) {
                 <div class="rounded-xl border border-gray-200 p-4 dark:border-gray-800">
                   <div class="flex items-center justify-between">
                     <div>
-                      <p class="font-medium text-gray-900 dark:text-gray-100">
-                        {{ balance.name }}
-                      </p>
-
+                      <p class="font-medium text-gray-900 dark:text-gray-100">{{ balance.name }}</p>
                       <div
                         class="mt-1 flex flex-wrap gap-3 text-xs text-gray-500 dark:text-gray-400"
                       >
-                        <span>
-                          Paid:
-                          <strong>{{ balance.paid | currency }}</strong>
-                        </span>
-
-                        <span>
-                          Should pay:
-                          <strong>{{ balance.shouldPay | currency }}</strong>
-                        </span>
+                        <span
+                          >{{ 'balanceModal.paid' | translate }}:
+                          <strong>{{ balance.paid | currency }}</strong></span
+                        >
+                        <span
+                          >{{ 'balanceModal.shouldPay' | translate }}:
+                          <strong>{{ balance.shouldPay | currency }}</strong></span
+                        >
                       </div>
                     </div>
-
                     <span
                       class="rounded-full px-3 py-1 text-sm font-semibold"
                       [ngClass]="{
@@ -98,15 +94,18 @@
           </div>
 
           <div>
-            <h3 class="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">Who Pays Whom</h3>
+            <h3 class="mb-3 text-sm font-medium text-gray-700 dark:text-gray-300">
+              {{ 'balanceModal.whoPayWhom' | translate }}
+            </h3>
             @if (balanceResult.settlements.length === 0) {
               <div
                 class="rounded-xl border border-green-200 bg-green-50 p-4 text-center dark:border-green-900 dark:bg-green-950/20"
               >
-                <p class="font-medium text-green-700 dark:text-green-300">Everyone is settled.</p>
-
+                <p class="font-medium text-green-700 dark:text-green-300">
+                  {{ 'balanceModal.allSettled' | translate }}
+                </p>
                 <p class="mt-1 text-sm text-green-600 dark:text-green-400">
-                  No transfers are required.
+                  {{ 'balanceModal.noTransfers' | translate }}
                 </p>
               </div>
             } @else {
@@ -120,17 +119,15 @@
                         <p class="font-medium text-gray-900 dark:text-gray-100">
                           {{ settlement.from }}
                         </p>
-
-                        <p class="text-xs text-gray-500 dark:text-gray-400">pays</p>
-
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                          {{ 'balanceModal.pays' | translate }}
+                        </p>
                         <p class="font-medium text-gray-900 dark:text-gray-100">
                           {{ settlement.to }}
                         </p>
                       </div>
-
                       <div class="text-right">
-                        <p class="text-xs text-gray-500">Amount</p>
-
+                        <p class="text-xs text-gray-500">{{ 'balanceModal.amount' | translate }}</p>
                         <p class="text-lg font-bold text-blue-600">
                           {{ settlement.amount | currency }}
                         </p>
@@ -148,34 +145,31 @@
               (click)="onClose()"
               class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
             >
-              Close
+              {{ 'balanceModal.close' | translate }}
             </button>
           </div>
         </div>
       } @else {
         <div class="space-y-4">
           <div>
-            <h3 class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">Participants</h3>
-
+            <h3 class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              {{ 'balanceModal.participantsList' | translate }}
+            </h3>
             <div class="space-y-2">
               @for (participant of participants(); track $index) {
                 <div
                   class="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-3 dark:border-gray-800"
                 >
                   <div class="flex items-center gap-2">
-                    <span class="text-gray-900 dark:text-gray-100">
-                      {{ participant.name }}
-                    </span>
-
+                    <span class="text-gray-900 dark:text-gray-100">{{ participant.name }}</span>
                     @if (!canRemoveParticipant(participant)) {
                       <span
                         class="rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-medium text-amber-700 dark:bg-amber-900/20 dark:text-amber-300"
                       >
-                        Shared expense
+                        {{ 'balanceModal.sharedExpense' | translate }}
                       </span>
                     }
                   </div>
-
                   <button
                     type="button"
                     [disabled]="!canRemoveParticipant(participant)"
@@ -187,7 +181,7 @@
                       'cursor-not-allowed text-gray-400': !canRemoveParticipant(participant),
                     }"
                   >
-                    Remove
+                    {{ 'balanceModal.remove' | translate }}
                   </button>
                 </div>
               }
@@ -196,25 +190,25 @@
 
           <div>
             <h3 class="mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-              External participant
+              {{ 'balanceModal.externalParticipant' | translate }}
             </h3>
-
             <div class="flex gap-2">
-              <label for="externalParticipantInput" class="sr-only">External participant</label>
+              <label for="externalParticipantInput" class="sr-only">{{
+                'balanceModal.externalParticipant' | translate
+              }}</label>
               <input
                 id="externalParticipantInput"
                 #externalParticipant
                 type="text"
-                placeholder="Participant name"
+                [placeholder]="'balanceModal.participantNamePlaceholder' | translate"
                 class="flex-1 rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
               />
-
               <button
                 type="button"
                 (click)="addExternalParticipant(externalParticipant)"
                 class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
               >
-                Add
+                {{ 'balanceModal.add' | translate }}
               </button>
             </div>
           </div>
@@ -226,9 +220,8 @@
               (click)="onClose()"
               class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
             >
-              Cancel
+              {{ 'common.cancel' | translate }}
             </button>
-
             <button
               type="button"
               [disabled]="loading()"
@@ -240,7 +233,7 @@
                   class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
                 ></span>
               } @else {
-                Calculate
+                {{ 'balanceModal.calculate' | translate }}
               }
             </button>
           </div>
