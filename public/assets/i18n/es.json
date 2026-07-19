@@ -206,5 +206,10 @@
       "locationRequired": "La ubicación es requerida",
       "eventDateRequired": "La fecha del evento es requerida"
     }
+  },
+  "header": {
+    "workspace": "Espacio de trabajo",
+    "toggleTheme": "Cambiar tema",
+    "logout": "Cerrar sesión"
   }
 }

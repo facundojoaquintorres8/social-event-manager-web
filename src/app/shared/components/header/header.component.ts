@@ -11,6 +11,7 @@ import {
   LucideSun,
 } from '@lucide/angular';
 import { Language, LanguageService } from '../../../core/services/language.service';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ import { Language, LanguageService } from '../../../core/services/language.servi
     LucideDynamicIcon,
     LucideLogOut,
     LucideMenu,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',
