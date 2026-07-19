@@ -213,6 +213,8 @@
     "logout": "Logout"
   },
   "common": {
-    "retry": "Retry"
+    "retry": "Retry",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
   }
 }

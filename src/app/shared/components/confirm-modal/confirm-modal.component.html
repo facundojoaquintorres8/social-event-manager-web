@@ -13,16 +13,16 @@
     <div class="flex justify-end gap-2 pt-2">
       <button
         (click)="closeModal.emit()"
-        class="rounded-md px-3 py-1 text-sm text-gray-600 transition-all transition-colors duration-200 hover:bg-gray-100 active:scale-95 dark:text-gray-300 dark:hover:bg-gray-800"
+        class="rounded-md px-3 py-1 text-sm text-gray-600 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:text-gray-300 dark:hover:bg-gray-800"
       >
-        Cancel
+        {{ 'common.cancel' | translate }}
       </button>
       <button
         (click)="confirm.emit()"
         [disabled]="confirmDisabled()"
-        class="rounded-md bg-red-600 px-3 py-1 text-sm text-white transition-all transition-colors duration-200 hover:bg-red-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-red-600"
+        class="rounded-md bg-red-600 px-3 py-1 text-sm text-white transition-all duration-200 hover:bg-red-700 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-red-600"
       >
-        Confirm
+        {{ 'common.confirm' | translate }}
       </button>
     </div>
   </div>
