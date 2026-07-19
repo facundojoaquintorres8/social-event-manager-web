@@ -216,5 +216,21 @@
     "retry": "Retry",
     "cancel": "Cancel",
     "confirm": "Confirm"
+  },
+  "contributionModal": {
+    "titleAdd": "Add contribution",
+    "titleEdit": "Edit contribution",
+    "subtitle": "Add something you will bring to the event.",
+    "namePlaceholder": "Pizza, drinks, wine...",
+    "nameLabel": "Contribution name",
+    "descriptionLabel": "Contribution description",
+    "descriptionPlaceholder": "Optional details...",
+    "costLabel": "Contribution cost",
+    "costPlaceholder": "Cost (optional)",
+    "splitCost": "Split this cost between participants",
+    "save": "Save",
+    "errors": {
+      "nameRequired": "Contribution name is required"
+    }
   }
 }

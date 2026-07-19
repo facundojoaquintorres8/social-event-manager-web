@@ -14,48 +14,57 @@
   >
     <div class="mb-5">
       <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-        {{ contribution() ? 'Edit contribution' : 'Add contribution' }}
+        {{
+          (contribution() ? 'contributionModal.titleEdit' : 'contributionModal.titleAdd')
+            | translate
+        }}
       </h2>
-
       <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-        Add something you will bring to the event.
+        {{ 'contributionModal.subtitle' | translate }}
       </p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
       <div>
-        <label for="contribution-name" class="sr-only">Contribution name</label>
+        <label for="contribution-name" class="sr-only">{{
+          'contributionModal.nameLabel' | translate
+        }}</label>
         <input
           id="contribution-name"
           type="text"
           formControlName="name"
-          placeholder="Pizza, drinks, wine..."
+          [placeholder]="'contributionModal.namePlaceholder' | translate"
           class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
-
         @if (form.controls.name.invalid && form.controls.name.touched) {
-          <p class="mt-1 text-xs text-red-500">Contribution name is required</p>
+          <p class="mt-1 text-xs text-red-500">
+            {{ 'contributionModal.errors.nameRequired' | translate }}
+          </p>
         }
       </div>
 
       <div>
-        <label for="contribution-description" class="sr-only">Contribution description</label>
+        <label for="contribution-description" class="sr-only">{{
+          'contributionModal.descriptionLabel' | translate
+        }}</label>
         <textarea
           id="contribution-description"
           rows="3"
           formControlName="description"
-          placeholder="Optional details..."
+          [placeholder]="'contributionModal.descriptionPlaceholder' | translate"
           class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         ></textarea>
       </div>
 
       <div>
-        <label for="contribution-cost" class="sr-only">Contribution cost</label>
+        <label for="contribution-cost" class="sr-only">{{
+          'contributionModal.costLabel' | translate
+        }}</label>
         <input
           id="contribution-cost"
           type="number"
           formControlName="cost"
-          placeholder="Cost (optional)"
+          [placeholder]="'contributionModal.costPlaceholder' | translate"
           class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
       </div>
@@ -66,9 +75,8 @@
           formControlName="splitCost"
           class="h-4 w-4 rounded border-gray-300"
         />
-
         <span class="text-sm text-gray-700 dark:text-gray-300">
-          Split this cost between participants
+          {{ 'contributionModal.splitCost' | translate }}
         </span>
       </label>
 
@@ -79,9 +87,8 @@
           (click)="onClose()"
           class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
         >
-          Cancel
+          {{ 'common.cancel' | translate }}
         </button>
-
         <button
           type="submit"
           [disabled]="loading()"
@@ -92,7 +99,7 @@
               class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
             ></span>
           } @else {
-            Save
+            {{ 'contributionModal.save' | translate }}
           }
         </button>
       </div>

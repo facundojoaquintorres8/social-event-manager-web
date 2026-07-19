@@ -9,11 +9,12 @@ import {
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Contribution, CreateContributionRequest } from '../../../core/models/event.model';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-contribution-modal',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './contribution-modal.component.html',
 })
