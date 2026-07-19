@@ -232,5 +232,14 @@
     "errors": {
       "nameRequired": "Contribution name is required"
     }
+  },
+  "inviteModal": {
+    "title": "Invite user",
+    "subtitle": "Invite someone to your event by email.",
+    "emailLabel": "Email address",
+    "sendInvite": "Send invite",
+    "errors": {
+      "invalidEmail": "Enter a valid email"
+    }
   }
 }

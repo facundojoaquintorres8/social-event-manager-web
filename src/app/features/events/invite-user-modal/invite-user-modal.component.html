@@ -13,16 +13,17 @@
     tabindex="-1"
   >
     <div class="mb-5">
-      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">Invite user</h2>
-
+      <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
+        {{ 'inviteModal.title' | translate }}
+      </h2>
       <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-        Invite someone to your event by email.
+        {{ 'inviteModal.subtitle' | translate }}
       </p>
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-4">
       <div>
-        <label for="invite-email" class="sr-only">Email address</label>
+        <label for="invite-email" class="sr-only">{{ 'inviteModal.emailLabel' | translate }}</label>
         <input
           id="invite-email"
           type="email"
@@ -30,9 +31,10 @@
           placeholder="john@email.com"
           class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-900 shadow-sm transition-all duration-200 focus:ring-2 focus:ring-blue-500 focus:outline-none dark:border-gray-800 dark:bg-gray-950 dark:text-gray-100"
         />
-
         @if (form.controls.email.invalid && form.controls.email.touched) {
-          <p class="mt-1 text-xs text-red-500">Enter a valid email</p>
+          <p class="mt-1 text-xs text-red-500">
+            {{ 'inviteModal.errors.invalidEmail' | translate }}
+          </p>
         }
       </div>
 
@@ -43,9 +45,8 @@
           (click)="onClose()"
           class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
         >
-          Cancel
+          {{ 'common.cancel' | translate }}
         </button>
-
         <button
           type="submit"
           [disabled]="loading()"
@@ -56,7 +57,7 @@
               class="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"
             ></span>
           } @else {
-            Send invite
+            {{ 'inviteModal.sendInvite' | translate }}
           }
         </button>
       </div>
