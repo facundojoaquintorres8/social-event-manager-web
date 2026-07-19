@@ -211,5 +211,8 @@
     "workspace": "Workspace",
     "toggleTheme": "Toggle theme",
     "logout": "Logout"
+  },
+  "common": {
+    "retry": "Retry"
   }
 }

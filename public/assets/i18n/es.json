@@ -211,5 +211,8 @@
     "workspace": "Espacio de trabajo",
     "toggleTheme": "Cambiar tema",
     "logout": "Cerrar sesión"
+  },
+  "common": {
+    "retry": "Reintentar"
   }
 }
