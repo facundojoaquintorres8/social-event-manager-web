@@ -264,5 +264,16 @@
     "participantNamePlaceholder": "Nombre del participante",
     "add": "Agregar",
     "calculate": "Calcular"
+  },
+  "externalInvitation": {
+    "invited": "Fuiste invitado a un evento",
+    "unavailable": "Invitación no disponible",
+    "tryAgain": "Intentar de nuevo",
+    "date": "Fecha",
+    "organizer": "Organizador",
+    "location": "Ubicación",
+    "wrongAccount": "Esta invitación fue enviada a otra dirección de email. Por favor iniciá sesión con la cuenta correcta.",
+    "createAccount": "Crear Cuenta para Unirte al Evento",
+    "signIn": "Iniciar Sesión para Continuar"
   }
 }

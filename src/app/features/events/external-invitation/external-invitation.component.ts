@@ -17,11 +17,12 @@ import { ExternalInvitationsService } from '../../../core/services/external-invi
 import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 import { LucideTriangleAlert } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-external-invitation',
   standalone: true,
-  imports: [CommonModule, StatusLabelPipe, LucideTriangleAlert],
+  imports: [CommonModule, StatusLabelPipe, LucideTriangleAlert, TranslatePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './external-invitation.component.html',
 })
