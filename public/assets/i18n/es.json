@@ -284,5 +284,13 @@
     "reject": "Rechazar",
     "edit": "Editar",
     "cancel": "Cancelar"
+  },
+  "status": {
+    "ACTIVE": "Activo",
+    "CANCELLED": "Cancelado",
+    "PENDING": "Pendiente",
+    "ACCEPTED": "Aceptado",
+    "REJECTED": "Rechazado",
+    "CLAIMED": "Aceptado"
   }
 }
