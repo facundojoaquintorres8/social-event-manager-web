@@ -19,6 +19,7 @@ import { canInteractWithEvent, isEventExpired } from '../../utils/event.utils';
 import { StatusLabelPipe } from '../../utils/status-label.pipe';
 import { buildGoogleMapsUrl } from '../../utils/maps.utils';
 import { LucideArrowRight, LucideEllipsisVertical, LucidePencil, LucideX } from '@lucide/angular';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-card',
@@ -30,6 +31,7 @@ import { LucideArrowRight, LucideEllipsisVertical, LucidePencil, LucideX } from 
     LucideEllipsisVertical,
     LucidePencil,
     LucideX,
+    TranslatePipe,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './event-card.component.html',

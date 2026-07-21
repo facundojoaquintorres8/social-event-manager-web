@@ -275,5 +275,14 @@
     "wrongAccount": "Esta invitación fue enviada a otra dirección de email. Por favor iniciá sesión con la cuenta correcta.",
     "createAccount": "Crear Cuenta para Unirte al Evento",
     "signIn": "Iniciar Sesión para Continuar"
+  },
+  "eventCard": {
+    "organizedBy": "Organizado por",
+    "attending": "Asistiendo",
+    "expired": "Expirado",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "edit": "Editar",
+    "cancel": "Cancelar"
   }
 }

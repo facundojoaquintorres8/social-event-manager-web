@@ -36,7 +36,7 @@
 
       @if (showOrganizer) {
         <p class="mt-2 text-xs text-gray-400">
-          Organized by
+          {{ 'eventCard.organizedBy' | translate }}
           <span class="font-medium text-gray-500 dark:text-gray-400">{{ event().createdBy }}</span>
         </p>
       }
@@ -63,7 +63,7 @@
         <span
           class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium whitespace-nowrap text-green-700"
         >
-          Attending
+          {{ 'eventCard.attending' | translate }}
         </span>
       }
 
@@ -83,7 +83,7 @@
         <span
           class="rounded-full bg-gray-100 px-2 py-1 text-xs font-medium whitespace-nowrap text-gray-700 dark:bg-gray-800 dark:text-gray-300"
         >
-          Expired
+          {{ 'eventCard.expired' | translate }}
         </span>
       }
 
@@ -100,7 +100,7 @@
               class="h-3 w-3 animate-spin rounded-full border-2 border-white border-t-transparent"
             ></span>
           } @else {
-            Accept
+            {{ 'eventCard.accept' | translate }}
           }
         </button>
 
@@ -116,7 +116,7 @@
               class="h-3 w-3 animate-spin rounded-full border-2 border-gray-500 border-t-transparent"
             ></span>
           } @else {
-            Reject
+            {{ 'eventCard.reject' | translate }}
           }
         </button>
       }
@@ -142,8 +142,7 @@
                 class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
               >
                 <svg lucidePencil [size]="16"></svg>
-
-                Edit
+                {{ 'eventCard.edit' | translate }}
               </button>
 
               @if (event().eventStatus === EventStatus.ACTIVE) {
@@ -152,8 +151,7 @@
                   class="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                 >
                   <svg lucideX [size]="16"></svg>
-
-                  Cancel
+                  {{ 'eventCard.cancel' | translate }}
                 </button>
               }
             </div>

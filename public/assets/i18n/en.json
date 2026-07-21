@@ -275,5 +275,14 @@
     "wrongAccount": "This invitation was sent to a different email address. Please sign in with the correct account.",
     "createAccount": "Create Account to Join Event",
     "signIn": "Sign In to Continue"
+  },
+  "eventCard": {
+    "organizedBy": "Organized by",
+    "attending": "Attending",
+    "expired": "Expired",
+    "accept": "Accept",
+    "reject": "Reject",
+    "edit": "Edit",
+    "cancel": "Cancel"
   }
 }
