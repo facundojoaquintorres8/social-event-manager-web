@@ -9,8 +9,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './confirm-modal.component.html',
 })
 export class ConfirmModalComponent {
-  readonly title = input<string>('Confirm action');
-  readonly message = input<string>('Are you sure?');
+  readonly title = input<string | null>(null);
+  readonly message = input<string | null>(null);
   readonly confirmDisabled = input<boolean>(false);
 
   readonly confirm = output<void>();

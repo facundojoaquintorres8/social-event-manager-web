@@ -217,7 +217,9 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "errorTitle": "Something went wrong",
-    "errorDescription": "Please try again later."
+    "errorDescription": "Please try again later.",
+    "confirmTitle": "Confirm action",
+    "confirmMessage": "Are you sure?"
   },
   "contributionModal": {
     "titleAdd": "Add contribution",

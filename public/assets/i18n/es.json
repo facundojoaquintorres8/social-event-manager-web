@@ -217,7 +217,9 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar",
     "errorTitle": "Algo salió mal",
-    "errorDescription": "Por favor intentá de nuevo más tarde."
+    "errorDescription": "Por favor intentá de nuevo más tarde.",
+    "confirmTitle": "Confirmar acción",
+    "confirmMessage": "¿Estás seguro?"
   },
   "contributionModal": {
     "titleAdd": "Agregar contribución",
