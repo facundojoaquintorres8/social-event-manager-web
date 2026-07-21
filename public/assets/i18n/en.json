@@ -278,7 +278,9 @@
     "location": "Location",
     "wrongAccount": "This invitation was sent to a different email address. Please sign in with the correct account.",
     "createAccount": "Create Account to Join Event",
-    "signIn": "Sign In to Continue"
+    "signIn": "Sign In to Continue",
+    "invalidInvitation": "Invalid invitation",
+    "notAvailable": "Invitation not available"
   },
   "eventCard": {
     "organizedBy": "Organized by",

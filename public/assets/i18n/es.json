@@ -219,7 +219,9 @@
     "errorTitle": "Algo salió mal",
     "errorDescription": "Por favor intentá de nuevo más tarde.",
     "confirmTitle": "Confirmar acción",
-    "confirmMessage": "¿Estás seguro?"
+    "confirmMessage": "¿Estás seguro?",
+    "invalidInvitation": "Invitación inválida",
+    "notAvailable": "Invitación no disponible"
   },
   "contributionModal": {
     "titleAdd": "Agregar contribución",

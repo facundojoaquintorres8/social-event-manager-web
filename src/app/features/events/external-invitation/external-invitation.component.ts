@@ -17,7 +17,7 @@ import { ExternalInvitationsService } from '../../../core/services/external-invi
 import { StatusLabelPipe } from '../../../shared/utils/status-label.pipe';
 import { buildGoogleMapsUrl } from '../../../shared/utils/maps.utils';
 import { LucideTriangleAlert } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-external-invitation',
@@ -31,6 +31,7 @@ export class ExternalInvitationComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly externalInvitationsService = inject(ExternalInvitationsService);
   private readonly authService = inject(AuthService);
+  private readonly translate = inject(TranslateService);
 
   loading = signal(true);
   error = signal<string | null>(null);
@@ -70,7 +71,7 @@ export class ExternalInvitationComponent implements OnInit {
     const token = this.route.snapshot.paramMap.get('token');
 
     if (!token) {
-      this.error.set('Invalid invitation');
+      this.error.set(this.translate.instant('externalInvitation.invalidInvitation'));
 
       this.loading.set(false);
 
@@ -97,8 +98,9 @@ export class ExternalInvitationComponent implements OnInit {
         this.loading.set(false);
       },
       error: (error) => {
-        this.error.set(error?.error?.message || 'Invitation not available');
-
+        this.error.set(
+          error?.error?.message || this.translate.instant('externalInvitation.notAvailable'),
+        );
         this.loading.set(false);
       },
     });
