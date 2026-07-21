@@ -10,8 +10,7 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './error-state.component.html',
 })
 export class ErrorStateComponent {
-  readonly title = input('Something went wrong');
-  readonly description = input('Please try again later.');
-
+  readonly title = input<string | null>(null);
+  readonly description = input<string | null>(null);
   readonly retry = output<void>();
 }

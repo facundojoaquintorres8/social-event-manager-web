@@ -215,7 +215,9 @@
   "common": {
     "retry": "Retry",
     "cancel": "Cancel",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "errorTitle": "Something went wrong",
+    "errorDescription": "Please try again later."
   },
   "contributionModal": {
     "titleAdd": "Add contribution",

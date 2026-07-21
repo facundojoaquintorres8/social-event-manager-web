@@ -215,7 +215,9 @@
   "common": {
     "retry": "Reintentar",
     "cancel": "Cancelar",
-    "confirm": "Confirmar"
+    "confirm": "Confirmar",
+    "errorTitle": "Algo salió mal",
+    "errorDescription": "Por favor intentá de nuevo más tarde."
   },
   "contributionModal": {
     "titleAdd": "Agregar contribución",
