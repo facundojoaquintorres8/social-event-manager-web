@@ -145,6 +145,9 @@
       "lastNameRequired": "El apellido es requerido",
       "invalidEmail": "Ingresá un email válido",
       "passwordMismatch": "Las contraseñas no coinciden"
+    },
+    "toast": {
+      "created": "Cuenta creada exitosamente"
     }
   },
   "eventDetails": {

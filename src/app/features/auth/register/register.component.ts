@@ -7,7 +7,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { ToastService } from '../../../core/services/toast.service';
 import { passwordMatchValidator } from '../../../shared/utils/validators';
 import { LucideDynamicIcon, LucideEye, LucideEyeOff } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register',
@@ -22,6 +22,7 @@ export class RegisterComponent {
   private readonly router = inject(Router);
   private readonly toastService = inject(ToastService);
   private readonly route = inject(ActivatedRoute);
+  private readonly translate = inject(TranslateService);
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -56,7 +57,7 @@ export class RegisterComponent {
     const { password, confirmPassword } = this.form.getRawValue();
 
     if (password !== confirmPassword) {
-      this.error.set('Passwords do not match');
+      this.error.set(this.translate.instant('register.errors.passwordMismatch'));
       return;
     }
 
@@ -69,7 +70,7 @@ export class RegisterComponent {
       .subscribe({
         next: (res) => {
           this.authService.storeUserAndTokens(res.data);
-          this.toastService.show('Account created successfully');
+          this.toastService.show(this.translate.instant('register.toast.created'));
           const redirect = this.route.snapshot.queryParamMap.get('redirect');
           this.router.navigateByUrl(redirect || '/dashboard');
         },

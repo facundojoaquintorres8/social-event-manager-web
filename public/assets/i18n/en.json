@@ -145,6 +145,9 @@
       "lastNameRequired": "Last name is required",
       "invalidEmail": "Enter a valid email",
       "passwordMismatch": "Passwords do not match"
+    },
+    "toast": {
+      "created": "Account created successfully"
     }
   },
   "eventDetails": {
