@@ -73,6 +73,10 @@
     "errors": {
       "load": "Unable to load invitations",
       "loadDescription": "Something went wrong while loading your invitations."
+    },
+    "toast": {
+      "accepted": "Invitation accepted successfully",
+      "rejected": "Invitation rejected successfully"
     }
   },
   "calendar": {

@@ -9,7 +9,7 @@ import { ErrorStateComponent } from '../../../shared/components/error-state/erro
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 import { LucideInbox } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-invitations',
@@ -29,6 +29,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 export class InvitationsComponent implements OnInit {
   private readonly invitationService = inject(InvitationsService);
   private readonly toastService = inject(ToastService);
+  private readonly translate = inject(TranslateService);
 
   readonly invitations = signal<Invitation[]>([]);
   readonly error = signal<boolean>(false);
@@ -72,7 +73,15 @@ export class InvitationsComponent implements OnInit {
         this.invitations.update((invitations) =>
           invitations.map((inv) => (inv.eventId === eventId ? { ...inv, status } : inv)),
         );
-        this.toastService.show(`Invitation ${status.toLowerCase()} successfully`, 'success');
+        this.toastService.show(
+          this.translate.instant(
+            status === InvitationStatus.ACCEPTED
+              ? 'invitations.toast.accepted'
+              : 'invitations.toast.rejected',
+          ),
+          'success',
+        );
+
         this.actionLoading.set(null);
       },
       error: () => {
