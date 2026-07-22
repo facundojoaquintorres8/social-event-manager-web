@@ -189,6 +189,21 @@
     "errors": {
       "load": "Unable to load event",
       "loadDescription": "Something went wrong while loading this event."
+    },
+    "toast": {
+      "cancelSuccess": "Evento cancelado exitosamente",
+      "cancelError": "Error al cancelar el evento",
+      "invitationAccepted": "Invitación aceptada exitosamente",
+      "invitationRejected": "Invitación rechazada exitosamente",
+      "invitationSent": "Invitación enviada exitosamente",
+      "participantRemoved": "Participante eliminado exitosamente",
+      "contributionCreated": "Contribución creada exitosamente",
+      "contributionUpdated": "Contribución actualizada exitosamente",
+      "contributionDeleted": "Contribución eliminada exitosamente",
+      "contributionReady": "Contribución marcada como lista",
+      "contributionPending": "Contribución marcada como pendiente",
+      "contributionStatusError": "Error al actualizar el estado de la contribución",
+      "refreshError": "Error al actualizar el evento"
     }
   },
   "createEvent": {

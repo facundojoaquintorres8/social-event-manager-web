@@ -189,6 +189,12 @@
     "errors": {
       "load": "No se pudo cargar el evento",
       "loadDescription": "Algo salió mal al cargar este evento."
+    },
+    "toast": {
+      "cancelSuccess": "Evento cancelado exitosamente",
+      "cancelError": "Error al cancelar el evento",
+      "invitationAccepted": "Invitación aceptada exitosamente",
+      "invitationRejected": "Invitación rechazada exitosamente"
     }
   },
   "createEvent": {

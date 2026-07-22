@@ -48,7 +48,7 @@ import {
   LucideTrash2,
   LucideUsers,
 } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-event-details',
@@ -87,6 +87,7 @@ export class EventDetailsComponent implements OnInit {
   private readonly invitationService = inject(InvitationsService);
   private readonly externalInvitationService = inject(ExternalInvitationsService);
   private readonly contributionsService = inject(ContributionsService);
+  private readonly translate = inject(TranslateService);
 
   readonly event = signal<EventFull | null>(null);
   readonly loading = signal(true);
@@ -172,12 +173,15 @@ export class EventDetailsComponent implements OnInit {
       .pipe(finalize(() => this.cancelling.set(false)))
       .subscribe({
         next: () => {
-          this.toastService.show('Event cancelled successfully', 'success');
+          this.toastService.show(
+            this.translate.instant('eventDetails.toast.cancelSuccess'),
+            'success',
+          );
           this.loadEvent();
           this.closeCancelModal();
         },
         error: () => {
-          this.toastService.show('Failed to cancel event', 'error');
+          this.toastService.show(this.translate.instant('eventDetails.toast.cancelError'), 'error');
         },
       });
   }
@@ -189,7 +193,10 @@ export class EventDetailsComponent implements OnInit {
 
     this.eventsService.inviteUser(currentEvent.id, email).subscribe({
       next: () => {
-        this.toastService.show('Invitation sent successfully', 'success');
+        this.toastService.show(
+          this.translate.instant('eventDetails.toast.invitationSent'),
+          'success',
+        );
 
         this.inviteModalOpen.set(false);
 
@@ -216,7 +223,10 @@ export class EventDetailsComponent implements OnInit {
         .pipe(finalize(() => this.removingParticipant.set(null)))
         .subscribe({
           next: () => {
-            this.toastService.show('Participant removed successfully', 'success');
+            this.toastService.show(
+              this.translate.instant('eventDetails.toast.participantRemoved'),
+              'success',
+            );
 
             this.event.update((event) => {
               if (!event) return event;
@@ -234,7 +244,10 @@ export class EventDetailsComponent implements OnInit {
         .pipe(finalize(() => this.removingParticipant.set(null)))
         .subscribe({
           next: () => {
-            this.toastService.show('Participant removed successfully', 'success');
+            this.toastService.show(
+              this.translate.instant('eventDetails.toast.participantRemoved'),
+              'success',
+            );
 
             this.event.update((event) => {
               if (!event) return event;
@@ -262,7 +275,7 @@ export class EventDetailsComponent implements OnInit {
         next: () => {
           this.refreshEvent(currentEvent.id);
 
-          this.toastService.show('Invitation accepted successfully', 'success');
+          this.toastService.show('eventDetails.toast.invitationAccepted', 'success');
         },
         error: () => {
           this.updatingInvitationStatus.set(null);
@@ -283,7 +296,7 @@ export class EventDetailsComponent implements OnInit {
         next: () => {
           this.refreshEvent(currentEvent.id);
 
-          this.toastService.show('Invitation rejected successfully', 'success');
+          this.toastService.show('eventDetails.toast.invitationRejected', 'success');
         },
         error: () => {
           this.updatingInvitationStatus.set(null);
@@ -328,9 +341,11 @@ export class EventDetailsComponent implements OnInit {
     request.pipe(finalize(() => this.contributionLoading.set(false))).subscribe({
       next: () => {
         this.toastService.show(
-          editingContribution
-            ? 'Contribution updated successfully'
-            : 'Contribution created successfully',
+          this.translate.instant(
+            editingContribution
+              ? 'eventDetails.toast.contributionUpdated'
+              : 'eventDetails.toast.contributionCreated',
+          ),
           'success',
         );
 
@@ -380,12 +395,19 @@ export class EventDetailsComponent implements OnInit {
           });
 
           this.toastService.show(
-            completed ? 'Contribution marked as ready' : 'Contribution marked as pending',
+            this.translate.instant(
+              completed
+                ? 'eventDetails.toast.contributionReady'
+                : 'eventDetails.toast.contributionPending',
+            ),
             'success',
           );
         },
         error: () => {
-          this.toastService.show('Error updating contribution status', 'error');
+          this.toastService.show(
+            this.translate.instant('eventDetails.toast.contributionStatusError'),
+            'error',
+          );
         },
       });
   }
@@ -403,7 +425,10 @@ export class EventDetailsComponent implements OnInit {
 
     this.contributionsService.deleteContribution(currentEvent.id, contribution.id).subscribe({
       next: () => {
-        this.toastService.show('Contribution deleted successfully', 'success');
+        this.toastService.show(
+          this.translate.instant('eventDetails.toast.contributionDeleted'),
+          'success',
+        );
 
         this.event.update((event) => {
           if (!event) {
@@ -461,7 +486,10 @@ export class EventDetailsComponent implements OnInit {
           this.event.set(res.data);
         },
         error: () => {
-          this.toastService.show('Error refreshing event', 'error');
+          this.toastService.show(
+            this.translate.instant('eventDetails.toast.refreshError'),
+            'error',
+          );
         },
       });
   }
