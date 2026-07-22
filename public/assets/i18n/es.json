@@ -319,5 +319,10 @@
     "ACCEPTED": "Aceptado",
     "REJECTED": "Rechazado",
     "CLAIMED": "Aceptado"
+  },
+  "errors": {
+    "connectionError": "No se pudo conectar al servidor",
+    "serverError": "Error interno del servidor",
+    "unexpectedError": "Ocurrió un error inesperado"
   }
 }
