@@ -290,7 +290,10 @@
     "externalParticipant": "Participante externo",
     "participantNamePlaceholder": "Nombre del participante",
     "add": "Agregar",
-    "calculate": "Calcular"
+    "calculate": "Calcular",
+    "toast": {
+      "removeParticipantReason": "El participante tiene gastos compartidos"
+    }
   },
   "externalInvitation": {
     "invited": "Fuiste invitado a un evento",

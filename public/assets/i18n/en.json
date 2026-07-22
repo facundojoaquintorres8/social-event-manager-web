@@ -297,7 +297,10 @@
     "externalParticipant": "External participant",
     "participantNamePlaceholder": "Participant name",
     "add": "Add",
-    "calculate": "Calculate"
+    "calculate": "Calculate",
+    "toast": {
+      "removeParticipantReason": "Participant has shared expenses"
+    }
   },
   "externalInvitation": {
     "invited": "You were invited to an event",

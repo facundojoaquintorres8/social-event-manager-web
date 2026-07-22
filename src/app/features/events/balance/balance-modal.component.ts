@@ -7,6 +7,7 @@ import {
   output,
   signal,
   ChangeDetectionStrategy,
+  inject,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
@@ -16,7 +17,7 @@ import {
   EventFull,
   InvitationStatus,
 } from '../../../core/models/event.model';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-balance-modal',
@@ -26,6 +27,8 @@ import { TranslatePipe } from '@ngx-translate/core';
   templateUrl: './balance-modal.component.html',
 })
 export class BalanceModalComponent implements OnChanges {
+  private readonly translate = inject(TranslateService);
+
   readonly event = input.required<EventFull>();
   readonly loading = input(false);
   readonly result = input<BalanceResponse | null>(null);
@@ -44,10 +47,9 @@ export class BalanceModalComponent implements OnChanges {
 
   getRemoveParticipantReason(participant: BalanceParticipantRequest): string {
     if (this.canRemoveParticipant(participant)) {
-      return 'Remove participant';
+      return this.translate.instant('balanceModal.remove');
     }
-
-    return 'Participant has shared expenses';
+    return this.translate.instant('balanceModal.toast.removeParticipantReason');
   }
 
   canRemoveParticipant(participant: BalanceParticipantRequest): boolean {
