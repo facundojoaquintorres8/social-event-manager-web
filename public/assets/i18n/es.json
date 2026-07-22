@@ -45,6 +45,10 @@
     "errors": {
       "load": "No se pudieron cargar los eventos",
       "loadDescription": "Algo salió mal al cargar tus eventos."
+    },
+    "toast": {
+      "cancelSuccess": "Evento cancelado exitosamente",
+      "cancelError": "Error al cancelar el evento"
     }
   },
   "attendingEvents": {

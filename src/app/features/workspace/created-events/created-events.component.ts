@@ -20,7 +20,7 @@ import { Event, EventCardModel, EventStatus } from '../../../core/models/event.m
 import { EventCardComponent } from '../../../shared/components/event-card/event-card.component';
 import { EventCardSkeletonComponent } from '../../../shared/components/event-card-skeleton/event-card-skeleton.component';
 import { LucideCalendarDays, LucideCalendarX2, LucidePlus } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-created-events',
@@ -49,6 +49,7 @@ export class CreatedEventsComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly translate = inject(TranslateService);
 
   readonly events = signal<Event[]>([]);
   readonly hasEvents = signal(false);
@@ -107,12 +108,19 @@ export class CreatedEventsComponent implements OnInit {
       .pipe(finalize(() => this.cancelling.set(false)))
       .subscribe({
         next: () => {
-          this.toastService.show('Event cancelled successfully', 'success');
+          this.toastService.show(
+            this.translate.instant('createdEvents.toast.cancelSuccess'),
+            'success',
+          );
+
           this.listenToQueryParams();
           this.closeCancelModal();
         },
         error: () => {
-          this.toastService.show('Failed to cancel event', 'error');
+          this.toastService.show(
+            this.translate.instant('createdEvents.toast.cancelError'),
+            'error',
+          );
         },
       });
   }
