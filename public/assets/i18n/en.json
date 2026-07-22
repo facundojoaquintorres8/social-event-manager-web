@@ -220,6 +220,10 @@
       "titleRequired": "Title is required",
       "locationRequired": "Location is required",
       "eventDateRequired": "Event date is required"
+    },
+    "toast": {
+      "created": "Event created",
+      "updated": "Event updated"
     }
   },
   "header": {

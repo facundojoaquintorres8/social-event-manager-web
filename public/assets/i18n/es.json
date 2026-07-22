@@ -211,6 +211,10 @@
       "titleRequired": "El título es requerido",
       "locationRequired": "La ubicación es requerida",
       "eventDateRequired": "La fecha del evento es requerida"
+    },
+    "toast": {
+      "created": "Evento creado",
+      "updated": "Evento actualizado"
     }
   },
   "header": {

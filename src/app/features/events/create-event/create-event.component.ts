@@ -10,7 +10,7 @@ import { SelectedLocation } from '../../../core/models/location.model';
 import { LucideCalendarDays } from '@lucide/angular';
 import { ApiResponse } from '../../../core/models/api-response.model';
 import { Event } from '../../../core/models/event.model';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-event',
@@ -25,6 +25,7 @@ export class CreateEventComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly toastService = inject(ToastService);
   private readonly location = inject(Location);
+  private readonly translate = inject(TranslateService);
 
   readonly loading = signal<boolean>(false);
   readonly isEditMode = signal<boolean>(false);
@@ -86,7 +87,11 @@ export class CreateEventComponent implements OnInit {
 
     request.pipe(finalize(() => this.loading.set(false))).subscribe({
       next: () => {
-        this.toastService.show(this.isEditMode() ? 'Event updated' : 'Event created');
+        this.toastService.show(
+          this.translate.instant(
+            this.isEditMode() ? 'createEvent.toast.updated' : 'createEvent.toast.created',
+          ),
+        );
         this.goBack();
       },
     });
