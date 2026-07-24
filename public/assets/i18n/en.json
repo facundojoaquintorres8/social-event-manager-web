@@ -170,7 +170,7 @@
     "organizer": "Organizer",
     "participants": {
       "title": "Participants",
-      "subtitle": "Users invited to this event",
+      "subtitle": "People invited to this event",
       "inviteButton": "Invite User",
       "external": "External",
       "externalInvitation": "External Invitation",
@@ -181,7 +181,7 @@
     },
     "contributions": {
       "title": "Contributions",
-      "subtitle": "Things participants are bringing to the event",
+      "subtitle": "Items participants are bringing to the event",
       "generateBalance": "Generate balance",
       "addItem": "Add item",
       "by": "By",
@@ -202,19 +202,19 @@
       "loadDescription": "Something went wrong while loading this event."
     },
     "toast": {
-      "cancelSuccess": "Evento cancelado exitosamente",
-      "cancelError": "Error al cancelar el evento",
-      "invitationAccepted": "Invitación aceptada exitosamente",
-      "invitationRejected": "Invitación rechazada exitosamente",
-      "invitationSent": "Invitación enviada exitosamente",
-      "participantRemoved": "Participante eliminado exitosamente",
-      "contributionCreated": "Contribución creada exitosamente",
-      "contributionUpdated": "Contribución actualizada exitosamente",
-      "contributionDeleted": "Contribución eliminada exitosamente",
-      "contributionReady": "Contribución marcada como lista",
-      "contributionPending": "Contribución marcada como pendiente",
-      "contributionStatusError": "Error al actualizar el estado de la contribución",
-      "refreshError": "Error al actualizar el evento"
+      "cancelSuccess": "Event cancelled successfully",
+      "cancelError": "Failed to cancel event",
+      "invitationAccepted": "Invitation accepted successfully",
+      "invitationRejected": "Invitation rejected successfully",
+      "invitationSent": "Invitation sent successfully",
+      "participantRemoved": "Participant removed successfully",
+      "contributionCreated": "Contribution created successfully",
+      "contributionUpdated": "Contribution updated successfully",
+      "contributionDeleted": "Contribution deleted successfully",
+      "contributionReady": "Contribution marked as completed",
+      "contributionPending": "Contribution marked as pending",
+      "contributionStatusError": "Failed to update contribution status",
+      "refreshError": "Failed to refresh event"
     }
   },
   "createEvent": {
@@ -233,8 +233,8 @@
       "eventDateRequired": "Event date is required"
     },
     "toast": {
-      "created": "Event created",
-      "updated": "Event updated"
+      "created": "Event created successfully",
+      "updated": "Event updated successfully"
     }
   },
   "header": {

@@ -25,7 +25,7 @@
       "description": "Creá tu primer evento y empezá a gestionar todo en un solo lugar."
     },
     "noResults": {
-      "title": "Sin resultados",
+      "title": "No se encontraron eventos",
       "description": "Ningún evento coincide con los filtros actuales."
     },
     "pagination": {
@@ -55,7 +55,7 @@
     "title": "Asistiendo",
     "subtitle": "Eventos a los que aceptaste invitaciones.",
     "empty": {
-      "title": "Sin eventos",
+      "title": "Sin eventos para asistir",
       "description": "Las invitaciones aceptadas aparecerán aquí."
     },
     "errors": {
@@ -170,7 +170,7 @@
     "organizer": "Organizador",
     "participants": {
       "title": "Participantes",
-      "subtitle": "Usuarios invitados a este evento",
+      "subtitle": "Personas invitadas a este evento",
       "inviteButton": "Invitar Usuario",
       "external": "Externo",
       "externalInvitation": "Invitación Externa",
@@ -181,7 +181,7 @@
     },
     "contributions": {
       "title": "Contribuciones",
-      "subtitle": "Cosas que los participantes traen al evento",
+      "subtitle": "Organizá lo que llevará cada participante",
       "generateBalance": "Generar balance",
       "addItem": "Agregar item",
       "by": "Por",
@@ -205,7 +205,16 @@
       "cancelSuccess": "Evento cancelado exitosamente",
       "cancelError": "Error al cancelar el evento",
       "invitationAccepted": "Invitación aceptada exitosamente",
-      "invitationRejected": "Invitación rechazada exitosamente"
+      "invitationRejected": "Invitación rechazada exitosamente",
+      "invitationSent": "Invitación enviada exitosamente",
+      "participantRemoved": "Participante eliminado exitosamente",
+      "contributionCreated": "Contribución creada exitosamente",
+      "contributionUpdated": "Contribución actualizada exitosamente",
+      "contributionDeleted": "Contribución eliminada exitosamente",
+      "contributionReady": "Contribución marcada como lista",
+      "contributionPending": "Contribución marcada como pendiente",
+      "contributionStatusError": "Error al actualizar el estado de la contribución",
+      "refreshError": "Error al actualizar el evento"
     }
   },
   "createEvent": {
@@ -224,8 +233,8 @@
       "eventDateRequired": "La fecha del evento es requerida"
     },
     "toast": {
-      "created": "Evento creado",
-      "updated": "Evento actualizado"
+      "created": "Evento creado exitosamente",
+      "updated": "Evento actualizado exitosamente"
     }
   },
   "header": {
@@ -240,9 +249,7 @@
     "errorTitle": "Algo salió mal",
     "errorDescription": "Por favor intentá de nuevo más tarde.",
     "confirmTitle": "Confirmar acción",
-    "confirmMessage": "¿Estás seguro?",
-    "invalidInvitation": "Invitación inválida",
-    "notAvailable": "Invitación no disponible"
+    "confirmMessage": "¿Estás seguro?"
   },
   "contributionModal": {
     "titleAdd": "Agregar contribución",
@@ -304,7 +311,9 @@
     "location": "Ubicación",
     "wrongAccount": "Esta invitación fue enviada a otra dirección de email. Por favor iniciá sesión con la cuenta correcta.",
     "createAccount": "Crear Cuenta para Unirte al Evento",
-    "signIn": "Iniciar Sesión para Continuar"
+    "signIn": "Iniciar Sesión para Continuar",
+    "invalidInvitation": "Invitación inválida",
+    "notAvailable": "Invitación no disponible"
   },
   "eventCard": {
     "organizedBy": "Organizado por",
