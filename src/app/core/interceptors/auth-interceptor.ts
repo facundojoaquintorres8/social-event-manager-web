@@ -6,14 +6,21 @@ import { catchError, switchMap, throwError } from 'rxjs';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.accessToken();
+  const language = localStorage.getItem('language') ?? 'en';
 
   const isAuthRequest = req.url.includes('/auth');
 
+  const reqWithLanguage = req.clone({
+    setHeaders: {
+      'Accept-Language': language,
+    },
+  });
+
   if (!token || isAuthRequest) {
-    return next(req);
+    return next(reqWithLanguage);
   }
 
-  const authReq = req.clone({
+  const authReq = reqWithLanguage.clone({
     setHeaders: {
       Authorization: `Bearer ${token}`,
     },
@@ -29,7 +36,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         switchMap((res) => {
           authService.storeUserAndTokens(res.data);
 
-          const retryReq = req.clone({
+          const retryReq = reqWithLanguage.clone({
             setHeaders: {
               Authorization: `Bearer ${res.data.accessToken}`,
             },
