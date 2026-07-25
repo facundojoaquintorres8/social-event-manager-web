@@ -152,7 +152,8 @@
       "firstNameRequired": "First name is required",
       "lastNameRequired": "Last name is required",
       "invalidEmail": "Enter a valid email",
-      "passwordMismatch": "Passwords do not match"
+      "passwordMismatch": "Passwords do not match",
+      "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase and a number"
     },
     "toast": {
       "created": "Account created successfully"
