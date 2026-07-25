@@ -173,6 +173,10 @@ export class EventsCalendarComponent implements OnInit {
     this.selectedDay.set(null);
   }
 
+  goToToday(): void {
+    this.currentDate.set(new Date());
+  }
+
   @HostListener('document:keydown.escape')
   onEscape(): void {
     this.closeDay();

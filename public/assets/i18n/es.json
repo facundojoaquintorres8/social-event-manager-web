@@ -80,6 +80,7 @@
     }
   },
   "calendar": {
+    "today": "Hoy",
     "errors": {
       "load": "No se pudieron cargar los eventos",
       "loadDescription": "Algo salió mal al cargar tus eventos."

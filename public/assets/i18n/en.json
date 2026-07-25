@@ -80,6 +80,7 @@
     }
   },
   "calendar": {
+    "today": "Today",
     "errors": {
       "load": "Unable to load events",
       "loadDescription": "Something went wrong while loading your events."
