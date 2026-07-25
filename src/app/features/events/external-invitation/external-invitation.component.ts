@@ -98,9 +98,14 @@ export class ExternalInvitationComponent implements OnInit {
         this.loading.set(false);
       },
       error: (error) => {
-        this.error.set(
-          error?.error?.message || this.translate.instant('externalInvitation.notAvailable'),
-        );
+        const rawMessage = error?.error?.message;
+        const translated = rawMessage ? this.translate.instant(`errors.${rawMessage}`) : null;
+        const message =
+          translated && !translated.startsWith('errors.')
+            ? translated
+            : this.translate.instant('externalInvitation.notAvailable');
+
+        this.error.set(message);
         this.loading.set(false);
       },
     });

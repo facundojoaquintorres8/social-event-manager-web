@@ -13,7 +13,9 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.status === 0) {
         toastService.show(translate.instant('errors.connectionError'), 'error');
       } else if (error.error?.message) {
-        toastService.show(error.error.message, 'error');
+        const translated = translate.instant(`errors.${error.error.message}`);
+        const message = translated.startsWith('errors.') ? error.error.message : translated;
+        toastService.show(message, 'error');
       } else if (error.status >= 500) {
         toastService.show(translate.instant('errors.serverError'), 'error');
       } else {
