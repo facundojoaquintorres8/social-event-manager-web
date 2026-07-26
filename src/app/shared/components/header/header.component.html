@@ -43,7 +43,13 @@
             {{ languageService.currentLanguage() === 'en' ? 'ES' : 'EN' }}
           </span>
         </button>
-
+        <button
+          title="Change password"
+          (click)="changePasswordOpen.set(true)"
+          class="flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:hover:bg-gray-800"
+        >
+          <svg lucideKeyRound [size]="20" class="text-gray-700 dark:text-gray-200"></svg>
+        </button>
         <button
           [title]="'header.logout' | translate"
           (click)="logout()"
@@ -93,7 +99,13 @@
           </span>
           {{ languageService.currentLanguage() === 'en' ? 'Español' : 'English' }}
         </button>
-
+        <button
+          (click)="mobileMenuOpen.set(false); changePasswordOpen.set(true)"
+          class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+        >
+          <svg lucideKeyRound [size]="16"></svg>
+          {{ 'changePassword.title' | translate }}
+        </button>
         <button
           (click)="mobileMenuOpen.set(false); logout()"
           class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-red-600 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
@@ -105,3 +117,6 @@
     </div>
   }
 </header>
+@if (changePasswordOpen()) {
+  <app-change-password-modal (modalClosed)="changePasswordOpen.set(false)" />
+}

@@ -326,6 +326,23 @@
     "edit": "Edit",
     "cancel": "Cancel"
   },
+  "changePassword": {
+    "title": "Change Password",
+    "subtitle": "Enter your current password and choose a new one.",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm New Password",
+    "save": "Save",
+    "toast": {
+      "success": "Password changed successfully"
+    },
+    "errors": {
+      "currentPasswordRequired": "Current password is required",
+      "newPasswordRequired": "New password is required",
+      "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase and a number",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
   "status": {
     "ACTIVE": "Active",
     "CANCELLED": "Cancelled",
@@ -369,6 +386,8 @@
     "invalidIdFormat": "Invalid id format",
     "invalidTypeFormat": "Invalid type format",
     "invalidEmail": "Invalid email",
-    "userNotFound": "User not found"
+    "userNotFound": "User not found",
+    "incorrectCurrentPassword": "Current password is incorrect",
+    "newPasswordSameAsCurrent": "New password must be different from current password"
   }
 }

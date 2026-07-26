@@ -9,9 +9,11 @@ import {
   LucideMenu,
   LucideMoon,
   LucideSun,
+  LucideKeyRound,
 } from '@lucide/angular';
 import { Language, LanguageService } from '../../../core/services/language.service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { ChangePasswordModalComponent } from '../change-password-modal/change-password-modal.component';
 
 @Component({
   selector: 'app-header',
@@ -23,7 +25,9 @@ import { TranslatePipe } from '@ngx-translate/core';
     LucideDynamicIcon,
     LucideLogOut,
     LucideMenu,
+    LucideKeyRound,
     TranslatePipe,
+    ChangePasswordModalComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './header.component.html',
@@ -34,6 +38,7 @@ export class HeaderComponent {
   private readonly authService = inject(AuthService);
 
   readonly mobileMenuOpen = signal(false);
+  readonly changePasswordOpen = signal(false);
 
   protected readonly darkModeIcon = computed(() =>
     this.themeService.darkMode() ? LucideSun : LucideMoon,

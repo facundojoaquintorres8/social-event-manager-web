@@ -52,7 +52,7 @@ export class RegisterComponent {
       ],
       confirmPassword: ['', Validators.required],
     },
-    { validators: passwordMatchValidator },
+    { validators: passwordMatchValidator() },
   );
 
   submit(): void {
