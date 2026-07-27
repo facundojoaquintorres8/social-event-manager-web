@@ -130,6 +130,7 @@
     "signIn": "Iniciar sesión",
     "noAccount": "¿No tenés cuenta?",
     "signUp": "Registrate",
+    "forgotPassword": "¿Olvidaste tu contraseña?",
     "errors": {
       "invalidEmail": "Ingresá un email válido",
       "passwordRequired": "La contraseña es requerida"
@@ -341,6 +342,34 @@
       "newPasswordRequired": "La nueva contraseña es requerida",
       "passwordInvalid": "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
       "passwordMismatch": "Las contraseñas no coinciden"
+    }
+  },
+  "forgotPassword": {
+    "title": "¿Olvidaste tu contraseña?",
+    "subtitle": "Ingresá tu email y te enviaremos un link para restablecerla.",
+    "email": "Email",
+    "sendLink": "Enviar Link",
+    "backToLogin": "Volver al inicio de sesión",
+    "successTitle": "Revisá tu email",
+    "successSubtitle": "Si existe una cuenta con ese email, recibirás un link para restablecer tu contraseña.",
+    "errors": {
+      "invalidEmail": "Ingresá un email válido"
+    }
+  },
+  "resetPassword": {
+    "title": "Restablecé tu contraseña",
+    "subtitle": "Elegí una nueva contraseña para tu cuenta.",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "save": "Restablecer Contraseña",
+    "backToLogin": "Volver al inicio de sesión",
+    "toast": {
+      "success": "Contraseña restablecida exitosamente"
+    },
+    "errors": {
+      "passwordInvalid": "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "invalidToken": "Este link es inválido o expiró"
     }
   },
   "status": {

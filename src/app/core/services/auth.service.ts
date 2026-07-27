@@ -6,6 +6,7 @@ import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { RegisterRequest, RegisterResponse } from '../models/register.model';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -33,6 +34,14 @@ export class AuthService {
     return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/refresh`, {
       refreshToken: this.refreshToken(),
     });
+  }
+
+  forgotPassword(payload: { email: string }): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.apiUrl}/forgot-password`, payload);
+  }
+
+  resetPassword(payload: { token: string; newPassword: string }): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.apiUrl}/reset-password`, payload);
   }
 
   // ---------- STORAGE ----------

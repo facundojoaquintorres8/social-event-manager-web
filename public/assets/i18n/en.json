@@ -130,6 +130,7 @@
     "signIn": "Sign in",
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
+    "forgotPassword": "Forgot your password?",
     "errors": {
       "invalidEmail": "Enter a valid email",
       "passwordRequired": "Password is required"
@@ -341,6 +342,34 @@
       "newPasswordRequired": "New password is required",
       "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase and a number",
       "passwordMismatch": "Passwords do not match"
+    }
+  },
+  "forgotPassword": {
+    "title": "Forgot your password?",
+    "subtitle": "Enter your email and we'll send you a reset link.",
+    "email": "Email",
+    "sendLink": "Send Reset Link",
+    "backToLogin": "Back to login",
+    "successTitle": "Check your email",
+    "successSubtitle": "If an account exists for that email, you'll receive a reset link shortly.",
+    "errors": {
+      "invalidEmail": "Enter a valid email"
+    }
+  },
+  "resetPassword": {
+    "title": "Reset your password",
+    "subtitle": "Choose a new password for your account.",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "save": "Reset Password",
+    "backToLogin": "Back to login",
+    "toast": {
+      "success": "Password reset successfully"
+    },
+    "errors": {
+      "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase and a number",
+      "passwordMismatch": "Passwords do not match",
+      "invalidToken": "This reset link is invalid or has expired"
     }
   },
   "status": {
