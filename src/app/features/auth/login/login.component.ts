@@ -5,7 +5,8 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs';
 import { LucideDynamicIcon, LucideEye, LucideEyeOff } from '@lucide/angular';
-import { TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -19,10 +20,14 @@ export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly translate = inject(TranslateService);
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   readonly showPassword = signal(false);
+  readonly oauthError = signal<string | null>(null);
+
+  readonly backendUrl = environment.apiUrl.replace('/api/v1/', '');
 
   protected readonly passwordIcon = computed(() =>
     this.showPassword() ? LucideEyeOff : LucideEye,
@@ -32,6 +37,14 @@ export class LoginComponent {
     email: ['', [Validators.required]],
     password: ['', Validators.required],
   });
+
+  constructor() {
+    const error = this.route.snapshot.queryParamMap.get('error');
+    if (error) {
+      const translated = this.translate.instant(`errors.${error}`);
+      this.oauthError.set(translated.startsWith('errors.') ? error : translated);
+    }
+  }
 
   submit(): void {
     if (this.form.invalid) return;
@@ -51,5 +64,9 @@ export class LoginComponent {
           this.loading.set(false);
         },
       });
+  }
+
+  getOAuthUrl(provider: string): string {
+    return `${this.backendUrl}/oauth2/authorization/${provider}`;
   }
 }

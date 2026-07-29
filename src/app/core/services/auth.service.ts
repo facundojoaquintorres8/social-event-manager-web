@@ -50,6 +50,7 @@ export class AuthService {
       email: response.email,
       firstName: response.firstName,
       lastName: response.lastName,
+      hasPassword: response.hasPassword,
     };
 
     localStorage.setItem('accessToken', response.accessToken);

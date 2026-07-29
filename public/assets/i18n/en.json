@@ -131,6 +131,7 @@
     "noAccount": "Don't have an account?",
     "signUp": "Sign up",
     "forgotPassword": "Forgot your password?",
+    "orContinueWith": "or continue with",
     "errors": {
       "invalidEmail": "Enter a valid email",
       "passwordRequired": "Password is required"
@@ -417,6 +418,7 @@
     "invalidEmail": "Invalid email",
     "userNotFound": "User not found",
     "incorrectCurrentPassword": "Current password is incorrect",
-    "newPasswordSameAsCurrent": "New password must be different from current password"
+    "newPasswordSameAsCurrent": "New password must be different from current password",
+    "oauthEmailRequired": "Your account must have a public email to login"
   }
 }

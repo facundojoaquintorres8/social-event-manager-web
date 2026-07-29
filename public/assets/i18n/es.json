@@ -131,6 +131,7 @@
     "noAccount": "¿No tenés cuenta?",
     "signUp": "Registrate",
     "forgotPassword": "¿Olvidaste tu contraseña?",
+    "orContinueWith": "o continuá con",
     "errors": {
       "invalidEmail": "Ingresá un email válido",
       "passwordRequired": "La contraseña es requerida"
@@ -417,6 +418,7 @@
     "invalidEmail": "Email inválido",
     "userNotFound": "Usuario no encontrado",
     "incorrectCurrentPassword": "La contraseña actual es incorrecta",
-    "newPasswordSameAsCurrent": "La nueva contraseña debe ser diferente a la actual"
+    "newPasswordSameAsCurrent": "La nueva contraseña debe ser diferente a la actual",
+    "oauthEmailRequired": "Tu cuenta debe tener un email público para iniciar sesión"
   }
 }

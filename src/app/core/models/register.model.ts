@@ -11,4 +11,5 @@ export interface RegisterResponse {
   email: string;
   firstName: string;
   lastName: string;
+  hasPassword: boolean;
 }

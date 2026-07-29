@@ -11,6 +11,13 @@ export const routes: Routes = [
     canActivate: [guestGuard],
   },
   {
+    path: 'oauth2/callback',
+    loadComponent: () =>
+      import('./features/auth/oauth2-callback/oauth2-callback.component').then(
+        (m) => m.OAuth2CallbackComponent,
+      ),
+  },
+  {
     path: 'register',
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
