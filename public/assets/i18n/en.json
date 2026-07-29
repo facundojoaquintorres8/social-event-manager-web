@@ -419,6 +419,7 @@
     "userNotFound": "User not found",
     "incorrectCurrentPassword": "Current password is incorrect",
     "newPasswordSameAsCurrent": "New password must be different from current password",
-    "oauthEmailRequired": "Your account must have a public email to login"
+    "oauthEmailRequired": "Your account must have a public email to login",
+    "oauthLoginFailed": "Failed to login with social account. Please try again."
   }
 }

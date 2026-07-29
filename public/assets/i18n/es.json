@@ -419,6 +419,7 @@
     "userNotFound": "Usuario no encontrado",
     "incorrectCurrentPassword": "La contraseña actual es incorrecta",
     "newPasswordSameAsCurrent": "La nueva contraseña debe ser diferente a la actual",
-    "oauthEmailRequired": "Tu cuenta debe tener un email público para iniciar sesión"
+    "oauthEmailRequired": "Tu cuenta debe tener un email público para iniciar sesión",
+    "oauthLoginFailed": "No se pudo iniciar sesión con la red social. Por favor intentá de nuevo."
   }
 }
