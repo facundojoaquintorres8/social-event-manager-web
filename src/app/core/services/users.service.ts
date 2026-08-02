@@ -15,4 +15,8 @@ export class UsersService {
   }): Observable<ApiResponse<void>> {
     return this.http.put<ApiResponse<void>>(`${this.url}/change-password`, payload);
   }
+
+  setPassword(payload: { newPassword: string }): Observable<ApiResponse<void>> {
+    return this.http.put<ApiResponse<void>>(`${this.url}/set-password`, payload);
+  }
 }

@@ -244,7 +244,10 @@
   "header": {
     "workspace": "Workspace",
     "toggleTheme": "Toggle theme",
-    "logout": "Logout"
+    "toggleLanguage": "Toggle language",
+    "logout": "Logout",
+    "changePassword": "Change password",
+    "setPassword": "Set password"
   },
   "common": {
     "retry": "Retry",
@@ -345,6 +348,20 @@
       "passwordMismatch": "Passwords do not match"
     }
   },
+  "setPassword": {
+    "title": "Set Password",
+    "subtitle": "Add a password to your account to enable login with email.",
+    "newPassword": "New Password",
+    "confirmPassword": "Confirm Password",
+    "save": "Save",
+    "toast": {
+      "success": "Password set successfully"
+    },
+    "errors": {
+      "passwordInvalid": "Password must be at least 8 characters, include uppercase, lowercase and a number",
+      "passwordMismatch": "Passwords do not match"
+    }
+  },
   "forgotPassword": {
     "title": "Forgot your password?",
     "subtitle": "Enter your email and we'll send you a reset link.",
@@ -420,6 +437,7 @@
     "incorrectCurrentPassword": "Current password is incorrect",
     "newPasswordSameAsCurrent": "New password must be different from current password",
     "oauthEmailRequired": "Your account must have a public email to login",
-    "oauthLoginFailed": "Failed to login with social account. Please try again."
+    "oauthLoginFailed": "Failed to login with social account. Please try again.",
+    "passwordAlreadySet": "Your account already has a password"
   }
 }

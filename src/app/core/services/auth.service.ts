@@ -78,6 +78,13 @@ export class AuthService {
     return !!this.accessToken();
   }
 
+  updateHasPassword(value: boolean): void {
+    const user = this.currentUser();
+    if (user) {
+      this.currentUser.set({ ...user, hasPassword: value });
+    }
+  }
+
   private getStored(key: string): string | null {
     const value = localStorage.getItem(key);
     return value && value !== 'null' ? value : null;

@@ -244,7 +244,10 @@
   "header": {
     "workspace": "Espacio de trabajo",
     "toggleTheme": "Cambiar tema",
-    "logout": "Cerrar sesión"
+    "toggleLanguage": "Cambiar idioma",
+    "logout": "Cerrar sesión",
+    "changePassword": "Cambiar contraseña",
+    "setPassword": "Establecer contraseña"
   },
   "common": {
     "retry": "Reintentar",
@@ -345,6 +348,20 @@
       "passwordMismatch": "Las contraseñas no coinciden"
     }
   },
+  "setPassword": {
+    "title": "Establecer Contraseña",
+    "subtitle": "Agregá una contraseña a tu cuenta para poder iniciar sesión con email.",
+    "newPassword": "Nueva Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "save": "Guardar",
+    "toast": {
+      "success": "Contraseña establecida exitosamente"
+    },
+    "errors": {
+      "passwordInvalid": "La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula y un número",
+      "passwordMismatch": "Las contraseñas no coinciden"
+    }
+  },
   "forgotPassword": {
     "title": "¿Olvidaste tu contraseña?",
     "subtitle": "Ingresá tu email y te enviaremos un link para restablecerla.",
@@ -420,6 +437,7 @@
     "incorrectCurrentPassword": "La contraseña actual es incorrecta",
     "newPasswordSameAsCurrent": "La nueva contraseña debe ser diferente a la actual",
     "oauthEmailRequired": "Tu cuenta debe tener un email público para iniciar sesión",
-    "oauthLoginFailed": "No se pudo iniciar sesión con la red social. Por favor intentá de nuevo."
+    "oauthLoginFailed": "No se pudo iniciar sesión con la red social. Por favor intentá de nuevo.",
+    "passwordAlreadySet": "Tu cuenta ya tiene una contraseña"
   }
 }

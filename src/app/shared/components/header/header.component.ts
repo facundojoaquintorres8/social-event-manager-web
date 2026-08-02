@@ -39,10 +39,13 @@ export class HeaderComponent {
 
   readonly mobileMenuOpen = signal(false);
   readonly changePasswordOpen = signal(false);
+  readonly setPasswordOpen = signal(false);
 
   protected readonly darkModeIcon = computed(() =>
     this.themeService.darkMode() ? LucideSun : LucideMoon,
   );
+
+  readonly hasPassword = computed(() => this.authService.currentUser()?.hasPassword ?? true);
 
   toggleLanguage(): void {
     const next: Language = this.languageService.currentLanguage() === 'en' ? 'es' : 'en';
