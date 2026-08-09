@@ -83,7 +83,9 @@ export class HeaderComponent {
     this.notificationsService.getUnread().subscribe({
       next: (res) => {
         this.notificationsService.notifications.set(res.data);
-        this.notificationsService.unreadCount.set(res.data.filter((n) => !n.read).length);
+        this.notificationsService.unreadCount.set(
+          res.data.filter((n: Notification) => !n.read).length,
+        );
       },
     });
   }

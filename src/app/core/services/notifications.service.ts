@@ -37,7 +37,10 @@ export class NotificationsService {
     eventSource.addEventListener('notification', (event) => {
       const data = JSON.parse(event.data);
       this.unreadCount.update((count) => count + 1);
-      this.notifications.update((notifications) => [data, ...notifications]);
+      this.notifications.update((notifications) => {
+        if (notifications.some((n) => n.id === data.id)) return notifications;
+        return [data, ...notifications];
+      });
     });
 
     eventSource.addEventListener('connected', () => {

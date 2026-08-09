@@ -275,7 +275,10 @@ export class EventDetailsComponent implements OnInit {
         next: () => {
           this.refreshEvent(currentEvent.id);
 
-          this.toastService.show('eventDetails.toast.invitationAccepted', 'success');
+          this.toastService.show(
+            this.translate.instant('eventDetails.toast.invitationAccepted'),
+            'success',
+          );
         },
         error: () => {
           this.updatingInvitationStatus.set(null);
@@ -296,7 +299,10 @@ export class EventDetailsComponent implements OnInit {
         next: () => {
           this.refreshEvent(currentEvent.id);
 
-          this.toastService.show('eventDetails.toast.invitationRejected', 'success');
+          this.toastService.show(
+            this.translate.instant('eventDetails.toast.invitationRejected'),
+            'success',
+          );
         },
         error: () => {
           this.updatingInvitationStatus.set(null);
