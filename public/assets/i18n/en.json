@@ -439,5 +439,24 @@
     "oauthEmailRequired": "Your account must have a public email to login",
     "oauthLoginFailed": "Failed to login with social account. Please try again.",
     "passwordAlreadySet": "Your account already has a password"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No notifications yet",
+    "viewAll": "View all",
+    "invitationReceived": "You were invited to {{eventTitle}}",
+    "invitationAccepted": "{{participantName}} accepted your invitation to {{eventTitle}}",
+    "invitationRejected": "{{participantName}} declined your invitation to {{eventTitle}}",
+    "eventEdited": "The event {{eventTitle}} has been updated",
+    "eventCancelled": "The event {{eventTitle}} has been cancelled",
+    "contributionAdded": "{{participantName}} added {{contributionName}} to {{eventTitle}}",
+    "contributionEdited": "{{participantName}} edited {{contributionName}} in {{eventTitle}}",
+    "contributionDeleted": "{{participantName}} removed {{contributionName}} from {{eventTitle}}",
+    "contributionCompleted": "{{contributionName}} was marked as ready in {{eventTitle}}",
+    "errors": {
+      "load": "Unable to load notifications",
+      "loadDescription": "Something went wrong while loading your notifications."
+    }
   }
 }

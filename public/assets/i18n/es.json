@@ -439,5 +439,24 @@
     "oauthEmailRequired": "Tu cuenta debe tener un email público para iniciar sesión",
     "oauthLoginFailed": "No se pudo iniciar sesión con la red social. Por favor intentá de nuevo.",
     "passwordAlreadySet": "Tu cuenta ya tiene una contraseña"
+  },
+  "notifications": {
+    "title": "Notificaciones",
+    "markAllRead": "Marcar todo como leído",
+    "empty": "Sin notificaciones aún",
+    "viewAll": "Ver todas",
+    "invitationReceived": "Fuiste invitado a {{eventTitle}}",
+    "invitationAccepted": "{{participantName}} aceptó tu invitación a {{eventTitle}}",
+    "invitationRejected": "{{participantName}} rechazó tu invitación a {{eventTitle}}",
+    "eventEdited": "El evento {{eventTitle}} fue actualizado",
+    "eventCancelled": "El evento {{eventTitle}} fue cancelado",
+    "contributionAdded": "{{participantName}} agregó {{contributionName}} a {{eventTitle}}",
+    "contributionEdited": "{{participantName}} editó {{contributionName}} en {{eventTitle}}",
+    "contributionDeleted": "{{participantName}} eliminó {{contributionName}} de {{eventTitle}}",
+    "contributionCompleted": "{{contributionName}} fue marcado como listo en {{eventTitle}}",
+    "errors": {
+      "load": "No se pudieron cargar las notificaciones",
+      "loadDescription": "Algo salió mal al cargar tus notificaciones."
+    }
   }
 }

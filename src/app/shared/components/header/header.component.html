@@ -43,6 +43,96 @@
             {{ languageService.currentLanguage() === 'en' ? 'ES' : 'EN' }}
           </span>
         </button>
+        <div class="relative">
+          <button
+            [title]="'notifications.title' | translate"
+            (click)="notificationsPanelOpen.set(!notificationsPanelOpen())"
+            class="relative flex h-10 w-10 items-center justify-center rounded-xl border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:bg-gray-900 dark:hover:bg-gray-800"
+          >
+            <svg lucideBell [size]="20" class="text-gray-700 dark:text-gray-200"></svg>
+            @if (notificationsService.unreadCount() > 0) {
+              <span
+                class="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white"
+              >
+                {{
+                  notificationsService.unreadCount() > 9 ? '9+' : notificationsService.unreadCount()
+                }}
+              </span>
+            }
+          </button>
+
+          @if (notificationsPanelOpen()) {
+            <div
+              class="absolute right-0 z-50 mt-2 w-80 rounded-2xl border border-gray-200 bg-white shadow-2xl dark:border-gray-800 dark:bg-gray-900"
+              (click)="$event.stopPropagation()"
+              (keydown)="$event.stopPropagation()"
+              tabindex="-1"
+              role="region"
+            >
+              <div
+                class="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-gray-800"
+              >
+                <h3 class="font-semibold text-gray-900 dark:text-gray-100">
+                  {{ 'notifications.title' | translate }}
+                </h3>
+                @if (notificationsService.unreadCount() > 0) {
+                  <button
+                    (click)="markAllAsRead()"
+                    class="text-xs text-blue-600 hover:text-blue-700"
+                  >
+                    {{ 'notifications.markAllRead' | translate }}
+                  </button>
+                }
+              </div>
+
+              <div class="max-h-80 overflow-y-auto">
+                @if (notificationsService.notifications().length === 0) {
+                  <p class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    {{ 'notifications.empty' | translate }}
+                  </p>
+                } @else {
+                  @for (
+                    notification of notificationsService.notifications();
+                    track notification.id
+                  ) {
+                    <button
+                      (click)="onNotificationClick(notification)"
+                      (keydown.enter)="onNotificationClick(notification)"
+                      (keydown.space)="onNotificationClick(notification)"
+                      class="flex w-full cursor-pointer items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                      [ngClass]="{ 'bg-blue-50 dark:bg-blue-950/20': !notification.read }"
+                    >
+                      @if (!notification.read) {
+                        <div class="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></div>
+                      } @else {
+                        <div class="mt-1.5 h-2 w-2 flex-shrink-0"></div>
+                      }
+                      <div class="min-w-0 flex-1">
+                        <p class="text-sm text-gray-900 dark:text-gray-100">
+                          {{ getNotificationMessage(notification) }}
+                        </p>
+                        <p class="mt-1 text-xs text-gray-400">
+                          {{ notification.createdAt | date: 'short' }}
+                        </p>
+                      </div>
+                    </button>
+                  }
+                }
+              </div>
+
+              <div class="border-t border-gray-200 px-4 py-3 dark:border-gray-800">
+                <a
+                  routerLink="/notifications"
+                  (click)="notificationsPanelOpen.set(false)"
+                  class="block text-center text-sm font-medium text-blue-600 hover:text-blue-700"
+                >
+                  {{ 'notifications.viewAll' | translate }}
+                </a>
+              </div>
+            </div>
+          }
+        </div>
+
         @if (hasPassword()) {
           <button
             [title]="'header.changePassword' | translate"
@@ -109,6 +199,24 @@
           </span>
           {{ languageService.currentLanguage() === 'en' ? 'Español' : 'English' }}
         </button>
+
+        <button
+          (click)="mobileMenuOpen.set(false); notificationsPanelOpen.set(true)"
+          class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+        >
+          <svg lucideBell [size]="16"></svg>
+          {{ 'notifications.title' | translate }}
+          @if (notificationsService.unreadCount() > 0) {
+            <span
+              class="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white"
+            >
+              {{
+                notificationsService.unreadCount() > 9 ? '9+' : notificationsService.unreadCount()
+              }}
+            </span>
+          }
+        </button>
+
         @if (hasPassword()) {
           <button
             (click)="mobileMenuOpen.set(false); changePasswordOpen.set(true)"

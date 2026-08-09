@@ -80,6 +80,14 @@ export const routes: Routes = [
             (m) => m.EventDetailsComponent,
           ),
       },
+      {
+        path: 'notifications',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/notifications/notifications.component').then(
+            (m) => m.NotificationsComponent,
+          ),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

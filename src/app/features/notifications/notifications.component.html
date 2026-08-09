@@ -1,0 +1,107 @@
+<div class="space-y-6">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900 md:text-3xl dark:text-gray-100">
+        {{ 'notifications.title' | translate }}
+      </h1>
+    </div>
+    @if (notifications().some((n) => !n.read)) {
+      <button
+        (click)="markAllAsRead()"
+        class="text-sm font-medium text-blue-600 hover:text-blue-700"
+      >
+        {{ 'notifications.markAllRead' | translate }}
+      </button>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="space-y-3">
+      @for (item of [1, 2, 3, 4, 5]; track item) {
+        <div
+          class="animate-pulse rounded-xl border border-gray-200 bg-white p-4 dark:border-gray-800 dark:bg-gray-900"
+        >
+          <div class="flex items-start gap-3">
+            <div class="mt-1.5 h-2 w-2 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+            <div class="flex-1 space-y-2">
+              <div class="h-4 w-3/4 rounded bg-gray-200 dark:bg-gray-700"></div>
+              <div class="h-3 w-1/4 rounded bg-gray-200 dark:bg-gray-700"></div>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (error()) {
+    <app-error-state
+      [title]="'notifications.errors.load' | translate"
+      [description]="'notifications.errors.loadDescription' | translate"
+      (retry)="loadNotifications()"
+    />
+  } @else if (notifications().length === 0) {
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-12 text-center dark:border-gray-800 dark:bg-gray-900"
+    >
+      <p class="text-gray-500 dark:text-gray-400">
+        {{ 'notifications.empty' | translate }}
+      </p>
+    </div>
+  } @else {
+    <div
+      class="rounded-2xl border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900"
+    >
+      @for (notification of notifications(); track notification.id; let last = $last) {
+        <div
+          (click)="onNotificationClick(notification)"
+          (keydown.enter)="onNotificationClick(notification)"
+          (keydown.space)="onNotificationClick(notification)"
+          role="button"
+          tabindex="0"
+          class="flex cursor-pointer items-start gap-3 px-4 py-4 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+          [ngClass]="{
+            'bg-blue-50 dark:bg-blue-950/20': !notification.read,
+            'border-b border-gray-200 dark:border-gray-800': !last,
+          }"
+        >
+          @if (!notification.read) {
+            <div class="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></div>
+          } @else {
+            <div class="mt-1.5 h-2 w-2 flex-shrink-0"></div>
+          }
+          <div class="min-w-0 flex-1">
+            <p class="text-sm text-gray-900 dark:text-gray-100">
+              {{ getNotificationMessage(notification) }}
+            </p>
+            <p class="mt-1 text-xs text-gray-400">
+              {{ notification.createdAt | date: 'medium' }}
+            </p>
+          </div>
+        </div>
+      }
+    </div>
+
+    @if (totalPages() > 1) {
+      <div class="flex items-center justify-between">
+        <button
+          (click)="goToPage(currentPage() - 1)"
+          [disabled]="currentPage() === 0"
+          class="rounded border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 transition-all hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+        >
+          {{ 'createdEvents.pagination.prev' | translate }}
+        </button>
+        <span class="text-sm text-gray-600 dark:text-gray-400">
+          {{ 'createdEvents.pagination.page' | translate }}
+          {{ currentPage() + 1 }}
+          {{ 'createdEvents.pagination.of' | translate }}
+          {{ totalPages() }}
+        </span>
+        <button
+          (click)="goToPage(currentPage() + 1)"
+          [disabled]="currentPage() >= totalPages() - 1"
+          class="rounded border border-gray-200 bg-white px-3 py-1 text-sm text-gray-700 transition-all hover:bg-gray-100 active:scale-95 disabled:opacity-50 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+        >
+          {{ 'createdEvents.pagination.next' | translate }}
+        </button>
+      </div>
+    }
+  }
+</div>
