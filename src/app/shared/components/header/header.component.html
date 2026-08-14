@@ -65,6 +65,18 @@
           </button>
         </div>
 
+        @if (!isPremium()) {
+          <a
+            routerLink="/upgrade"
+            class="flex h-10 items-center gap-1.5 rounded-xl border border-blue-200 bg-blue-50 px-3 shadow-sm transition-all duration-200 hover:bg-blue-100 active:scale-95 dark:border-blue-800 dark:bg-blue-900/20 dark:hover:bg-blue-900/40"
+          >
+            <svg lucideCrown [size]="16" class="text-blue-600 dark:text-blue-400"></svg>
+            <span class="text-xs font-semibold text-blue-600 dark:text-blue-400">
+              {{ 'payment.upgrade' | translate }}
+            </span>
+          </a>
+        }
+
         @if (hasPassword()) {
           <button
             [title]="'header.changePassword' | translate"
@@ -216,6 +228,17 @@
             </span>
           }
         </button>
+
+        @if (!isPremium()) {
+          <a
+            routerLink="/upgrade"
+            (click)="mobileMenuOpen.set(false)"
+            class="flex items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium text-blue-600 transition-colors hover:bg-blue-50 dark:text-blue-400 dark:hover:bg-blue-900/20"
+          >
+            <svg lucideCrown [size]="16"></svg>
+            {{ 'payment.upgrade' | translate }}
+          </a>
+        }
 
         @if (hasPassword()) {
           <button

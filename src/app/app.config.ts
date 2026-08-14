@@ -28,6 +28,7 @@ import {
   LucideKeyRound,
   LucideMailCheck,
   LucideBell,
+  LucideCrown,
 } from '@lucide/angular';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -64,6 +65,7 @@ export const appConfig: ApplicationConfig = {
       LucideKeyRound,
       LucideMailCheck,
       LucideBell,
+      LucideCrown,
     ),
     provideHttpClient(withInterceptors([authInterceptor, errorInterceptor])),
     provideTranslateService(),

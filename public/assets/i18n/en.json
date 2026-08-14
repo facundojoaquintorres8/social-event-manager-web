@@ -438,7 +438,10 @@
     "newPasswordSameAsCurrent": "New password must be different from current password",
     "oauthEmailRequired": "Your account must have a public email to login",
     "oauthLoginFailed": "Failed to login with social account. Please try again.",
-    "passwordAlreadySet": "Your account already has a password"
+    "passwordAlreadySet": "Your account already has a password",
+    "userAlreadyPremium": "Your account already has a Premium plan",
+    "freePlanEventLimit": "Free plan allows up to 3 active events. Upgrade to Premium for unlimited events.",
+    "freePlanParticipantLimit": "Free plan allows up to 10 participants per event. Upgrade to Premium for unlimited participants."
   },
   "notifications": {
     "title": "Notifications",
@@ -457,6 +460,35 @@
     "errors": {
       "load": "Unable to load notifications",
       "loadDescription": "Something went wrong while loading your notifications."
+    }
+  },
+  "payment": {
+    "upgrade": "Upgrade to Premium",
+    "title": "Go Premium",
+    "subtitle": "Unlock unlimited events and participants.",
+    "price": "$7,000 ARS / month",
+    "features": {
+      "unlimitedEvents": "Unlimited active events",
+      "unlimitedParticipants": "Unlimited participants per event",
+      "allFeatures": "All current and future features"
+    },
+    "cta": "Subscribe now",
+    "already": "You already have a Premium plan",
+    "success": {
+      "title": "Payment successful!",
+      "subtitle": "Your account has been upgraded to Premium.",
+      "goHome": "Go to Dashboard"
+    },
+    "failure": {
+      "title": "Payment failed",
+      "subtitle": "Something went wrong with your payment. Please try again.",
+      "retry": "Try again",
+      "goHome": "Go to Dashboard"
+    },
+    "pending": {
+      "title": "Payment pending",
+      "subtitle": "Your payment is being processed. We will notify you when it is confirmed.",
+      "goHome": "Go to Dashboard"
     }
   }
 }

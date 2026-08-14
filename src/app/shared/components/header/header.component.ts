@@ -18,6 +18,7 @@ import {
   LucideSun,
   LucideKeyRound,
   LucideBell,
+  LucideCrown,
 } from '@lucide/angular';
 import { Language, LanguageService } from '../../../core/services/language.service';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
@@ -37,6 +38,7 @@ import { Notification } from '../../../core/models/notification.model';
     LucideMenu,
     LucideKeyRound,
     LucideBell,
+    LucideCrown,
     TranslatePipe,
     ChangePasswordModalComponent,
   ],
@@ -61,6 +63,7 @@ export class HeaderComponent {
   );
 
   readonly hasPassword = computed(() => this.authService.currentUser()?.hasPassword ?? true);
+  readonly isPremium = computed(() => this.authService.currentUser()?.premium ?? false);
 
   @HostListener('document:click')
   onDocumentClick(): void {

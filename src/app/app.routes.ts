@@ -88,6 +88,36 @@ export const routes: Routes = [
             (m) => m.NotificationsComponent,
           ),
       },
+      {
+        path: 'upgrade',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/payment/upgrade/upgrade.component').then((m) => m.UpgradeComponent),
+      },
+      {
+        path: 'payment/success',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/payment/payment-result/payment-result.component').then(
+            (m) => m.PaymentResultComponent,
+          ),
+      },
+      {
+        path: 'payment/failure',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/payment/payment-result/payment-result.component').then(
+            (m) => m.PaymentResultComponent,
+          ),
+      },
+      {
+        path: 'payment/pending',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/payment/payment-result/payment-result.component').then(
+            (m) => m.PaymentResultComponent,
+          ),
+      },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },

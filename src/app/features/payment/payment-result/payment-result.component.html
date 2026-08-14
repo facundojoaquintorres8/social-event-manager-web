@@ -1,0 +1,75 @@
+<div class="mx-auto max-w-lg">
+  <div
+    class="rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900"
+  >
+    @if (status() === 'success') {
+      <div
+        class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100 dark:bg-green-900/20"
+      >
+        <svg
+          [lucideIcon]="LucideCircleCheckBig"
+          [size]="32"
+          class="text-green-600 dark:text-green-400"
+        ></svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        {{ 'payment.success.title' | translate }}
+      </h1>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        {{ 'payment.success.subtitle' | translate }}
+      </p>
+    } @else if (status() === 'failure') {
+      <div
+        class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 dark:bg-red-900/20"
+      >
+        <svg [lucideIcon]="LucideCircleX" [size]="32" class="text-red-600 dark:text-red-400"></svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        {{ 'payment.failure.title' | translate }}
+      </h1>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        {{ 'payment.failure.subtitle' | translate }}
+      </p>
+    } @else {
+      <div
+        class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-yellow-100 dark:bg-yellow-900/20"
+      >
+        <svg
+          [lucideIcon]="LucideClock"
+          [size]="32"
+          class="text-yellow-600 dark:text-yellow-400"
+        ></svg>
+      </div>
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+        {{ 'payment.pending.title' | translate }}
+      </h1>
+      <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+        {{ 'payment.pending.subtitle' | translate }}
+      </p>
+    }
+
+    <div class="mt-8 flex flex-col gap-3">
+      @if (status() === 'failure') {
+        <a
+          routerLink="/upgrade"
+          class="flex w-full items-center justify-center rounded-xl bg-blue-600 px-4 py-3 text-sm font-medium text-white transition-all hover:bg-blue-700 active:scale-[0.98]"
+        >
+          {{ 'payment.failure.retry' | translate }}
+        </a>
+      }
+      <a
+        routerLink="/dashboard"
+        class="flex w-full items-center justify-center rounded-xl border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition-all hover:bg-gray-100 active:scale-[0.98] dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+      >
+        {{
+          (status() === 'failure'
+            ? 'payment.failure.goHome'
+            : status() === 'pending'
+              ? 'payment.pending.goHome'
+              : 'payment.success.goHome'
+          ) | translate
+        }}
+      </a>
+    </div>
+  </div>
+</div>

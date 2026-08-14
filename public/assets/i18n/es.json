@@ -438,7 +438,10 @@
     "newPasswordSameAsCurrent": "La nueva contraseña debe ser diferente a la actual",
     "oauthEmailRequired": "Tu cuenta debe tener un email público para iniciar sesión",
     "oauthLoginFailed": "No se pudo iniciar sesión con la red social. Por favor intentá de nuevo.",
-    "passwordAlreadySet": "Tu cuenta ya tiene una contraseña"
+    "passwordAlreadySet": "Tu cuenta ya tiene una contraseña",
+    "userAlreadyPremium": "Tu cuenta ya tiene un plan Premium",
+    "freePlanEventLimit": "El plan gratuito permite hasta 3 eventos activos. Actualizate a Premium para eventos ilimitados.",
+    "freePlanParticipantLimit": "El plan gratuito permite hasta 10 participantes por evento. Actualizate a Premium para participantes ilimitados."
   },
   "notifications": {
     "title": "Notificaciones",
@@ -457,6 +460,35 @@
     "errors": {
       "load": "No se pudieron cargar las notificaciones",
       "loadDescription": "Algo salió mal al cargar tus notificaciones."
+    }
+  },
+  "payment": {
+    "upgrade": "Actualizar a Premium",
+    "title": "Hazte Premium",
+    "subtitle": "Desbloqueá eventos y participantes ilimitados.",
+    "price": "$7.000 ARS / mes",
+    "features": {
+      "unlimitedEvents": "Eventos activos ilimitados",
+      "unlimitedParticipants": "Participantes ilimitados por evento",
+      "allFeatures": "Todas las funcionalidades actuales y futuras"
+    },
+    "cta": "Suscribirme ahora",
+    "already": "Ya tenés un plan Premium",
+    "success": {
+      "title": "¡Pago exitoso!",
+      "subtitle": "Tu cuenta fue actualizada a Premium.",
+      "goHome": "Ir al Dashboard"
+    },
+    "failure": {
+      "title": "Pago fallido",
+      "subtitle": "Algo salió mal con tu pago. Por favor intentá de nuevo.",
+      "retry": "Intentar de nuevo",
+      "goHome": "Ir al Dashboard"
+    },
+    "pending": {
+      "title": "Pago pendiente",
+      "subtitle": "Tu pago está siendo procesado. Te avisaremos cuando se confirme.",
+      "goHome": "Ir al Dashboard"
     }
   }
 }

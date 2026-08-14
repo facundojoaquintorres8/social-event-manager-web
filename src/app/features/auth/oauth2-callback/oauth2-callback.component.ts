@@ -34,6 +34,7 @@ export class OAuth2CallbackComponent implements OnInit {
     const lastName = params.get('lastName');
     const email = params.get('email');
     const hasPassword = params.get('hasPassword') === 'true';
+    const premium = params.get('premium') === 'true';
 
     if (!accessToken || !refreshToken || !email) {
       this.router.navigate(['/login']);
@@ -47,6 +48,7 @@ export class OAuth2CallbackComponent implements OnInit {
       lastName: lastName ?? '',
       email,
       hasPassword,
+      premium,
     });
 
     this.router.navigate(['/dashboard']);

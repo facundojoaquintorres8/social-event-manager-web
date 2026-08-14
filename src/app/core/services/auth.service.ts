@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { ApiResponse } from '../models/api-response.model';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
-import { RegisterRequest, RegisterResponse } from '../models/register.model';
+import { RegisterRequest } from '../models/register.model';
 import { User } from '../models/user.model';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ export class AuthService {
 
   // ---------- AUTH ----------
   register(payload: RegisterRequest) {
-    return this.http.post<ApiResponse<RegisterResponse>>(`${this.apiUrl}/register`, payload);
+    return this.http.post<ApiResponse<AuthResponse>>(`${this.apiUrl}/register`, payload);
   }
 
   login(payload: AuthRequest) {
@@ -45,12 +45,13 @@ export class AuthService {
   }
 
   // ---------- STORAGE ----------
-  storeUserAndTokens(response: RegisterResponse): void {
+  storeUserAndTokens(response: AuthResponse): void {
     const user = {
       email: response.email,
       firstName: response.firstName,
       lastName: response.lastName,
       hasPassword: response.hasPassword,
+      premium: response.premium,
     };
 
     localStorage.setItem('accessToken', response.accessToken);

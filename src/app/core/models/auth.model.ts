@@ -10,4 +10,5 @@ export interface AuthResponse {
   firstName: string;
   lastName: string;
   hasPassword: boolean;
+  premium: boolean;
 }
