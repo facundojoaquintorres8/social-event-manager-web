@@ -63,6 +63,77 @@
               </span>
             }
           </button>
+          @if (notificationsPanelOpen()) {
+            <div
+              class="fixed inset-x-4 top-16 z-50 rounded-2xl border border-gray-200 bg-white shadow-2xl sm:absolute sm:inset-x-auto sm:top-12 sm:right-0 sm:w-80 dark:border-gray-800 dark:bg-gray-900"
+              (click)="$event.stopPropagation()"
+              (keydown)="$event.stopPropagation()"
+              tabindex="-1"
+              role="region"
+            >
+              <div
+                class="flex items-center justify-between border-b border-gray-200 px-4 py-3 dark:border-gray-800"
+              >
+                <h3 class="font-semibold text-gray-900 dark:text-gray-100">
+                  {{ 'notifications.title' | translate }}
+                </h3>
+                @if (notificationsService.unreadCount() > 0) {
+                  <button
+                    (click)="markAllAsRead()"
+                    class="text-xs text-blue-600 hover:text-blue-700"
+                  >
+                    {{ 'notifications.markAllRead' | translate }}
+                  </button>
+                }
+              </div>
+              <div class="max-h-80 overflow-y-auto">
+                @if (notificationsService.notifications().length === 0) {
+                  <p class="px-4 py-6 text-center text-sm text-gray-500 dark:text-gray-400">
+                    {{ 'notifications.empty' | translate }}
+                  </p>
+                } @else {
+                  @for (
+                    notification of notificationsService.notifications();
+                    track notification.id
+                  ) {
+                    <div
+                      role="button"
+                      tabindex="0"
+                      (click)="onNotificationClick(notification)"
+                      (keydown.enter)="onNotificationClick(notification)"
+                      (keydown.space)="onNotificationClick(notification)"
+                      class="flex cursor-pointer items-start gap-3 px-4 py-3 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800"
+                      [class.bg-blue-50]="!notification.read"
+                      [class.dark:bg-blue-950]="!notification.read"
+                    >
+                      @if (!notification.read) {
+                        <div class="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-blue-500"></div>
+                      } @else {
+                        <div class="mt-1.5 h-2 w-2 flex-shrink-0"></div>
+                      }
+                      <div class="min-w-0 flex-1">
+                        <p class="text-sm text-gray-900 dark:text-gray-100">
+                          {{ getNotificationMessage(notification) }}
+                        </p>
+                        <p class="mt-1 text-xs text-gray-400">
+                          {{ notification.createdAt | date: 'short' }}
+                        </p>
+                      </div>
+                    </div>
+                  }
+                }
+              </div>
+              <div class="border-t border-gray-200 px-4 py-3 dark:border-gray-800">
+                <a
+                  routerLink="/notifications"
+                  (click)="notificationsPanelOpen.set(false)"
+                  class="block text-center text-sm font-medium text-blue-600 hover:text-blue-700"
+                >
+                  {{ 'notifications.viewAll' | translate }}
+                </a>
+              </div>
+            </div>
+          }
         </div>
 
         @if (!isPremium()) {
@@ -113,7 +184,7 @@
 
     @if (notificationsPanelOpen()) {
       <div
-        class="fixed inset-x-4 top-16 z-50 rounded-2xl border border-gray-200 bg-white shadow-2xl sm:absolute sm:inset-x-auto sm:top-12 sm:right-0 sm:w-80 dark:border-gray-800 dark:bg-gray-900"
+        class="fixed inset-x-4 top-16 z-50 rounded-2xl border border-gray-200 bg-white shadow-2xl sm:absolute sm:inset-x-auto sm:top-12 sm:right-0 sm:hidden sm:w-80 dark:border-gray-800 dark:bg-gray-900"
         (click)="$event.stopPropagation()"
         (keydown)="$event.stopPropagation()"
         tabindex="-1"
