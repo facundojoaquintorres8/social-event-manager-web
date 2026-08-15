@@ -48,8 +48,8 @@ import { Notification } from '../../../core/models/notification.model';
 export class HeaderComponent {
   readonly themeService = inject(ThemeService);
   readonly languageService = inject(LanguageService);
-  private readonly authService = inject(AuthService);
   readonly notificationsService = inject(NotificationsService);
+  private readonly authService = inject(AuthService);
   private readonly translate = inject(TranslateService);
   private readonly router = inject(Router);
 
