@@ -15,10 +15,10 @@
     <div class="max-h-[90vh] overflow-y-auto p-6">
       <div class="mb-5">
         <h2 class="text-xl font-semibold text-gray-900 dark:text-gray-100">
-          {{ 'balanceModal.title' | translate }}
+          {{ (result() ? 'balanceModal.titleResult' : 'balanceModal.title') | translate }}
         </h2>
         <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
-          {{ 'balanceModal.subtitle' | translate }}
+          {{ (result() ? 'balanceModal.subtitleResult' : 'balanceModal.subtitle') | translate }}
         </p>
       </div>
 
@@ -139,7 +139,14 @@
             }
           </div>
 
-          <div class="flex justify-end pt-2">
+          <div class="flex justify-between pt-2">
+            <button
+              type="button"
+              (click)="clearResult.emit()"
+              class="rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-all duration-200 hover:bg-gray-100 active:scale-95 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              {{ 'common.back' | translate }}
+            </button>
             <button
               type="button"
               (click)="onClose()"

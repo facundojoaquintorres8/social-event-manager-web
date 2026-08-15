@@ -256,7 +256,8 @@
     "errorTitle": "Something went wrong",
     "errorDescription": "Please try again later.",
     "confirmTitle": "Confirm action",
-    "confirmMessage": "Are you sure?"
+    "confirmMessage": "Are you sure?",
+    "back": "Back"
   },
   "contributionModal": {
     "titleAdd": "Add contribution",
@@ -286,6 +287,8 @@
   "balanceModal": {
     "title": "Generate Balance",
     "subtitle": "Select participants to include in the balance calculation.",
+    "titleResult": "Balance Result",
+    "subtitleResult": "Here is the settlement summary for this event.",
     "totalCost": "TOTAL EVENT COST",
     "participants": "PARTICIPANTS",
     "sharePerPerson": "SHARE PER PERSON",

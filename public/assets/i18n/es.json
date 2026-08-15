@@ -256,7 +256,8 @@
     "errorTitle": "Algo salió mal",
     "errorDescription": "Por favor intentá de nuevo más tarde.",
     "confirmTitle": "Confirmar acción",
-    "confirmMessage": "¿Estás seguro?"
+    "confirmMessage": "¿Estás seguro?",
+    "back": "Volver"
   },
   "contributionModal": {
     "titleAdd": "Agregar contribución",
@@ -286,6 +287,8 @@
   "balanceModal": {
     "title": "Generar Balance",
     "subtitle": "Seleccioná los participantes para incluir en el cálculo del balance.",
+    "titleResult": "Resultado del Balance",
+    "subtitleResult": "Acá está el resumen de deudas para este evento.",
     "totalCost": "COSTO TOTAL DEL EVENTO",
     "participants": "PARTICIPANTES",
     "sharePerPerson": "PARTE POR PERSONA",

@@ -486,5 +486,6 @@
     [result]="balanceResult()"
     (modalClosed)="closeBalanceModal()"
     (calculateBalance)="calculateBalance($event)"
+    (clearResult)="balanceResult.set(null)"
   />
 }

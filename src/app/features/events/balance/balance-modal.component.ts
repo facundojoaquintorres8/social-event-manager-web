@@ -35,6 +35,7 @@ export class BalanceModalComponent implements OnChanges {
 
   readonly modalClosed = output<void>();
   readonly calculateBalance = output<BalanceRequest>();
+  readonly clearResult = output<void>();
 
   readonly participants = signal<BalanceParticipantRequest[]>([]);
   readonly externalParticipantName = signal('');
